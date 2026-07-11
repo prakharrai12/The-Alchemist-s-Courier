@@ -13,66 +13,66 @@ const Navigation = ({ currentTab, setCurrentTab, unreadCount, persona, currentGo
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-[#f0eded]/95 backdrop-blur-md shadow-[0_4px_20px_rgba(0,0,0,0.4)] border-b border-[#8e706b]/30 transition-all duration-300">
-      <div className="h-20 max-w-7xl mx-auto px-6 md:px-10 flex items-center justify-between gap-6">
+      <div className="h-20 max-w-full w-full mx-auto px-4 sm:px-6 lg:px-10 flex items-center justify-between gap-3 md:gap-6">
         {/* Brand Header */}
         <div
-          className="flex items-center gap-3.5 cursor-pointer hover:scale-105 transition-transform flex-shrink-0"
+          className="flex items-center gap-2.5 sm:gap-3.5 cursor-pointer hover:scale-105 transition-transform flex-shrink-0"
           onClick={() => {
             sounds.playParchmentUnroll();
             setCurrentTab("archive");
           }}
         >
-          <div className="h-12 w-12 rounded-full border-2 border-[#8c4f10] shadow-md overflow-hidden bg-[#610000] p-0.5 flex-shrink-0">
+          <div className="h-10 w-10 sm:h-12 sm:w-12 rounded-full border-2 border-[#8c4f10] shadow-md overflow-hidden bg-[#610000] p-0.5 flex-shrink-0">
             <img
               alt="The Courier Wax Seal Logo"
               className="h-full w-full object-cover rounded-full filter contrast-125"
               src="https://images.unsplash.com/photo-1513519245088-0e12902e5a38?q=80&w=200&auto=format&fit=crop"
             />
           </div>
-          <span className="font-serif text-2xl md:text-3xl text-[#610000] font-bold tracking-tight hidden sm:inline">
+          <span className="font-serif text-xl sm:text-2xl lg:text-3xl text-[#610000] font-bold tracking-tight hidden md:inline whitespace-nowrap">
             The Alchemist's Courier
           </span>
         </div>
 
         {/* Navigation Tabs */}
-        <nav className="hidden xl:flex items-center gap-5">
+        <nav className="hidden xl:flex items-center gap-1.5 2xl:gap-4 overflow-x-auto no-scrollbar py-1 px-2 mx-2">
           {tabs.map((tab) => {
-            const isActive = currentTab === tab.id;
-            return (
-              <button
-                key={tab.id}
-                onClick={() => {
-                  sounds.playCorkPop();
-                  setCurrentTab(tab.id);
-                }}
-                className={`font-mono text-xs uppercase tracking-widest px-3 py-1.5 transition-all relative ${
-                  isActive
-                    ? "text-[#610000] font-bold underline decoration-[#8c4f10] decoration-2 underline-offset-8 scale-105"
-                    : "text-[#5a403c] hover:text-[#610000]"
-                }`}
-              >
-                <span>{tab.label}</span>
-                {tab.id === "archive" && unreadCount > 0 && (
-                  <span className="ml-1.5 px-1.5 py-0.5 bg-red-700 text-white rounded-full text-[9px] font-bold">
-                    {unreadCount}
-                  </span>
-                )}
-              </button>
-            );
-          })}
+             const isActive = currentTab === tab.id;
+             return (
+               <button
+                 key={tab.id}
+                 onClick={() => {
+                   sounds.playCorkPop();
+                   setCurrentTab(tab.id);
+                 }}
+                 className={`font-mono text-[11px] 2xl:text-xs uppercase tracking-wider px-2.5 2xl:px-3 py-1.5 flex-shrink-0 transition-all relative whitespace-nowrap ${
+                   isActive
+                     ? "text-[#610000] font-bold underline decoration-[#8c4f10] decoration-2 underline-offset-8 scale-105"
+                     : "text-[#5a403c] hover:text-[#610000]"
+                 }`}
+               >
+                 <span>{tab.label}</span>
+                 {tab.id === "archive" && unreadCount > 0 && (
+                   <span className="ml-1.5 px-1.5 py-0.5 bg-red-700 text-white rounded-full text-[9px] font-bold">
+                     {unreadCount}
+                   </span>
+                 )}
+               </button>
+             );
+           })}
         </nav>
 
         {/* Right Controls & Exchequer Gold Pill */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
           {/* Mobile Tab SelectorDropdown */}
-          <div className="block xl:hidden">
+          <div className="block xl:hidden flex-shrink-0">
             <select
               value={currentTab}
               onChange={(e) => {
                 sounds.playCorkPop();
                 setCurrentTab(e.target.value);
               }}
-              className="bg-white border border-[#8c4f10] text-[#610000] font-mono text-xs rounded px-2 py-1.5 font-bold"
+              className="bg-white border border-[#8c4f10] text-[#610000] font-mono text-xs rounded px-2 py-1.5 font-bold shadow-sm focus:outline-none"
             >
               {tabs.map((t) => (
                 <option key={t.id} value={t.id}>{t.label}</option>
@@ -80,31 +80,31 @@ const Navigation = ({ currentTab, setCurrentTab, unreadCount, persona, currentGo
             </select>
           </div>
 
-          {/* Sovereign Bullion Pill (Click to open Sovereign Exchange ₹ INR payment page!) */}
+          {/* Sovereign Bullion Pill */}
           <button
             onClick={() => {
               sounds.playCorkPop();
               if (onOpenGoldExchange) onOpenGoldExchange();
             }}
             title="Sovereign Exchequer: Acquire Gold Bullion via ₹ INR"
-            className="flex items-center gap-2 bg-[#1f1c0b] hover:bg-[#302c1a] text-[#ffdcc2] px-3 py-1.5 rounded-full border border-[#8c4f10] shadow transition-all group"
+            className="flex items-center gap-1.5 sm:gap-2 bg-[#1f1c0b] hover:bg-[#302c1a] text-[#ffdcc2] px-2.5 sm:px-3 py-1.5 rounded-full border border-[#8c4f10] shadow transition-all group flex-shrink-0 whitespace-nowrap"
           >
-            <div className="w-5 h-5 rounded-full bg-gradient-to-tr from-[#8c4f10] to-[#ffdcc2] p-0.5 flex items-center justify-center overflow-hidden">
+            <div className="w-4 h-4 sm:w-5 sm:h-5 rounded-full bg-gradient-to-tr from-[#8c4f10] to-[#ffdcc2] p-0.5 flex items-center justify-center overflow-hidden flex-shrink-0">
               <img
                 alt="Gold Coin"
                 src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=100&auto=format&fit=crop"
                 className="w-full h-full object-cover rounded-full"
               />
             </div>
-            <span className="font-serif font-bold text-sm text-[#ffb77b]">£ {currentGold}</span>
-            <span className="font-mono text-[10px] bg-[#610000] text-white px-1.5 py-0.5 rounded group-hover:bg-[#8b0000] font-bold">
+            <span className="font-serif font-bold text-xs sm:text-sm text-[#ffb77b]">£ {currentGold}</span>
+            <span className="font-mono text-[9px] sm:text-[10px] bg-[#610000] text-white px-1.5 py-0.5 rounded group-hover:bg-[#8b0000] font-bold">
               + BUY
             </span>
           </button>
 
           {/* Search Button */}
           <button
-            className="p-2 rounded-full hover:bg-[#eae7e7] text-[#5a403c] hover:text-[#1b1c1c] transition-colors"
+            className="p-1.5 sm:p-2 rounded-full hover:bg-[#eae7e7] text-[#5a403c] hover:text-[#1b1c1c] transition-colors flex-shrink-0"
             onClick={() => {
               sounds.playQuillWrite();
               alert("Alchemical Registry Search: Indexing 4,800 historical guild volumes across London and Spitalfields.");
@@ -117,23 +117,23 @@ const Navigation = ({ currentTab, setCurrentTab, unreadCount, persona, currentGo
           </button>
 
           {/* Profile & Auth Button */}
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 flex-shrink-0">
             <button
               onClick={() => {
                 sounds.playParchmentUnroll();
                 if (onOpenProfile) onOpenProfile();
               }}
               title="Customize Guild Member Profile"
-              className="flex items-center gap-2 bg-[#eae7e7]/80 hover:bg-[#eae7e7] px-3 py-1.5 rounded-full border border-[#8c4f10]/30 transition-all shadow-sm"
+              className="flex items-center gap-2 bg-[#eae7e7]/90 hover:bg-[#eae7e7] px-2.5 sm:px-3.5 py-1.5 rounded-full border border-[#8c4f10]/40 transition-all shadow-sm flex-shrink-0 whitespace-nowrap"
             >
-              <div className="w-8 h-8 rounded-full border border-[#8c4f10] p-0.5 overflow-hidden bg-white">
+              <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full border border-[#8c4f10] p-0.5 overflow-hidden bg-white flex-shrink-0">
                 <img
                   alt="Profile Portrait"
                   className="w-full h-full rounded-full object-cover"
                   src={persona?.avatarUrl || "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=600&auto=format&fit=crop"}
                 />
               </div>
-              <span className="hidden sm:inline font-serif text-sm font-bold text-[#1b1c1c]">
+              <span className="font-serif text-xs sm:text-sm font-bold text-[#1b1c1c] max-w-[80px] sm:max-w-none truncate">
                 {persona?.name?.split(" ")[0] || "Prakhar"}
               </span>
             </button>
@@ -144,7 +144,7 @@ const Navigation = ({ currentTab, setCurrentTab, unreadCount, persona, currentGo
                 if (onOpenAuth) onOpenAuth();
               }}
               title="Guild Ledger Login & Membership Registry"
-              className="px-3 py-1.5 bg-[#610000] hover:bg-[#8b0000] text-white font-mono text-[11px] uppercase tracking-wider rounded-full shadow font-bold transition-all"
+              className="px-3 sm:px-4 py-1.5 bg-[#610000] hover:bg-[#8b0000] text-white font-mono text-[10px] sm:text-[11px] uppercase tracking-wider rounded-full shadow font-bold transition-all flex-shrink-0 whitespace-nowrap"
             >
               Login
             </button>
