@@ -45,17 +45,17 @@ const ArchiveVault = ({ letters, onSelectLetter, onOpenScriptorium }) => {
         </div>
 
         {/* The Main Stage */}
-        <div className="relative z-10 w-full max-w-5xl flex flex-col items-center">
+        <div className="relative z-10 w-full max-w-5xl flex flex-col items-center px-6">
           {/* Decorative Label */}
-          <span className="font-mono text-xs uppercase tracking-[0.3em] text-[#ffb77b] mb-4 flex items-center gap-4">
-            <span className="h-px w-12 bg-[#ffb77b]/30"></span>
+          <span className="font-mono text-xs uppercase tracking-[0.35em] text-[#ffb77b] mb-4 flex items-center gap-4 font-semibold">
+            <span className="h-px w-14 bg-[#ffb77b]/40"></span>
             Vault No. 1894
-            <span className="h-px w-12 bg-[#ffb77b]/30"></span>
+            <span className="h-px w-14 bg-[#ffb77b]/40"></span>
           </span>
-          <h1 className="font-serif text-4xl md:text-5xl text-[#ffdcc2] text-center mb-4 max-w-2xl font-bold tracking-wide drop-shadow-lg">
+          <h1 className="font-serif text-4xl md:text-6xl text-[#ffdcc2] text-center mb-5 max-w-3xl font-extrabold tracking-tight leading-[1.15] drop-shadow-lg">
             Your Archive of Whispers
           </h1>
-          <p className="font-serif text-lg text-[#cec6ad] text-center mb-12 max-w-xl italic">
+          <p className="font-serif text-lg md:text-xl text-[#cec6ad] text-center mb-14 max-w-2xl leading-relaxed italic opacity-90">
             "Where every word is preserved in glass and time."
           </p>
 
