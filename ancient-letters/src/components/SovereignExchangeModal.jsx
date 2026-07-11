@@ -62,6 +62,35 @@ const SovereignExchangeModal = ({ onClose, onPurchaseSuccess, currentGold = 1000
     setStep("checkout_gateway");
   };
 
+  const handleExpressMint = (pkg) => {
+    sounds.playWaxSeal();
+    setSelectedPkg(pkg);
+    setStep("processing_mint");
+    setMintProgress(0);
+
+    let progress = 0;
+    const interval = setInterval(() => {
+      progress += 25;
+      sounds.playQuillWrite();
+      setMintProgress(progress);
+
+      if (progress >= 100) {
+        clearInterval(interval);
+        sounds.playCorkPop();
+        confetti({
+          particleCount: 100,
+          spread: 80,
+          origin: { y: 0.6 },
+          colors: ["#d4af37", "#ffdcc2", "#8c4f10"]
+        });
+        setStep("success_receipt");
+        if (onPurchaseSuccess && pkg) {
+          onPurchaseSuccess(pkg.gold + pkg.bonus, pkg.inr);
+        }
+      }
+    }, 350);
+  };
+
   const handleProcessMint = (e) => {
     if (e) e.preventDefault();
     sounds.playWaxSeal();
@@ -78,8 +107,8 @@ const SovereignExchangeModal = ({ onClose, onPurchaseSuccess, currentGold = 1000
         clearInterval(interval);
         sounds.playCorkPop();
         confetti({
-          particleCount: 80,
-          spread: 70,
+          particleCount: 100,
+          spread: 80,
           origin: { y: 0.6 },
           colors: ["#d4af37", "#ffdcc2", "#8c4f10"]
         });
