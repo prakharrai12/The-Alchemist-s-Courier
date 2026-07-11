@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { sounds } from "../audio/soundEngine";
 
-const GuildAuthModal = ({ onClose, onLoginSuccess }) => {
+const GuildAuthModal = ({ onClose, onLoginSuccess, isLoggedIn, persona, onLogout }) => {
   const [isRegistering, setIsRegistering] = useState(false);
   const [email, setEmail] = useState("elias.vance@courierguild.org");
   const [password, setPassword] = useState("password123");
@@ -65,18 +65,18 @@ const GuildAuthModal = ({ onClose, onLoginSuccess }) => {
   const handleDemoLogin = (demoEmail, demoName, demoTitle) => {
     sounds.playQuillWrite();
     setEmail(demoEmail);
-    setPassword("password123");
     setName(demoName);
     setTitle(demoTitle);
+    setPassword("password123");
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md overflow-y-auto">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-4 overflow-y-auto">
       <motion.div
-        className="relative w-full max-w-2xl bg-[#fcf9f8] text-[#1b1c1c] rounded-2xl shadow-[0_30px_90px_rgba(0,0,0,0.9)] border-4 border-[#8c4f10] overflow-hidden"
         initial={{ opacity: 0, scale: 0.9, y: 20 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.9, y: 20 }}
+        className="relative w-full max-w-xl bg-[#fcf9f8] rounded-2xl border-4 border-[#8c4f10] shadow-[0_25px_80px_rgba(0,0,0,0.95)] overflow-hidden my-8"
       >
         {/* Header with Antique Seal Artwork */}
         <div className="relative bg-[#1f1c0b] text-[#ffdcc2] p-8 text-center border-b-2 border-[#8c4f10] overflow-hidden">
@@ -88,7 +88,7 @@ const GuildAuthModal = ({ onClose, onLoginSuccess }) => {
             <div className="w-16 h-16 rounded-full bg-[#610000] border-2 border-[#ffdcc2]/60 shadow-xl flex items-center justify-center mb-3 overflow-hidden p-1">
               <img
                 alt="Guild Signet"
-                src="https://images.unsplash.com/photo-1513519245088-0e12902e5a38?q=80&w=200&auto=format&fit=crop"
+                src={persona?.avatarUrl || "https://images.unsplash.com/photo-1513519245088-0e12902e5a38?q=80&w=200&auto=format&fit=crop"}
                 className="w-full h-full object-cover rounded-full filter contrast-125"
               />
             </div>
@@ -96,10 +96,12 @@ const GuildAuthModal = ({ onClose, onLoginSuccess }) => {
               THE ALCHEMIST'S COURIER GUILD
             </span>
             <h2 className="font-serif text-3xl md:text-4xl font-bold tracking-wide text-white">
-              {isRegistering ? "Register Guild Membership" : "Authenticated Ledger Access"}
+              {isLoggedIn ? "Active Guild Credentials" : isRegistering ? "Register Guild Membership" : "Authenticated Ledger Access"}
             </h2>
             <p className="font-serif text-sm text-[#cec6ad] italic mt-1 max-w-lg mx-auto">
-              Every member receives an endowment of 1,000 Gold Sovereigns to dispatch vessels and unlock secret archives across the realm.
+              {isLoggedIn
+                ? `You are currently authenticated as ${persona?.name || "Elias Vance"} with full Guild Exchequer clearance.`
+                : "Every member receives an endowment of 1,000 Gold Sovereigns to dispatch vessels and unlock secret archives across the realm."}
             </p>
           </div>
           <button
@@ -112,54 +114,93 @@ const GuildAuthModal = ({ onClose, onLoginSuccess }) => {
 
         {/* Main Form Content */}
         <div className="p-8 md:p-10 space-y-6">
-          {error && (
-            <div className="p-4 bg-red-900/10 border border-red-800/40 rounded-lg text-red-800 font-serif text-sm italic">
-              {error}
-            </div>
-          )}
-
-          {/* Demo Account Quick Access */}
-          <div className="bg-[#ebe2c8]/60 border border-[#8c4f10]/30 p-4 rounded-xl">
-            <span className="font-mono text-[11px] uppercase tracking-wider text-[#8c4f10] font-bold block mb-2">
-              QUICK ACCESS DEMO CREDENTIALS (CLICK TO AUTO-FILL)
-            </span>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <button
-                type="button"
-                onClick={() => handleDemoLogin("elias.vance@courierguild.org", "Elias Vance", "Senior Dispatcher")}
-                className="flex items-center gap-3 p-2.5 bg-white hover:bg-[#f6f3f2] border border-[#8c4f10]/40 rounded-lg text-left transition-all shadow-sm group"
-              >
-                <img
-                  alt="Elias Vance"
-                  src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=200&auto=format&fit=crop"
-                  className="w-10 h-10 rounded-full object-cover border border-[#8c4f10]"
-                />
-                <div>
-                  <p className="font-serif text-sm font-bold text-[#1b1c1c] group-hover:text-[#610000]">Elias Vance</p>
-                  <p className="font-mono text-[10px] text-[#8c4f10]">Senior Dispatcher • 1,000 Gold</p>
+          {isLoggedIn ? (
+            <div className="space-y-6 text-center">
+              <div className="p-6 bg-[#ebe2c8]/60 border-2 border-[#8c4f10] rounded-xl text-left">
+                <div className="flex items-center justify-between mb-3 border-b border-[#8c4f10]/30 pb-3">
+                  <span className="font-mono text-xs uppercase font-bold text-[#8c4f10]">MEMBERSHIP STATUS</span>
+                  <span className="px-2.5 py-0.5 bg-green-800 text-white font-mono text-[10px] uppercase tracking-wider font-bold rounded">
+                    VERIFIED SIGNET
+                  </span>
                 </div>
-              </button>
+                <p className="font-serif text-xl font-bold text-[#1b1c1c]">{persona?.name || "Elias Vance"}</p>
+                <p className="font-serif text-sm text-[#610000] italic">{persona?.title || "Senior Dispatcher"} — {persona?.rank || "First-Class Courier"}</p>
+                <p className="font-mono text-xs text-[#5a403c] mt-2">Guild Prestige Rating: {persona?.prestige || 840} / 1000</p>
+              </div>
 
-              <button
-                type="button"
-                onClick={() => handleDemoLogin("aurelia.croft@alchemist.org", "Lady Aurelia Croft", "Grand Archivist")}
-                className="flex items-center gap-3 p-2.5 bg-white hover:bg-[#f6f3f2] border border-[#8c4f10]/40 rounded-lg text-left transition-all shadow-sm group"
-              >
-                <img
-                  alt="Aurelia Croft"
-                  src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=200&auto=format&fit=crop"
-                  className="w-10 h-10 rounded-full object-cover border border-[#8c4f10]"
-                />
-                <div>
-                  <p className="font-serif text-sm font-bold text-[#1b1c1c] group-hover:text-[#610000]">Lady Aurelia Croft</p>
-                  <p className="font-mono text-[10px] text-[#8c4f10]">Grand Archivist • 2,500 Gold</p>
-                </div>
-              </button>
+              <div className="flex flex-col sm:flex-row gap-4">
+                <button
+                  type="button"
+                  onClick={() => {
+                    sounds.playCorkPop();
+                    onClose();
+                  }}
+                  className="flex-1 py-3.5 bg-[#8c4f10] hover:bg-[#6e3d0b] text-white font-serif text-base font-bold tracking-wider uppercase rounded-xl shadow transition-colors"
+                >
+                  Return to Archive
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (onLogout) onLogout();
+                    onClose();
+                  }}
+                  className="flex-1 py-3.5 bg-[#610000] hover:bg-[#8b0000] text-white font-serif text-base font-bold tracking-wider uppercase rounded-xl shadow transition-colors"
+                >
+                  Terminate Session
+                </button>
+              </div>
             </div>
-          </div>
+          ) : (
+            <>
+              {error && (
+                <div className="p-4 bg-red-900/10 border border-red-800/40 rounded-lg text-red-800 font-serif text-sm italic">
+                  {error}
+                </div>
+              )}
 
-          {/* Form */}
-          <form onSubmit={handleSubmit} className="space-y-4">
+              {/* Demo Account Quick Access */}
+              <div className="bg-[#ebe2c8]/60 border border-[#8c4f10]/30 p-4 rounded-xl">
+                <span className="font-mono text-[11px] uppercase tracking-wider text-[#8c4f10] font-bold block mb-2">
+                  QUICK ACCESS DEMO CREDENTIALS (CLICK TO AUTO-FILL)
+                </span>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <button
+                    type="button"
+                    onClick={() => handleDemoLogin("elias.vance@courierguild.org", "Elias Vance", "Senior Dispatcher")}
+                    className="flex items-center gap-3 p-2.5 bg-white hover:bg-[#f6f3f2] border border-[#8c4f10]/40 rounded-lg text-left transition-all shadow-sm group"
+                  >
+                    <img
+                      alt="Elias Vance"
+                      src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=200&auto=format&fit=crop"
+                      className="w-10 h-10 rounded-full object-cover border border-[#8c4f10]"
+                    />
+                    <div>
+                      <p className="font-serif text-sm font-bold text-[#1b1c1c] group-hover:text-[#610000]">Elias Vance</p>
+                      <p className="font-mono text-[10px] text-[#8c4f10]">Senior Dispatcher • 1,000 Gold</p>
+                    </div>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => handleDemoLogin("aurelia.croft@alchemist.org", "Lady Aurelia Croft", "Grand Archivist")}
+                    className="flex items-center gap-3 p-2.5 bg-white hover:bg-[#f6f3f2] border border-[#8c4f10]/40 rounded-lg text-left transition-all shadow-sm group"
+                  >
+                    <img
+                      alt="Aurelia Croft"
+                      src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=200&auto=format&fit=crop"
+                      className="w-10 h-10 rounded-full object-cover border border-[#8c4f10]"
+                    />
+                    <div>
+                      <p className="font-serif text-sm font-bold text-[#1b1c1c] group-hover:text-[#610000]">Lady Aurelia Croft</p>
+                      <p className="font-mono text-[10px] text-[#8c4f10]">Grand Archivist • 2,500 Gold</p>
+                    </div>
+                  </button>
+                </div>
+              </div>
+
+              {/* Form */}
+              <form onSubmit={handleSubmit} className="space-y-4">
             {isRegistering && (
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
@@ -242,6 +283,8 @@ const GuildAuthModal = ({ onClose, onLoginSuccess }) => {
                 : "New to the Alchemist's Courier? Register Membership & Claim 1,000 Gold"}
             </button>
           </div>
+          </>
+          )}
         </div>
 
         {/* Footer info */}

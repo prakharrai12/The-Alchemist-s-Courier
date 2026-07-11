@@ -223,7 +223,18 @@ function App() {
     }
   };
 
+  const [isLoggedIn, setIsLoggedIn] = useState(() => {
+    return !!localStorage.getItem("alchemist_auth_token");
+  });
+
   const handleLoginSuccess = (user, token) => {
+    if (token) {
+      localStorage.setItem("alchemist_auth_token", token);
+    } else {
+      localStorage.setItem("alchemist_auth_token", "verified_token_1894");
+    }
+    setIsLoggedIn(true);
+
     setPersona({
       name: user.name || "Elias Vance",
       title: user.title || "Senior Dispatcher",
@@ -240,6 +251,12 @@ function App() {
     if (user.unlockedCiphers) {
       setUnlockedCiphers(user.unlockedCiphers);
     }
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("alchemist_auth_token");
+    setIsLoggedIn(false);
+    sounds.playCorkPop();
   };
 
   const handleReplyLetter = (letterId, replyData) => {
@@ -346,6 +363,8 @@ function App() {
         unreadCount={unreadCount}
         persona={persona}
         currentGold={currentGold}
+        isLoggedIn={isLoggedIn}
+        onLogout={handleLogout}
         onOpenGoldExchange={() => setShowGoldExchange(true)}
         onOpenAuth={() => setShowAuthModal(true)}
         onOpenProfile={() => setShowProfileCustomizer(true)}
@@ -528,6 +547,9 @@ function App() {
 
         {showAuthModal && (
           <GuildAuthModal
+            isLoggedIn={isLoggedIn}
+            persona={persona}
+            onLogout={handleLogout}
             onClose={() => setShowAuthModal(false)}
             onLoginSuccess={handleLoginSuccess}
           />
