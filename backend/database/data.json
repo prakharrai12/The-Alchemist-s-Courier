@@ -1,0 +1,270 @@
+{
+  "letters": [
+    {
+      "id": "l1783761118735",
+      "title": "Codice from the Scriptorium",
+      "sender": "Elias Vance (Senior Dispatcher)",
+      "recipient": "All Guild Brethren",
+      "date": "July 11, 2026",
+      "content": "hi everyone",
+      "sealColor": "#30422f",
+      "sealCrest": "book",
+      "likes": 0,
+      "replies": []
+    },
+    {
+      "id": "l1783759998041",
+      "title": "doman",
+      "sender": "Lord Arthur Vance (Wanderer of the Starlit Shore)",
+      "recipient": "All Wanderershi",
+      "date": "July 11, 2026",
+      "content": "kmllkjkkk",
+      "sealColor": "#b8860b",
+      "sealCrest": "hourglass",
+      "likes": 0,
+      "replies": []
+    },
+    {
+      "id": "l1",
+      "title": "To the Wanderer in the Night",
+      "sender": "Arthur Pendelton (Chief Postal Clerk)",
+      "recipient": "All Wayfarers",
+      "date": "October 14, 1889",
+      "content": "Welcome, weary traveler, to The Vintage Correspondence Jar. For over half a century, I have sorted the letters of dreamers, lovers, and scholars. May you find solace within these sealed parchments.",
+      "sealColor": "#8b0000",
+      "sealCrest": "quill",
+      "likes": 12,
+      "replies": [
+        {
+          "id": "r1",
+          "sender": "Lady Beatrice",
+          "date": "October 15, 1889",
+          "content": "Thank you, good Clerk. Your hospitality warms the coldest evening."
+        }
+      ]
+    },
+    {
+      "id": "l2",
+      "title": "The Lighthouse at Midnight",
+      "sender": "Captain Josiah Thorne",
+      "recipient": "Anyone Listening",
+      "date": "November 2, 1891",
+      "content": "The fog off the Cape is thick as wool tonight. We keep our lantern burning bright so the ships out in the dark might find safe harbor. Never lose your guiding star.",
+      "sealColor": "#10403b",
+      "sealCrest": "compass",
+      "likes": 18,
+      "replies": []
+    },
+    {
+      "id": "l3",
+      "title": "A Secret In The Library",
+      "sender": "Miss Evelyn Croft",
+      "recipient": "Mr. Julian Vance",
+      "date": "December 19, 1893",
+      "content": "I left the leather-bound volume of Keats upon the third shelf behind the globe. Look between page 42 and 43 for the pressed violet.",
+      "sealColor": "#6a1b9a",
+      "sealCrest": "hourglass",
+      "likes": 24,
+      "replies": [
+        {
+          "id": "r2",
+          "sender": "Julian Vance",
+          "date": "December 20, 1893",
+          "content": "I found the violet, Evelyn. Its scent still lingers like memory."
+        }
+      ]
+    },
+    {
+      "id": "l4",
+      "title": "Letter To My Future Self",
+      "sender": "Anonymous Dreamer",
+      "recipient": "Future Me",
+      "date": "May 12, 1901",
+      "content": "Do not let the wonder of the stars fade from your heart as the years pass. Remember the promise we made under the willow tree.",
+      "sealColor": "#b8860b",
+      "sealCrest": "dragon",
+      "likes": 31,
+      "replies": []
+    }
+  ],
+  "bottles": [
+    {
+      "id": "b1783760694681",
+      "title": "host te colour highs",
+      "sender": "rimuru tempest (demon lord)",
+      "date": "July 11, 2026",
+      "content": "i love you",
+      "bottleColor": "amethyst",
+      "sealColor": "#10403b",
+      "coordinates": "14°0' N, -77°10' W",
+      "status": "drifting",
+      "replies": []
+    },
+    {
+      "id": "b1",
+      "title": "Message From the Lost Galleon",
+      "sender": "Mateo of Cadiz",
+      "date": "September 8, 1712",
+      "content": "We have drifted three weeks past the Azores under skies filled with emerald auroras. Whoever pulls this cork from the glass, drink a toast to the boundless sea!",
+      "bottleColor": "emerald",
+      "sealColor": "#8b0000",
+      "coordinates": "38°42' N, 28°15' W",
+      "status": "washed_ashore",
+      "replies": [
+        {
+          "id": "br1",
+          "sender": "Seafarer John",
+          "date": "July 14, 1884",
+          "content": "Your bottle survived the centuries, Mateo! I raise my glass of spiced rum to you."
+        }
+      ]
+    },
+    {
+      "id": "b2",
+      "title": "A Melody Across the Waves",
+      "sender": "Seraphina",
+      "date": "August 30, 1899",
+      "content": "Does anyone else hear the siren songs right before dawn? If you find this note on your beach, write me what your favorite song sounds like.",
+      "bottleColor": "sapphire",
+      "sealColor": "#1e3a8a",
+      "coordinates": "41°10' N, 70°05' W",
+      "status": "drifting",
+      "replies": []
+    },
+    {
+      "id": "b3",
+      "title": "The Recipe for Golden Ink",
+      "sender": "Alchemist Aurelius",
+      "date": "March 15, 1865",
+      "content": "Take three parts honey, one part gum arabic, and fine powdered mica from the eastern mines. Heat gently over a tallow candle...",
+      "bottleColor": "amber",
+      "sealColor": "#b8860b",
+      "coordinates": "34°02' S, 18°28' E",
+      "status": "washed_ashore",
+      "replies": []
+    }
+  ],
+  "clerkQuotes": [
+    "A letter unread is like a candle unlit—full of potential, yet waiting for the spark of human connection.",
+    "Do you know why we seal correspondence in wax? It preserves not only the privacy of ink, but the warmth of the hand that pressed it.",
+    "The sea is a postman who takes his own sweet time, but he never fails to deliver a bottle to the shore where it is needed most.",
+    "Mind the quill, my good friend! Too much pressure splits the nib, just as too much haste spoils a heartfelt letter.",
+    "Ah, another missive for our glowing glass jar! I shall file it carefully beside the poetry of 1889."
+  ],
+  "users": [
+    {
+      "id": "u_elias",
+      "email": "elias.vance@courierguild.org",
+      "password": "password123",
+      "name": "Elias Vance",
+      "title": "Senior Dispatcher",
+      "rank": "First-Class Courier",
+      "prestige": 840,
+      "goldSovereigns": 1000,
+      "avatarUrl": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=600&auto=format&fit=crop",
+      "memberSince": "1889",
+      "waxColor": "#610000",
+      "crest": "shield",
+      "unlockedCiphers": [
+        "1894-A"
+      ],
+      "unlockedAchievements": [
+        "storm_rider",
+        "world_traveler",
+        "loyal_courier"
+      ]
+    },
+    {
+      "id": "u_aurelia",
+      "email": "aurelia.croft@alchemist.org",
+      "password": "alchemist1894",
+      "name": "Lady Aurelia Croft",
+      "title": "Grand Scriptorium Archivist",
+      "rank": "High Alchemist",
+      "prestige": 980,
+      "goldSovereigns": 2500,
+      "avatarUrl": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=600&auto=format&fit=crop",
+      "memberSince": "1885",
+      "waxColor": "#fdad67",
+      "crest": "book",
+      "unlockedCiphers": [
+        "1894-A",
+        "1894-C",
+        "MEMOIR-04"
+      ],
+      "unlockedAchievements": [
+        "storm_rider",
+        "world_traveler",
+        "loyal_courier",
+        "alchemist_ally"
+      ]
+    }
+  ],
+  "ciphers": [
+    {
+      "id": "1894-A",
+      "vol": "VOL. 1894-A",
+      "title": "The Serpent's Hand Ledger",
+      "securityLevel": "SEALED WITH LEAD",
+      "requiredKey": "ALCHEMIST",
+      "cipherMain": "Xzq lvyv dlyv hss zvmaly ohukz, iba doha dl dlyv dpzo pun mvy dlyv hss lscv.",
+      "cipherSub": "Kshm qpzm d lmsz... lmsz pzm d kshm...",
+      "plainMain": "Our gold lies deep beneath the ancient stone, guarded by the silent sentinels of the Alchemist's Tower.",
+      "plainSub": "Trust only in wax... wax seals the truth forever...",
+      "rewardGold": 50,
+      "author": "High Alchemist V."
+    },
+    {
+      "id": "1894-C",
+      "vol": "VOL. 1894-C",
+      "title": "Clockwork Correspondence",
+      "securityLevel": "LOCKED UNTIL EQUINOX",
+      "requiredKey": "EQUINOX",
+      "cipherMain": "Uif hfbst of the grebu bshmpncps dmpdlt sfpvjsf uif zfmmpx nfsdvsz up uvso cj-npoa.",
+      "cipherSub": "Eboz jta kpzt uif nppomjhau...",
+      "plainMain": "The gears of the great archimedes clock require the yellow mercury to turn bi-monthly.",
+      "plainSub": "Wait for the full moonlight before pouring the elixir into the brass vessel...",
+      "rewardGold": 75,
+      "author": "Master Archimedes"
+    },
+    {
+      "id": "MEMOIR-04",
+      "vol": "MEMOIR-04",
+      "title": "Ministry of Whispers",
+      "securityLevel": "DECRYPTION IN PROGRESS",
+      "requiredKey": "WHISPERS",
+      "cipherMain": "Qeb clnd lk qeb xlroqe fq fz alxka rk... colj qeb hfkn p blia mxbk.",
+      "cipherSub": "Cllz pebd dlmz... xilc pebd mlh...",
+      "plainMain": "The fog off the harbor hides twelve clipper ships laden with alchemical copper.",
+      "plainSub": "Signal them with two emerald lanterns at midnight near the Whitechapel dock...",
+      "rewardGold": 100,
+      "author": "Shadow Courier Thorne"
+    },
+    {
+      "id": "CODEX-88",
+      "vol": "CODEX-88",
+      "title": "The Obsidian Transmutation",
+      "securityLevel": "IRONBOUND & OCCULT",
+      "requiredKey": "MERCURY",
+      "cipherMain": "Sjw twz xnhru ts xhm wzyy... btl ufsy rts rfhy xzy qfqqw ytzh.",
+      "cipherSub": "Qzwx pnr qf xmnw txyw...",
+      "plainMain": "When sulfur meets liquid quicksilver beneath candlelight, lead turns into pure Sovereign Gold.",
+      "plainSub": "Keep the crucible at exact boiling point until the violet smoke clears...",
+      "rewardGold": 150,
+      "author": "Arch-Alchemist V."
+    },
+    {
+      "id": "VOL-8989",
+      "vol": "VOL. 2026-M",
+      "title": "culprit",
+      "securityLevel": "MEMBER ENCRYPTED SEAL",
+      "requiredKey": "RIMURU",
+      "cipherMain": "op aopz pz yptbyb aol jbswypa pz kvuhsk",
+      "cipherSub": "Wlyzvuhs jvumpkluaphs nbpsk yljvyk.",
+      "plainMain": "hi this is rimuru the culprit is donald",
+      "plainSub": "Personal confidential guild record.",
+      "rewardGold": 75,
+      "author": "Unknown Guild Member"
+    }
+  ]
+}

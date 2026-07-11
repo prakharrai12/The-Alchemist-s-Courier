@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/wax_seal_crest.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>The Alchemist's Courier — Guild Archive & Scriptorium</title>
+    <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Literata:ital,opsz,wght@0,7..72,200..900;1,7..72,200..900&family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            fontFamily: {
+              serif: ["EB Garamond", "Cinzel", "serif"],
+              mono: ["Courier Prime", "monospace"],
+              body: ["Literata", "Cormorant Garamond", "serif"],
+            }
+          }
+        }
+      }
+    </script>
+  </head>
+  <body class="bg-[#1f1c0b] text-[#fcf9f8] antialiased">
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
