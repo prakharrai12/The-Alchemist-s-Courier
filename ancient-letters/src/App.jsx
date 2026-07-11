@@ -351,6 +351,34 @@ function App() {
     }
   };
 
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.altKey && e.key === "1") {
+        e.preventDefault();
+        sounds.playCorkPop();
+        setCurrentTab("archive");
+      } else if (e.altKey && e.key === "2") {
+        e.preventDefault();
+        sounds.playQuillWrite();
+        setCurrentTab("scriptorium");
+      } else if (e.altKey && e.key === "3") {
+        e.preventDefault();
+        sounds.playWaxSeal();
+        setCurrentTab("secret");
+      } else if (e.altKey && (e.key === "g" || e.key === "G")) {
+        e.preventDefault();
+        sounds.playCorkPop();
+        setShowGoldExchange(true);
+      } else if (e.altKey && (e.key === "m" || e.key === "M")) {
+        e.preventDefault();
+        sounds.playCorkPop();
+        sounds.toggleMute();
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
+
   return (
     <div className={`app-root ${currentTab === "ocean" ? "theme-ocean" : "theme-alchemist"}`}>
       {/* Navigation Bar */}
