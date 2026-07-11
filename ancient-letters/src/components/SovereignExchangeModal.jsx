@@ -8,6 +8,8 @@ const SovereignExchangeModal = ({ onClose, onPurchaseSuccess, currentGold = 1000
   const [selectedPkg, setSelectedPkg] = useState(null);
   const [paymentMethod, setPaymentMethod] = useState("upi"); // 'upi', 'card', 'netbanking'
   const [upiId, setUpiId] = useState("7982421223@fam");
+  const [utrRef, setUtrRef] = useState("");
+  const [verificationError, setVerificationError] = useState(null);
   const [cardNumber, setCardNumber] = useState("4532 •••• •••• 8891");
   const [cardExpiry, setCardExpiry] = useState("12/28");
   const [cardCvv, setCardCvv] = useState("482");
@@ -60,6 +62,7 @@ const SovereignExchangeModal = ({ onClose, onPurchaseSuccess, currentGold = 1000
     sounds.playCorkPop();
     setSelectedPkg(pkg);
     setStep("checkout_gateway");
+    setVerificationError(null);
   };
 
   const handleExpressMint = (pkg) => {
@@ -94,6 +97,17 @@ const SovereignExchangeModal = ({ onClose, onPurchaseSuccess, currentGold = 1000
   const handleProcessMint = (e) => {
     if (e) e.preventDefault();
     sounds.playWaxSeal();
+
+    // Enforce UPI UTR Verification if method is upi
+    if (paymentMethod === "upi") {
+      const cleanedUtr = utrRef.trim();
+      if (!cleanedUtr || cleanedUtr.length < 12 || !/^\d+$/.test(cleanedUtr)) {
+        setVerificationError("❌ Cryptographic Exchequer Lock: UTR Transaction Reference Number missing or invalid! You must transfer ₹" + (selectedPkg?.inr || "") + " to UPI VPA [7982421223@fam] and enter the exact 12-digit transaction number received from your bank/UPI app before bullion can be unlocked.");
+        return;
+      }
+      setVerificationError(null);
+    }
+
     setStep("processing_mint");
     setMintProgress(0);
 
@@ -312,26 +326,65 @@ const SovereignExchangeModal = ({ onClose, onPurchaseSuccess, currentGold = 1000
                     </div>
                   </div>
 
-                  <div>
-                    <label className="font-mono text-xs uppercase tracking-widest text-[#8c4f10] font-bold block mb-2">
-                      YOUR PAYING UPI ID OR REFERENCE NUMBER (VPA)
-                    </label>
-                    <input
-                      type="text"
-                      required
-                      placeholder="e.g. 7982421223@fam or 12-digit UTR transaction ref..."
-                      value={upiId}
-                      onChange={(e) => setUpiId(e.target.value)}
-                      onFocus={() => sounds.playQuillWrite()}
-                      className="w-full p-3.5 bg-[#fcf9f8] border-2 border-[#8c4f10] rounded-lg font-mono text-sm text-[#1b1c1c] focus:outline-none focus:ring-2 focus:ring-[#610000]"
-                    />
+                  <div className="space-y-3">
+                    <div>
+                      <label className="font-mono text-xs uppercase tracking-widest text-[#8c4f10] font-bold block mb-1.5">
+                        1. PAYING UPI ID OR VPA
+                      </label>
+                      <input
+                        type="text"
+                        required
+                        placeholder="e.g. yourname@okaxis or yourphone@ybl..."
+                        value={upiId}
+                        onChange={(e) => setUpiId(e.target.value)}
+                        onFocus={() => sounds.playQuillWrite()}
+                        className="w-full p-3 bg-[#fcf9f8] border border-[#8c4f10] rounded-lg font-mono text-xs text-[#1b1c1c] focus:outline-none focus:ring-2 focus:ring-[#610000]"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="font-mono text-xs uppercase tracking-widest text-[#610000] font-extrabold block mb-1">
+                        2. REQUIRED: 12-DIGIT UPI TRANSACTION REF (UTR)
+                      </label>
+                      <p className="font-serif text-[11px] text-[#5a403c] mb-1.5">
+                        After paying ₹{selectedPkg.inr} to <strong className="text-[#610000]">7982421223@fam</strong> via GPay/PhonePe/Paytm, enter the 12-digit UTR/Reference Number below to unlock instant bullion crediting:
+                      </p>
+                      <input
+                        type="text"
+                        required
+                        maxLength={12}
+                        placeholder="Enter exactly 12-digit UTR (e.g. 419283746510)..."
+                        value={utrRef}
+                        onChange={(e) => {
+                          setUtrRef(e.target.value.replace(/\D/g, ""));
+                          if (verificationError) setVerificationError(null);
+                        }}
+                        onFocus={() => sounds.playQuillWrite()}
+                        className="w-full p-3.5 bg-[#fff8ea] border-2 border-[#610000] rounded-lg font-mono text-sm font-bold tracking-widest text-[#610000] placeholder:font-normal placeholder:tracking-normal placeholder:text-[#8c4f10]/60 focus:outline-none focus:ring-2 focus:ring-[#610000]"
+                      />
+                      {utrRef.length > 0 && utrRef.length < 12 && (
+                        <span className="font-mono text-[10px] text-amber-800 font-bold block mt-1">
+                          ⚠️ Required: {12 - utrRef.length} more digits to match standard 12-digit UTR reference.
+                        </span>
+                      )}
+                    </div>
                   </div>
+
+                  {verificationError && (
+                    <motion.div
+                      initial={{ opacity: 0, y: -5 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="p-3.5 bg-red-950 text-red-200 border-2 border-red-500 rounded-lg font-mono text-xs shadow-md leading-relaxed"
+                    >
+                      {verificationError}
+                    </motion.div>
+                  )}
 
                   <button
                     type="submit"
                     className="w-full py-4 bg-[#610000] hover:bg-[#8b0000] text-white font-serif text-lg font-bold uppercase tracking-widest rounded-xl shadow-xl transition-transform hover:scale-[1.02] flex items-center justify-center gap-3"
                   >
-                    <span>VERIFY & MINT {selectedPkg.gold + selectedPkg.bonus} SOVEREIGNS (₹{selectedPkg.inr})</span>
+                    <span>VERIFY & CREDITING {selectedPkg.gold + selectedPkg.bonus} SOVEREIGNS (₹{selectedPkg.inr})</span>
                   </button>
                 </form>
               )}

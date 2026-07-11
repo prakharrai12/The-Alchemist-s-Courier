@@ -1,7 +1,50 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { sounds } from "../audio/soundEngine";
 
-const Navigation = ({ currentTab, setCurrentTab, unreadCount, persona, currentGold = 1000, onOpenGoldExchange, onOpenAuth, onOpenProfile }) => {
+const Navigation = ({
+  currentTab,
+  setCurrentTab,
+  unreadCount,
+  persona,
+  currentGold = 1000,
+  onOpenGoldExchange,
+  onOpenAuth,
+  onOpenProfile,
+  onOpenShare,
+  onOpenManual,
+  onOpenProducerCredits
+}) => {
+  const [isHeaderHidden, setIsHeaderHidden] = useState(false);
+  const [isLocked, setIsLocked] = useState(false);
+
+  useEffect(() => {
+    let lastScrollY = window.scrollY;
+    const handleScroll = () => {
+      if (isLocked) return;
+      const currentScrollY = window.scrollY;
+      if (currentScrollY > 90 && currentScrollY > lastScrollY) {
+        setIsHeaderHidden(true);
+      } else if (currentScrollY < lastScrollY || currentScrollY <= 50) {
+        setIsHeaderHidden(false);
+      }
+      lastScrollY = currentScrollY;
+    };
+
+    const handleMouseMove = (e) => {
+      if (isLocked) return;
+      if (e.clientY <= 70) {
+        setIsHeaderHidden(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    window.addEventListener("mousemove", handleMouseMove, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("mousemove", handleMouseMove);
+    };
+  }, [isLocked]);
+
   const tabs = [
     { id: "archive", label: "The Archive", desc: "Vault No. 1894" },
     { id: "scriptorium", label: "The Scriptorium", desc: "Write Codice" },
@@ -12,17 +55,28 @@ const Navigation = ({ currentTab, setCurrentTab, unreadCount, persona, currentGo
   ];
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-[#f0eded]/95 backdrop-blur-md shadow-[0_4px_20px_rgba(0,0,0,0.4)] border-b border-[#8e706b]/30 transition-all duration-300">
-      <div className="h-20 max-w-full w-full mx-auto px-4 sm:px-6 lg:px-10 flex items-center justify-between gap-3 md:gap-6">
-        {/* Brand Header */}
-        <div
-          className="flex items-center gap-2.5 sm:gap-3.5 cursor-pointer hover:scale-105 transition-transform flex-shrink-0"
-          onClick={() => {
-            sounds.playParchmentUnroll();
-            setCurrentTab("archive");
-          }}
-        >
-          <div className="h-10 w-10 sm:h-12 sm:w-12 rounded-full border-2 border-[#8c4f10] shadow-md overflow-hidden bg-[#610000] p-0.5 flex-shrink-0">
+    <>
+      {/* Top Edge Hover Trigger for full-view retrieval */}
+      <div
+        className="fixed top-0 left-0 right-0 h-4 z-[60] bg-transparent"
+        onMouseEnter={() => setIsHeaderHidden(false)}
+      />
+
+      <header
+        className={`fixed top-0 left-0 right-0 z-50 bg-[#f0eded]/95 backdrop-blur-md shadow-[0_4px_20px_rgba(0,0,0,0.4)] border-b border-[#8e706b]/30 transition-transform duration-500 ease-in-out ${
+          isHeaderHidden && !isLocked ? "-translate-y-full" : "translate-y-0"
+        }`}
+      >
+        <div className="h-20 max-w-full w-full mx-auto px-4 sm:px-6 lg:px-10 flex items-center justify-between gap-3 md:gap-6">
+          {/* Brand Header */}
+          <div
+            className="flex items-center gap-2 sm:gap-3 cursor-pointer hover:scale-105 transition-transform flex-shrink-0"
+            onClick={() => {
+              sounds.playParchmentUnroll();
+              setCurrentTab("archive");
+            }}
+          >
+            <div className="h-10 w-10 sm:h-12 sm:w-12 rounded-full border-2 border-[#8c4f10] shadow-md overflow-hidden bg-[#610000] p-0.5 flex-shrink-0">
             <img
               alt="The Courier Wax Seal Logo"
               className="h-full w-full object-cover rounded-full filter contrast-125"
@@ -116,6 +170,58 @@ const Navigation = ({ currentTab, setCurrentTab, unreadCount, persona, currentGo
             </svg>
           </button>
 
+          {/* Add People / Share Button */}
+          <button
+            onClick={() => {
+              sounds.playCorkPop();
+              if (onOpenShare) onOpenShare();
+            }}
+            title="Add Wayfarers & Share Referral Code (+200 Gold Reward)"
+            className="hidden sm:flex items-center gap-1.5 bg-[#610000]/10 hover:bg-[#610000] text-[#610000] hover:text-white px-3 py-1.5 rounded-full border border-[#610000]/40 font-mono text-[11px] font-bold uppercase transition-all flex-shrink-0 whitespace-nowrap shadow-sm"
+          >
+            <span>+ Add People</span>
+          </button>
+
+          {/* Help & Manual Button */}
+          <button
+            onClick={() => {
+              sounds.playParchmentUnroll();
+              if (onOpenManual) onOpenManual();
+            }}
+            title="The Grand Manual & Guide — How Everything Works"
+            className="flex items-center justify-center w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-[#eae7e7] hover:bg-[#8c4f10] text-[#8c4f10] hover:text-white border border-[#8c4f10]/40 font-bold text-sm transition-all flex-shrink-0 shadow-sm"
+          >
+            ❓
+          </button>
+
+          {/* Producer Credits Button */}
+          <button
+            onClick={() => {
+              sounds.playWaxSeal();
+              if (onOpenProducerCredits) onOpenProducerCredits();
+            }}
+            title="Producer Credits & Rights Reserved — Prakhar Rai"
+            className="hidden md:flex items-center gap-1 bg-[#302c1a] hover:bg-[#610000] text-[#ffdcc2] px-3 py-1 rounded-full font-mono text-[10px] uppercase font-bold tracking-wider transition-all flex-shrink-0 whitespace-nowrap shadow"
+          >
+            <span>🏛️ Producer</span>
+          </button>
+
+          {/* Lock / Auto-Hide Toggle */}
+          <button
+            onClick={() => {
+              sounds.playCorkPop();
+              setIsLocked(!isLocked);
+            }}
+            title={isLocked ? "Top & Bottom Bars Pinned (Click to enable Auto-Hide slide)" : "Auto-Hide Active (Click to Pin bars in place)"}
+            className={`flex items-center gap-1 px-2.5 py-1 rounded-full font-mono text-[10px] uppercase font-bold transition-all flex-shrink-0 whitespace-nowrap border ${
+              isLocked
+                ? "bg-[#610000] text-white border-white shadow"
+                : "bg-white/80 text-[#5a403c] border-[#8c4f10]/30 hover:bg-[#eae7e7]"
+            }`}
+          >
+            <span>{isLocked ? "🔒 Pinned" : "👁️ Auto-Hide"}</span>
+          </button>
+
           {/* Profile & Auth Button */}
           <div className="flex items-center gap-2 flex-shrink-0">
             <button
@@ -152,6 +258,7 @@ const Navigation = ({ currentTab, setCurrentTab, unreadCount, persona, currentGo
         </div>
       </div>
     </header>
+    </>
   );
 };
 

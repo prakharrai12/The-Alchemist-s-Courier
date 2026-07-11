@@ -18,6 +18,9 @@ import BottleViewModal from "./components/BottleViewModal";
 import SovereignExchangeModal from "./components/SovereignExchangeModal";
 import GuildAuthModal from "./components/GuildAuthModal";
 import ProfileCustomizerModal from "./components/ProfileCustomizerModal";
+import ProducerCreditsModal from "./components/ProducerCreditsModal";
+import GuildManualModal from "./components/GuildManualModal";
+import ShareGuildModal from "./components/ShareGuildModal";
 import { sounds } from "./audio/soundEngine";
 
 const SOCKET_URL = "http://localhost:5000";
@@ -128,6 +131,42 @@ function App() {
   const [showGoldExchange, setShowGoldExchange] = useState(false);
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [showProfileCustomizer, setShowProfileCustomizer] = useState(false);
+  const [showProducerCredits, setShowProducerCredits] = useState(false);
+  const [showGuildManual, setShowGuildManual] = useState(false);
+  const [showShareModal, setShowShareModal] = useState(false);
+  const [isFooterHidden, setIsFooterHidden] = useState(false);
+
+  // Auto-hide bottom footer when scrolling down or idle
+  useEffect(() => {
+    let lastScrollY = window.scrollY;
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      if (currentScrollY > 120 && currentScrollY > lastScrollY) {
+        setIsFooterHidden(true);
+      } else if (currentScrollY < lastScrollY || currentScrollY <= 50) {
+        setIsFooterHidden(false);
+      }
+      lastScrollY = currentScrollY;
+    };
+
+    const handleMouseMove = (e) => {
+      if (e.clientY >= window.innerHeight - 70) {
+        setIsFooterHidden(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    window.addEventListener("mousemove", handleMouseMove, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("mousemove", handleMouseMove);
+    };
+  }, []);
+
+  const handleClaimReferralReward = (bonusGold, code) => {
+    sounds.playCorkPop();
+    setCurrentGold((prev) => prev + (bonusGold || 200));
+  };
 
   // Save Persona & Gold
   useEffect(() => {
@@ -412,6 +451,9 @@ function App() {
         onOpenGoldExchange={() => setShowGoldExchange(true)}
         onOpenAuth={() => setShowAuthModal(true)}
         onOpenProfile={() => setShowProfileCustomizer(true)}
+        onOpenShare={() => setShowShareModal(true)}
+        onOpenManual={() => setShowGuildManual(true)}
+        onOpenProducerCredits={() => setShowProducerCredits(true)}
       />
 
       {/* Main Content Area */}
@@ -526,25 +568,74 @@ function App() {
         </AnimatePresence>
       </main>
 
+      {/* Bottom Edge Hover Trigger for full-view retrieval */}
+      <div
+        className="fixed bottom-0 left-0 right-0 h-4 z-[60] bg-transparent"
+        onMouseEnter={() => setIsFooterHidden(false)}
+      />
+
       {/* Footer Calligraphy (No Emojis!) */}
-      <footer className="w-full py-12 bg-[#302c1a] text-[#ebe2c8] border-t-4 border-[#8c4f10] shadow-[inner_0_4px_20px_rgba(0,0,0,0.6)] z-40 relative">
+      <footer
+        className={`w-full py-8 sm:py-10 bg-[#302c1a] text-[#ebe2c8] border-t-4 border-[#8c4f10] shadow-[inner_0_4px_20px_rgba(0,0,0,0.6)] z-40 transition-transform duration-500 ease-in-out ${
+          isFooterHidden ? "translate-y-full" : "translate-y-0"
+        }`}
+      >
         <div className="max-w-7xl mx-auto px-4 md:px-8 flex flex-col md:flex-row items-center justify-between gap-6">
-          <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-full border border-[#8c4f10] overflow-hidden flex-shrink-0">
+          <div className="flex items-center gap-3 text-center md:text-left">
+            <div className="w-9 h-9 rounded-full border-2 border-[#8c4f10] overflow-hidden flex-shrink-0 bg-[#610000] mx-auto md:mx-0">
               <img
                 alt="Footer Seal"
                 src="https://images.unsplash.com/photo-1513519245088-0e12902e5a38?q=80&w=150&auto=format&fit=crop"
                 className="w-full h-full object-cover"
               />
             </div>
-            <p className="font-mono text-xs uppercase tracking-[0.3em] font-bold">
-              © 1894 The Alchemist's Courier Guild • {isConnected ? "Live Alchemical Relay Connected" : "Local Chamber Mode"}
-            </p>
+            <div>
+              <p className="font-mono text-xs uppercase tracking-[0.2em] font-bold text-white">
+                © 1894–2026 Prakhar Rai • Lead Developer & Producer
+              </p>
+              <p className="font-serif text-[11px] text-[#cec6ad] italic">
+                All Rights Reserved • {isConnected ? "Live Alchemical Relay Connected" : "Local Chamber Mode"}
+              </p>
+            </div>
           </div>
-          <div className="flex gap-6 font-mono text-xs uppercase tracking-widest text-[#cec6ad]">
-            <a href="#" onClick={(e) => { e.preventDefault(); alert("Dispatch Support: Contact Chief Clerk Elias Vance."); }} className="hover:text-[#ffdcc2]">Dispatch Support</a>
-            <a href="#" onClick={(e) => { e.preventDefault(); alert("Postal Terms: All wax seals must be unbroken upon delivery."); }} className="hover:text-[#ffdcc2]">Postal Terms</a>
-            <a href="#" onClick={(e) => { e.preventDefault(); alert("Guild Bylaws: Article IV - The pen is the tongue of the soul."); }} className="hover:text-[#ffdcc2]">Guild Bylaws</a>
+          <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6 font-mono text-xs uppercase tracking-widest text-[#cec6ad]">
+            <button
+              onClick={() => {
+                sounds.playCorkPop();
+                setShowShareModal(true);
+              }}
+              className="hover:text-[#ffb77b] transition-colors font-bold text-[#ffdcc2]"
+            >
+              + Add People
+            </button>
+            <button
+              onClick={() => {
+                sounds.playParchmentUnroll();
+                setShowGuildManual(true);
+              }}
+              className="hover:text-[#ffb77b] transition-colors font-bold text-[#ffdcc2]"
+            >
+              ❓ Help Manual
+            </button>
+            <button
+              onClick={() => {
+                sounds.playWaxSeal();
+                setShowProducerCredits(true);
+              }}
+              className="hover:text-[#ffb77b] transition-colors font-bold text-[#ffdcc2]"
+            >
+              🏛️ Producer & Rights
+            </button>
+            <a
+              href="#"
+              onClick={(e) => {
+                e.preventDefault();
+                alert("Producer Contact & UPI VPA: 7982421223@fam • Direct Dispatch Spitalfields.");
+              }}
+              className="hover:text-[#ffdcc2]"
+            >
+              Contact & UPI
+            </a>
           </div>
         </div>
       </footer>
@@ -604,6 +695,22 @@ function App() {
             persona={persona}
             onClose={() => setShowProfileCustomizer(false)}
             onSavePersona={(updated) => setPersona(updated)}
+          />
+        )}
+
+        {showProducerCredits && (
+          <ProducerCreditsModal onClose={() => setShowProducerCredits(false)} />
+        )}
+
+        {showGuildManual && (
+          <GuildManualModal onClose={() => setShowGuildManual(false)} />
+        )}
+
+        {showShareModal && (
+          <ShareGuildModal
+            persona={persona}
+            onClose={() => setShowShareModal(false)}
+            onClaimReferral={handleClaimReferralReward}
           />
         )}
       </AnimatePresence>
