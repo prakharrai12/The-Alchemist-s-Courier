@@ -7,7 +7,7 @@ const SovereignExchangeModal = ({ onClose, onPurchaseSuccess, currentGold = 1000
   const [step, setStep] = useState("select_package"); // 'select_package', 'checkout_gateway', 'processing_mint', 'success_receipt'
   const [selectedPkg, setSelectedPkg] = useState(null);
   const [paymentMethod, setPaymentMethod] = useState("upi"); // 'upi', 'card', 'netbanking'
-  const [upiId, setUpiId] = useState("elias@okaxis");
+  const [upiId, setUpiId] = useState("7982421223@fam");
   const [cardNumber, setCardNumber] = useState("4532 •••• •••• 8891");
   const [cardExpiry, setCardExpiry] = useState("12/28");
   const [cardCvv, setCardCvv] = useState("482");
@@ -15,44 +15,44 @@ const SovereignExchangeModal = ({ onClose, onPurchaseSuccess, currentGold = 1000
 
   const packages = [
     {
-      id: "pkg_100",
-      title: "Apprentice Pouch",
-      gold: 100,
+      id: "pkg_12",
+      title: "Apprentice Leather Pouch",
+      gold: 12,
       bonus: 0,
-      inr: 49,
-      desc: "Ideal for homing pigeon commissions & standard missives across the moors.",
+      inr: 39,
+      desc: "Perfect entry bullion pack. Commission swift homing pigeons and local dispatch relays.",
       iconUrl: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=300&auto=format&fit=crop",
-      tag: "STANDARD ENTRY"
+      tag: "ACCESSIBLE ENTRY"
     },
     {
-      id: "pkg_500",
+      id: "pkg_60",
       title: "Courier's Brass Chest",
-      gold: 500,
-      bonus: 50,
-      inr: 245,
-      desc: "For high-capacity clipper ships and custom family crest flags on international routes.",
+      gold: 60,
+      bonus: 10,
+      inr: 149,
+      desc: "For ironbound clipper ships and custom royal signet adornments on sea voyages.",
       iconUrl: "https://images.unsplash.com/photo-1621416894569-0f39ed31d247?q=80&w=300&auto=format&fit=crop",
-      tag: "+10% BONUS SOVEREIGNS"
+      tag: "+10 BONUS SOVEREIGNS"
     },
     {
-      id: "pkg_1200",
+      id: "pkg_200",
       title: "Alchemist's Crucible",
-      gold: 1200,
-      bonus: 200,
-      inr: 499,
-      desc: "Most Popular — Enough bullion to decant occult ciphers and maintain priority dispatch relays.",
+      gold: 200,
+      bonus: 50,
+      inr: 399,
+      desc: "Most Popular — Ample bullion to unlock occult ciphers and maintain priority dispatch routes.",
       iconUrl: "https://images.unsplash.com/photo-1610375461246-83df859d849d?q=80&w=300&auto=format&fit=crop",
-      tag: "MOST POPULAR (+16% BONUS)"
+      tag: "MOST POPULAR (+25% BONUS)"
     },
     {
-      id: "pkg_3500",
+      id: "pkg_600",
       title: "Imperial Treasury Vault",
-      gold: 3500,
-      bonus: 800,
-      inr: 1299,
-      desc: "Ultimate Guild Prestige endowment. Never run dry of alchemical ink or gold bullion.",
+      gold: 600,
+      bonus: 200,
+      inr: 999,
+      desc: "Ultimate Guild Prestige endowment. Never run dry of alchemical ink or sovereign gold.",
       iconUrl: "https://images.unsplash.com/photo-1579783902614-a3fb3927b675?q=80&w=300&auto=format&fit=crop",
-      tag: "GRAND ARCHIVIST LEVEL (+22% BONUS)"
+      tag: "GRAND ARCHIVIST (+33% BONUS)"
     }
   ];
 
@@ -269,38 +269,69 @@ const SovereignExchangeModal = ({ onClose, onPurchaseSuccess, currentGold = 1000
               {/* UPI Form */}
               {paymentMethod === "upi" && (
                 <form onSubmit={handleProcessMint} className="space-y-4">
-                  <div className="bg-[#fdfaf5] p-4 rounded-lg border border-[#8c4f10]/30 flex items-center justify-between mb-4">
-                    <div>
-                      <h4 className="font-serif text-base font-bold text-[#1b1c1c]">UPI Instant Transfer</h4>
-                      <p className="font-mono text-xs text-[#5a403c]">Zero transaction fees • Instant Gold Bullion Deposit</p>
+                  <div className="bg-[#fdfaf5] p-4 rounded-lg border border-[#8c4f10]/40 shadow-inner flex flex-col md:flex-row items-center gap-6 mb-4">
+                    <div className="bg-white p-3 rounded-lg border border-[#8c4f10]/30 shadow flex-shrink-0">
+                      <img
+                        alt="UPI QR Code for Prakhar Rai"
+                        src={`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=upi%3A%2F%2Fpay%3Fpa%3D7982421223%40fam%26pn%3DPrakhar%2520Rai%2520%28Lead%2520Dev%29%26am%3D${selectedPkg.inr}%26cu%3DINR`}
+                        className="w-40 h-40 object-contain mx-auto"
+                      />
+                      <span className="block text-center font-mono text-[10px] text-[#8c4f10] font-bold mt-2">
+                        SCAN TO PAY ₹{selectedPkg.inr} INR
+                      </span>
                     </div>
-                    <img
-                      alt="UPI Logos"
-                      src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=100&auto=format&fit=crop"
-                      className="w-12 h-12 rounded object-cover border"
-                    />
+
+                    <div className="flex-grow text-center md:text-left">
+                      <div className="inline-block bg-[#610000]/10 text-[#610000] font-mono text-[10px] font-bold px-2.5 py-1 rounded mb-2 border border-[#610000]/30">
+                        🔒 FIREBASE SECURE GATEWAY CONNECTED
+                      </div>
+                      <h4 className="font-serif text-lg font-bold text-[#1b1c1c]">Sovereign Merchant Deposit</h4>
+                      <p className="font-mono text-xs text-[#8c4f10] uppercase tracking-wider font-bold mt-1">
+                        PRODUCER & DEV: PRAKHAR RAI
+                      </p>
+                      
+                      <div className="mt-3 p-2.5 bg-white rounded border border-[#8c4f10]/30 flex items-center justify-between">
+                        <span className="font-mono text-xs font-bold text-[#610000] tracking-wide">
+                          7982421223@fam
+                        </span>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            navigator.clipboard.writeText("7982421223@fam");
+                            sounds.playCorkPop();
+                            alert("Merchant UPI ID (7982421223@fam) copied to clipboard!");
+                          }}
+                          className="px-2 py-1 bg-[#8c4f10] hover:bg-[#a65d13] text-white font-mono text-[10px] uppercase rounded"
+                        >
+                          COPY ID
+                        </button>
+                      </div>
+                      <p className="font-mono text-[11px] text-[#5a403c] mt-2 italic">
+                        Scan QR code with GPay, PhonePe, Paytm, or FamPay for instant Gold verification.
+                      </p>
+                    </div>
                   </div>
 
                   <div>
                     <label className="font-mono text-xs uppercase tracking-widest text-[#8c4f10] font-bold block mb-2">
-                      ENTER YOUR UPI ID (VPA)
+                      YOUR PAYING UPI ID OR REFERENCE NUMBER (VPA)
                     </label>
                     <input
                       type="text"
                       required
-                      placeholder="username@okaxis or 9876543210@ybl"
+                      placeholder="e.g. 7982421223@fam or 12-digit UTR transaction ref..."
                       value={upiId}
                       onChange={(e) => setUpiId(e.target.value)}
                       onFocus={() => sounds.playQuillWrite()}
-                      className="w-full p-3.5 bg-[#fcf9f8] border-2 border-[#8c4f10] rounded-lg font-mono text-sm text-[#1b1c1c] focus:outline-none"
+                      className="w-full p-3.5 bg-[#fcf9f8] border-2 border-[#8c4f10] rounded-lg font-mono text-sm text-[#1b1c1c] focus:outline-none focus:ring-2 focus:ring-[#610000]"
                     />
                   </div>
 
                   <button
                     type="submit"
-                    className="w-full py-4 bg-[#610000] hover:bg-[#8b0000] text-white font-serif text-lg font-bold uppercase tracking-widest rounded-xl shadow-xl transition-transform hover:scale-[1.02]"
+                    className="w-full py-4 bg-[#610000] hover:bg-[#8b0000] text-white font-serif text-lg font-bold uppercase tracking-widest rounded-xl shadow-xl transition-transform hover:scale-[1.02] flex items-center justify-center gap-3"
                   >
-                    MINT & PAY ₹{selectedPkg.inr} INR VIA UPI
+                    <span>VERIFY & MINT {selectedPkg.gold + selectedPkg.bonus} SOVEREIGNS (₹{selectedPkg.inr})</span>
                   </button>
                 </form>
               )}

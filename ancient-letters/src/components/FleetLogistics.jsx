@@ -23,7 +23,7 @@ const FleetLogistics = ({ onDispatchVessel, persona }) => {
       speed: "3 Leagues / Hour",
       reliability: "94% Safe Passage",
       desc: "Trained in the lofts above the Old Library. Ideal for swift, lightweight dispatches across domestic counties.",
-      imgUrl: "https://images.unsplash.com/photo-1549480017-d76466a4b7e8?q=80&w=600&auto=format&fit=crop"
+      imgUrl: "https://images.unsplash.com/photo-1520808663317-647b476a81b9?q=80&w=600&auto=format&fit=crop"
     },
     {
       id: "clipper_ship",
@@ -33,7 +33,7 @@ const FleetLogistics = ({ onDispatchVessel, persona }) => {
       speed: "18 Knots across Atlantic",
       reliability: "99.2% Sealed Cargo",
       desc: "Heavy oak hull sheathed in copper. Designed to carry heavy ledgers and crystal canisters across turbulent oceans.",
-      imgUrl: "https://images.unsplash.com/photo-1534447677768-be436bb09401?q=80&w=600&auto=format&fit=crop"
+      imgUrl: "https://images.unsplash.com/photo-1559136555-9303baea8ebd?q=80&w=600&auto=format&fit=crop"
     },
     {
       id: "midnight_rider",

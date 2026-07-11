@@ -2,12 +2,12 @@ import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { sounds } from "../audio/soundEngine";
 
-const GuildAuthModal = ({ onClose, onLoginSuccess, isLoggedIn, persona, onLogout }) => {
+const GuildAuthModal = ({ onClose, onLoginSuccess, isLoggedIn, persona, onLogout, isMandatory = false }) => {
   const [isRegistering, setIsRegistering] = useState(false);
-  const [email, setEmail] = useState("elias.vance@courierguild.org");
+  const [email, setEmail] = useState("prakhar@courierguild.org");
   const [password, setPassword] = useState("password123");
-  const [name, setName] = useState("Elias Vance");
-  const [title, setTitle] = useState("Senior Dispatcher");
+  const [name, setName] = useState("Prakhar Rai");
+  const [title, setTitle] = useState("Producer & Lead Developer");
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
@@ -43,11 +43,11 @@ const GuildAuthModal = ({ onClose, onLoginSuccess, isLoggedIn, persona, onLogout
       const fallbackUser = {
         id: "u_" + Date.now(),
         email: email.trim(),
-        name: name.trim() || email.split("@")[0].replace(/[._]/g, " "),
-        title: title.trim() || "Senior Dispatcher",
-        rank: "First-Class Courier",
-        prestige: 840,
-        goldSovereigns: 1000,
+        name: name.trim() || "Prakhar Rai",
+        title: title.trim() || "Producer & Lead Developer",
+        rank: "Grand Arch-Alchemist",
+        prestige: 1000,
+        goldSovereigns: 1599,
         avatarUrl: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=600&auto=format&fit=crop",
         memberSince: "1889",
         waxColor: "#610000",
@@ -100,16 +100,18 @@ const GuildAuthModal = ({ onClose, onLoginSuccess, isLoggedIn, persona, onLogout
             </h2>
             <p className="font-serif text-sm text-[#cec6ad] italic mt-1 max-w-lg mx-auto">
               {isLoggedIn
-                ? `You are currently authenticated as ${persona?.name || "Elias Vance"} with full Guild Exchequer clearance.`
-                : "Every member receives an endowment of 1,000 Gold Sovereigns to dispatch vessels and unlock secret archives across the realm."}
+                ? `You are currently authenticated as ${persona?.name || "Prakhar Rai"} with full Guild Exchequer clearance.`
+                : "Every member receives an endowment of 1,599 Gold Sovereigns to dispatch vessels and unlock secret archives across the realm."}
             </p>
           </div>
-          <button
-            onClick={onClose}
-            className="absolute top-4 right-4 text-[#cec6ad] hover:text-white text-2xl font-bold p-2 transition-transform hover:scale-110"
-          >
-            ✕
-          </button>
+          {!isMandatory && (
+            <button
+              onClick={onClose}
+              className="absolute top-4 right-4 text-[#cec6ad] hover:text-white text-2xl font-bold p-2 transition-transform hover:scale-110"
+            >
+              ✕
+            </button>
+          )}
         </div>
 
         {/* Main Form Content */}
@@ -123,8 +125,8 @@ const GuildAuthModal = ({ onClose, onLoginSuccess, isLoggedIn, persona, onLogout
                     VERIFIED SIGNET
                   </span>
                 </div>
-                <p className="font-serif text-xl font-bold text-[#1b1c1c]">{persona?.name || "Elias Vance"}</p>
-                <p className="font-serif text-sm text-[#610000] italic">{persona?.title || "Senior Dispatcher"} — {persona?.rank || "First-Class Courier"}</p>
+                <p className="font-serif text-xl font-bold text-[#1b1c1c]">{persona?.name || "Prakhar Rai"}</p>
+                <p className="font-serif text-sm text-[#610000] italic">{persona?.title || "Producer & Lead Developer"} — {persona?.rank || "Grand Arch-Alchemist"}</p>
                 <p className="font-mono text-xs text-[#5a403c] mt-2">Guild Prestige Rating: {persona?.prestige || 840} / 1000</p>
               </div>
 
@@ -280,7 +282,7 @@ const GuildAuthModal = ({ onClose, onLoginSuccess, isLoggedIn, persona, onLogout
             >
               {isRegistering
                 ? "Already enlisted in the Guild? Return to Ledger Access"
-                : "New to the Alchemist's Courier? Register Membership & Claim 1,000 Gold"}
+                : "New to the Alchemist's Courier? Register Membership & Claim 1,599 Gold"}
             </button>
           </div>
           </>
@@ -288,9 +290,10 @@ const GuildAuthModal = ({ onClose, onLoginSuccess, isLoggedIn, persona, onLogout
         </div>
 
         {/* Footer info */}
-        <div className="bg-[#ebe2c8] px-8 py-4 border-t border-[#8c4f10]/30 flex justify-between items-center text-[11px] font-mono text-[#5a403c]">
-          <span>STORAGE: Supabase & Express SQL Ready</span>
-          <span>SECURITY: 256-Bit Lead Signet</span>
+        <div className="bg-[#ebe2c8] px-8 py-4 border-t border-[#8c4f10]/30 flex flex-wrap justify-between items-center text-[11px] font-mono text-[#5a403c] gap-2">
+          <span>PRODUCER & DEV: PRAKHAR RAI</span>
+          <span>GATEWAY: Firebase Secure SSL & Supabase SQL</span>
+          <span>SECURITY: 256-Bit Alchemist Signet</span>
         </div>
       </motion.div>
     </div>

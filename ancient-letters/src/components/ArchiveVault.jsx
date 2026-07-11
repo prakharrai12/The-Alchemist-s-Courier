@@ -61,11 +61,11 @@ const ArchiveVault = ({ letters, onSelectLetter, onOpenScriptorium }) => {
           </p>
 
           {/* The Jar (Main Visual with Floating Cards) */}
-          <div className="relative group my-4">
-            {/* Floating Dispatch Note Left */}
+          <div className="relative group my-6 flex flex-col items-center justify-center">
+            {/* Floating Dispatch Note Left (Hidden on screens under lg to prevent viewport cutting) */}
             <motion.div
-              className="absolute -top-12 -left-24 w-52 p-4 bg-[#fcf9f8] shadow-[0_20px_50px_rgba(0,0,0,0.7)] border border-amber-900/30 -rotate-6 cursor-pointer z-20 rounded"
-              whileHover={{ y: -8, rotate: 0, scale: 1.05 }}
+              className="hidden lg:block absolute top-2 -left-60 w-56 p-4 bg-[#fcf9f8] shadow-[0_20px_50px_rgba(0,0,0,0.8)] border border-[#8c4f10]/40 -rotate-3 cursor-pointer z-20 rounded-lg"
+              whileHover={{ y: -6, rotate: 0, scale: 1.05 }}
               onClick={() => {
                 sounds.playParchmentUnroll();
                 onSelectLetter({
@@ -80,21 +80,27 @@ const ArchiveVault = ({ letters, onSelectLetter, onOpenScriptorium }) => {
                 });
               }}
             >
-              <p className="font-mono text-[10px] uppercase text-[#8c4f10] font-bold mb-1">Unread: Dispatch 402</p>
+              <div className="flex justify-between items-center mb-1">
+                <span className="font-mono text-[10px] uppercase text-[#8c4f10] font-bold">Unread: Dispatch 402</span>
+                <span className="w-2 h-2 rounded-full bg-red-600 animate-ping"></span>
+              </div>
               <p className="font-serif text-xs line-clamp-3 text-[#1b1c1c]">The mercury levels in the northern sector have finally stabilized and the crystal growth is proceeding...</p>
-              <div className="mt-2 h-px w-full bg-[#8c4f10]/20"></div>
+              <div className="mt-2.5 pt-2 border-t border-[#8c4f10]/20 flex justify-between font-mono text-[9px] text-[#5a403c]">
+                <span>DEV: PRAKHAR RAI</span>
+                <span className="underline">OPEN LETTER →</span>
+              </div>
             </motion.div>
 
-            {/* Floating Ledger Note Right */}
+            {/* Floating Ledger Note Right (Hidden on screens under lg to prevent viewport cutting) */}
             <motion.div
-              className="absolute top-1/3 -right-28 w-56 p-4 bg-[#fcf9f8] shadow-[0_20px_50px_rgba(0,0,0,0.7)] border border-amber-900/30 rotate-12 cursor-pointer z-20 rounded"
-              whileHover={{ y: -8, rotate: 3, scale: 1.05 }}
+              className="hidden lg:block absolute top-1/4 -right-60 w-56 p-4 bg-[#fcf9f8] shadow-[0_20px_50px_rgba(0,0,0,0.8)] border border-[#8c4f10]/40 rotate-6 cursor-pointer z-20 rounded-lg"
+              whileHover={{ y: -6, rotate: 2, scale: 1.05 }}
               onClick={() => {
                 sounds.playParchmentUnroll();
                 onSelectLetter({
                   id: "ledger_note_99",
                   title: "Ledger Note: Second Distilling",
-                  sender: "Senior Clerk Elias Vance",
+                  sender: "Lead Dev Prakhar Rai",
                   recipient: "High Scriptorium",
                   date: "October 11, 1894",
                   content: "The Alchemist requests a second distilling of the recent correspondence from the western guild. Double the wax thickness on all outbound parcels.",
@@ -103,13 +109,19 @@ const ArchiveVault = ({ letters, onSelectLetter, onOpenScriptorium }) => {
                 });
               }}
             >
-              <p className="font-mono text-[10px] uppercase text-[#8c4f10] font-bold mb-1">Unread: Ledger Note</p>
+              <div className="flex justify-between items-center mb-1">
+                <span className="font-mono text-[10px] uppercase text-[#610000] font-bold">Priority Ledger Note</span>
+                <span className="text-[10px]">🏛️</span>
+              </div>
               <p className="font-serif text-xs line-clamp-3 text-[#1b1c1c]">The Alchemist requests a second distilling of the recent correspondence from the western guild...</p>
-              <div className="mt-2 h-px w-full bg-[#8c4f10]/20"></div>
+              <div className="mt-2.5 pt-2 border-t border-[#8c4f10]/20 flex justify-between font-mono text-[9px] text-[#5a403c]">
+                <span>PRODUCER: P. RAI</span>
+                <span className="underline">READ MORE →</span>
+              </div>
             </motion.div>
 
             {/* Central Archive Jar Container */}
-            <div className="relative w-80 h-80 md:w-96 md:h-96 rounded-full overflow-hidden shadow-[0_50px_100px_-20px_rgba(0,0,0,0.9)] border-4 border-[#ffdcc2]/30 bg-[#1f1c0b] transition-all duration-700 hover:scale-[1.02] hover:border-[#ffdcc2]/50">
+            <div className="relative w-80 h-80 md:w-96 md:h-96 rounded-full overflow-hidden shadow-[0_30px_90px_-15px_rgba(0,0,0,0.95)] border border-[#ffdcc2]/40 bg-[#1f1c0b] transition-all duration-700 hover:scale-[1.01] hover:border-[#ffdcc2]/70">
               <img
                 alt="The Archive Jar"
                 className="w-full h-full object-cover filter contrast-[1.1] brightness-[0.9]"

@@ -134,7 +134,7 @@ const Navigation = ({ currentTab, setCurrentTab, unreadCount, persona, currentGo
                 />
               </div>
               <span className="hidden sm:inline font-serif text-sm font-bold text-[#1b1c1c]">
-                {persona?.name?.split(" ")[0] || "Elias"}
+                {persona?.name?.split(" ")[0] || "Prakhar"}
               </span>
             </button>
 

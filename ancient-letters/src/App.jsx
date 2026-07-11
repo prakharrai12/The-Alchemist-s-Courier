@@ -28,7 +28,7 @@ function App() {
   const [isConnected, setIsConnected] = useState(false);
   const [currentGold, setCurrentGold] = useState(() => {
     const saved = localStorage.getItem("alchemist_courier_gold");
-    return saved ? parseInt(saved, 10) : 1000; // Starting endowment: 1,000 Gold Sovereigns
+    return saved ? parseInt(saved, 10) : 1599; // Starting endowment: 1,599 Gold Sovereigns
   });
   const [unreadCount, setUnreadCount] = useState(1);
   const [unlockedCiphers, setUnlockedCiphers] = useState(["1894-A"]);
@@ -37,10 +37,10 @@ function App() {
   const [persona, setPersona] = useState(() => {
     const saved = localStorage.getItem("alchemist_courier_persona");
     return saved ? JSON.parse(saved) : {
-      name: "Elias Vance",
-      title: "Senior Dispatcher",
-      rank: "First-Class Courier",
-      prestige: 840,
+      name: "Prakhar Rai",
+      title: "Producer & Lead Developer",
+      rank: "Grand Arch-Alchemist",
+      prestige: 1000,
       waxColor: "#610000",
       crest: "shield",
       avatarUrl: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=600&auto=format&fit=crop",
@@ -235,19 +235,23 @@ function App() {
     }
     setIsLoggedIn(true);
 
-    setPersona({
-      name: user.name || "Elias Vance",
-      title: user.title || "Senior Dispatcher",
-      rank: user.rank || "First-Class Courier",
-      prestige: user.prestige || 840,
+    const updatedPersona = {
+      name: user.name || "Prakhar Rai",
+      title: user.title || "Producer & Lead Developer",
+      rank: user.rank || "Grand Arch-Alchemist",
+      prestige: user.prestige || 1000,
       waxColor: user.waxColor || "#610000",
       crest: user.crest || "shield",
       avatarUrl: user.avatarUrl || "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=600&auto=format&fit=crop",
       memberSince: user.memberSince || "1889"
-    });
-    if (user.goldSovereigns !== undefined) {
-      setCurrentGold(user.goldSovereigns);
-    }
+    };
+    setPersona(updatedPersona);
+    localStorage.setItem("alchemist_courier_persona", JSON.stringify(updatedPersona));
+
+    const grantGold = user.goldSovereigns !== undefined ? user.goldSovereigns : 1599;
+    setCurrentGold(grantGold);
+    localStorage.setItem("alchemist_courier_gold", grantGold.toString());
+
     if (user.unlockedCiphers) {
       setUnlockedCiphers(user.unlockedCiphers);
     }
@@ -378,6 +382,18 @@ function App() {
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, []);
+
+  if (!isLoggedIn) {
+    return (
+      <GuildAuthModal
+        isMandatory={true}
+        onLoginSuccess={handleLoginSuccess}
+        onClose={() => {}}
+        isLoggedIn={false}
+        persona={persona}
+      />
+    );
+  }
 
   return (
     <div className={`app-root ${currentTab === "ocean" ? "theme-ocean" : "theme-alchemist"}`}>
