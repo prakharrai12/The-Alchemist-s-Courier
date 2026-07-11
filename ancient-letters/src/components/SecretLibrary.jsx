@@ -65,6 +65,30 @@ const SecretLibrary = ({ onUnlockReward, unlockedCiphers = ["1894-A"], persona }
       plainMain: "When sulfur meets liquid quicksilver beneath candlelight, lead turns into pure Sovereign Gold.",
       plainSub: "Keep the crucible at exact boiling point until the violet smoke clears...",
       rewardGold: 150
+    },
+    {
+      id: "1895-Z",
+      vol: "VOL. 1895-Z",
+      title: "The Copper Alembic",
+      status: "LOCKED BY HIGH TOWER",
+      requiredKey: "ALEMBIC",
+      cipherMain: "Hshf the dlmkw uful to qz yzmn klq... ztlx fsh lpsb mzy wqlm.",
+      cipherSub: "Snhy vps kl vps...",
+      plainMain: "Heat the copper alembic to its highest point... then cool with spring water.",
+      plainSub: "Distill drop by drop until the clear spirit emerges...",
+      rewardGold: 200
+    },
+    {
+      id: "1896-X",
+      vol: "VOL. 1896-X",
+      title: "High Scriptorium Seal",
+      status: "ROYAL DECREE ONLY",
+      requiredKey: "SOVEREIGN",
+      cipherMain: "Ztlx yzmn yb tsl qz yzmn lpsb mzy... uful klq fsh lpsb.",
+      cipherSub: "Klmz vps kl...",
+      plainMain: "By Royal Decree of the Arch-Alchemist, all couriers must carry dual lead signets.",
+      plainSub: "Failure to stamp in red wax will result in immediate loss of guild rank...",
+      rewardGold: 250
     }
   ]);
 
@@ -380,6 +404,18 @@ const SecretLibrary = ({ onUnlockReward, unlockedCiphers = ["1894-A"], persona }
               <p className={`font-serif text-base opacity-80 ${isDecrypted ? "text-[#1b1c1c]" : "text-[#8c4f10] font-mono"}`}>
                 "{displayedSub}"
               </p>
+
+              {isDecrypting && (
+                <div className="my-4 p-3 bg-[#610000]/10 border border-[#610000] rounded-lg text-[#610000] font-mono text-xs animate-pulse">
+                  <div className="flex justify-between font-bold mb-1">
+                    <span>ALCHEMICAL CAESAR SCRAMBLE ACTIVE...</span>
+                    <span>DECIPHERING ROT-7 WHEEL</span>
+                  </div>
+                  <div className="w-full bg-black/10 h-1.5 rounded-full overflow-hidden">
+                    <div className="bg-[#610000] h-full animate-[pulse_0.5s_ease-in-out_infinite] w-full" />
+                  </div>
+                </div>
+              )}
 
               {/* Status Ribbon inside text area */}
               <div className="mt-6 pt-4 border-t border-[#8c4f10]/20 flex justify-between items-center text-xs font-mono text-[#8c4f10] uppercase font-bold">
