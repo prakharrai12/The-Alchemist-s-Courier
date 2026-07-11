@@ -8,7 +8,8 @@ const FleetLogistics = ({ onDispatchVessel, persona }) => {
   const [customAdornments, setCustomAdornments] = useState({
     silkRibbon: false,
     crestFlag: false,
-    waxLantern: false
+    waxLantern: false,
+    royalInsurance: false
   });
   const [isDispatching, setIsDispatching] = useState(false);
   const [dispatchStatus, setDispatchStatus] = useState("");
@@ -53,6 +54,7 @@ const FleetLogistics = ({ onDispatchVessel, persona }) => {
     if (customAdornments.silkRibbon) base += 2;
     if (customAdornments.crestFlag) base += 5;
     if (customAdornments.waxLantern) base += 3;
+    if (customAdornments.royalInsurance) base += 10;
     return base;
   };
 
@@ -233,6 +235,22 @@ const FleetLogistics = ({ onDispatchVessel, persona }) => {
               </div>
               <span className="font-mono text-xs font-bold text-[#8c4f10]">+£ 3 Gold</span>
             </label>
+
+            <label className="flex items-center justify-between p-3.5 bg-white border border-[#8c4f10]/40 rounded-lg cursor-pointer hover:bg-[#ebe2c8]/40 transition-colors">
+              <div className="flex items-center gap-3">
+                <input
+                  type="checkbox"
+                  checked={customAdornments.royalInsurance}
+                  onChange={(e) => { sounds.playQuillWrite(); setCustomAdornments({ ...customAdornments, royalInsurance: e.target.checked }); }}
+                  className="w-5 h-5 text-[#610000] border-[#8c4f10] rounded focus:ring-0"
+                />
+                <div>
+                  <span className="font-serif text-sm font-bold block text-[#1b1c1c]">Royal Exchequer Cargo Insurance</span>
+                  <span className="font-mono text-[10px] text-[#5a403c]">Full sovereign reimbursement if vessel lost</span>
+                </div>
+              </div>
+              <span className="font-mono text-xs font-bold text-[#8c4f10]">+£ 10 Gold</span>
+            </label>
           </div>
         </div>
 
@@ -264,6 +282,12 @@ const FleetLogistics = ({ onDispatchVessel, persona }) => {
                 <div className="flex justify-between text-[#8c4f10]">
                   <span>Emerald Lanterns:</span>
                   <span>+£ 3 Gold</span>
+                </div>
+              )}
+              {customAdornments.royalInsurance && (
+                <div className="flex justify-between text-[#8c4f10] font-bold">
+                  <span>Royal Cargo Insurance:</span>
+                  <span>+£ 10 Gold</span>
                 </div>
               )}
             </div>
