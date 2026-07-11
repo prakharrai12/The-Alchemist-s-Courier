@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { sounds } from "../audio/soundEngine";
 
 const ArchiveVault = ({ letters, onSelectLetter, onOpenScriptorium }) => {
+  const [filterSeal, setFilterSeal] = useState("all");
   const recentDecantations = [
     {
       id: "dec1",
@@ -235,19 +236,42 @@ const ArchiveVault = ({ letters, onSelectLetter, onOpenScriptorium }) => {
 
       {/* Recent Entries List (The Desktop Ledger) */}
       <section className="bg-[#1f1c0b]/95 border border-[#8c4f10]/30 p-8 md:p-10 rounded shadow-2xl max-w-5xl mx-auto mb-16">
-        <div className="flex flex-col md:flex-row items-start md:items-end justify-between mb-8 border-b border-[#8c4f10]/30 pb-5 gap-4">
+        <div className="flex flex-col md:flex-row items-start md:items-end justify-between mb-6 border-b border-[#8c4f10]/30 pb-5 gap-4">
           <div>
             <h2 className="font-serif text-3xl text-[#ffdcc2] font-bold">Recent Decantations</h2>
             <p className="font-mono text-xs text-[#cec6ad] uppercase tracking-widest mt-1">The Latest Whispers Pulled from the Glass</p>
           </div>
-          <div className="text-right">
-            <span className="font-mono text-xs text-[#ffb77b] font-bold block">CURRENT DATE</span>
-            <span className="font-mono text-xs text-[#cec6ad]">Guild Relay Active</span>
+          <div className="flex flex-wrap items-center gap-2">
+            {[
+              { id: "all", label: "All Seals", color: "#8c4f10" },
+              { id: "#610000", label: "Crimson", color: "#610000" },
+              { id: "#8c4f10", label: "Amber", color: "#8c4f10" },
+              { id: "#004d25", label: "Emerald", color: "#004d25" },
+              { id: "#002855", label: "Sapphire", color: "#002855" }
+            ].map((seal) => (
+              <button
+                key={seal.id}
+                onClick={() => {
+                  sounds.playWaxSeal();
+                  setFilterSeal(seal.id);
+                }}
+                className={`px-3 py-1 font-mono text-xs rounded-full border transition-all flex items-center gap-1.5 ${
+                  filterSeal === seal.id
+                    ? "bg-[#ffdcc2] text-[#1f1c0b] font-bold border-[#ffdcc2] shadow-md scale-105"
+                    : "bg-black/30 text-[#cec6ad] border-[#8c4f10]/40 hover:border-[#ffdcc2]/60"
+                }`}
+              >
+                <span className="w-2.5 h-2.5 rounded-full inline-block border border-white/20" style={{ backgroundColor: seal.color }}></span>
+                {seal.label}
+              </button>
+            ))}
           </div>
         </div>
 
         <div className="divide-y divide-[#8c4f10]/20">
-          {letters && letters.map((l, index) => (
+          {letters && letters
+            .filter((l) => filterSeal === "all" || l.sealColor === filterSeal)
+            .map((l, index) => (
             <div
               key={l.id}
               className="flex items-center gap-6 group cursor-pointer py-6 hover:bg-[#2b1b14]/60 px-4 rounded transition-all"
