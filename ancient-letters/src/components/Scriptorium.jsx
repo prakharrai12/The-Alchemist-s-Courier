@@ -215,9 +215,18 @@ const Scriptorium = ({ onSendCodice, persona }) => {
             </div>
 
             <div>
-              <label className="font-mono text-xs uppercase tracking-widest text-[#8c4f10] font-bold block mb-2">
-                MISSIVE CONTENT (QUILL PEN INK)
-              </label>
+              <div className="flex justify-between items-center mb-2">
+                <label className="font-mono text-xs uppercase tracking-widest text-[#8c4f10] font-bold block">
+                  MISSIVE CONTENT (QUILL PEN INK)
+                </label>
+                <div className="font-mono text-xs text-[#8c4f10] font-bold flex gap-3">
+                  <span>Words: {content.trim() ? content.trim().split(/\s+/).length : 0}</span>
+                  <span>•</span>
+                  <span>Chars: {content.length}</span>
+                  <span>•</span>
+                  <span className="text-[#610000]">Dispatch Fare: £ {Math.max(10, Math.ceil((content.trim() ? content.trim().split(/\s+/).length : 0) / 20) * 10)} Gold</span>
+                </div>
+              </div>
               <textarea
                 required
                 rows="10"
@@ -225,7 +234,7 @@ const Scriptorium = ({ onSendCodice, persona }) => {
                 onChange={(e) => setContent(e.target.value)}
                 onFocus={() => sounds.playQuillWrite()}
                 placeholder="Dip your quill and write your message across the centuries..."
-                className="w-full p-5 bg-white/70 border border-[#8c4f10]/60 rounded font-serif text-lg leading-relaxed text-[#1b1c1c] focus:outline-none focus:ring-2 focus:ring-[#610000] resize-y"
+                className="w-full p-5 bg-white/70 border border-[#8c4f10]/60 rounded font-serif text-lg leading-relaxed text-[#1b1c1c] focus:outline-none focus:ring-2 focus:ring-[#610000] resize-y shadow-inner"
               />
             </div>
 
