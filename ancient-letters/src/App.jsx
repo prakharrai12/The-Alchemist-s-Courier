@@ -4,7 +4,7 @@ import { io } from "socket.io-client";
 import "./App.css";
 
 // Components
-import Navigation from "./components/Navigation";
+import GuildSidebar from "./components/GuildSidebar";
 import ArchiveVault from "./components/ArchiveVault";
 import Scriptorium from "./components/Scriptorium";
 import FleetLogistics from "./components/FleetLogistics";
@@ -35,6 +35,23 @@ function App() {
   });
   const [unreadCount, setUnreadCount] = useState(1);
   const [unlockedCiphers, setUnlockedCiphers] = useState(["1894-A"]);
+
+  // Sidebar resizable & collapsible states
+  const [isCollapsed, setIsCollapsed] = useState(() => {
+    const saved = localStorage.getItem("alchemist_sidebar_collapsed");
+    return saved === "true";
+  });
+  const [sidebarWidth, setSidebarWidth] = useState(() => {
+    const saved = localStorage.getItem("alchemist_sidebar_width");
+    return saved ? parseInt(saved, 10) : 280;
+  });
+  const [isDesktop, setIsDesktop] = useState(() => window.innerWidth >= 1024);
+
+  useEffect(() => {
+    const handleResize = () => setIsDesktop(window.innerWidth >= 1024);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   // Traveler / Clerk Persona State
   const [persona, setPersona] = useState(() => {
@@ -436,8 +453,8 @@ function App() {
 
   return (
     <div className={`app-root ${currentTab === "ocean" ? "theme-ocean" : "theme-alchemist"}`}>
-      {/* Navigation Bar */}
-      <Navigation
+      {/* Collapsible Guild Sidebar Navigation */}
+      <GuildSidebar
         currentTab={currentTab}
         setCurrentTab={(tab) => {
           setCurrentTab(tab);
@@ -454,10 +471,24 @@ function App() {
         onOpenShare={() => setShowShareModal(true)}
         onOpenManual={() => setShowGuildManual(true)}
         onOpenProducerCredits={() => setShowProducerCredits(true)}
+        onOpenSearch={() => {
+          const searchBtn = document.getElementById("omni-search-trigger");
+          if (searchBtn) searchBtn.click();
+          else alert("Alchemical Omni-Search: Indexing 4,800 sealed historical volumes...");
+        }}
+        isCollapsed={isCollapsed}
+        setIsCollapsed={setIsCollapsed}
+        sidebarWidth={sidebarWidth}
+        setSidebarWidth={setSidebarWidth}
       />
 
-      {/* Main Content Area */}
-      <main className="main-stage pt-28 pb-12">
+      {/* Main Content Area with Dynamic Desktop Left Margin for Sidebar */}
+      <main
+        className="main-stage pt-20 lg:pt-8 pb-12 transition-[padding] duration-300 ease-in-out"
+        style={{
+          paddingLeft: isDesktop ? `${isCollapsed ? 72 : sidebarWidth}px` : "0px"
+        }}
+      >
         <DustParticles count={24} />
 
         <AnimatePresence mode="wait">
