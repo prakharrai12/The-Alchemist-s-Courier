@@ -14,6 +14,8 @@ const GuildSidebar = ({
   onOpenManual,
   onOpenProducerCredits,
   onOpenSearch,
+  onOpenNotifications,
+  notificationCount = 0,
   isCollapsed,
   setIsCollapsed,
   sidebarWidth,
@@ -164,6 +166,21 @@ const GuildSidebar = ({
             <button
               onClick={() => {
                 sounds.playCorkPop();
+                if (onOpenNotifications) onOpenNotifications();
+              }}
+              className="min-h-[38px] w-[38px] bg-[#1f1c0b] border border-[#8c4f10] rounded-full flex items-center justify-center relative shadow-sm text-base"
+              title="Guild Notifications"
+            >
+              <span>🔔</span>
+              {notificationCount > 0 && (
+                <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-red-600 text-white font-mono text-[9px] font-bold flex items-center justify-center">
+                  {notificationCount}
+                </span>
+              )}
+            </button>
+            <button
+              onClick={() => {
+                sounds.playCorkPop();
                 if (onOpenGoldExchange) onOpenGoldExchange();
               }}
               className="min-h-[38px] px-3 py-1 bg-[#1f1c0b] border border-[#8c4f10] rounded-full flex items-center gap-1.5 text-xs font-serif text-[#ffb77b] shadow-sm"
@@ -256,17 +273,16 @@ const GuildSidebar = ({
           )}
         </div>
 
-        {/* Search / Quick Jump Strip */}
-        <div className="p-3 border-b border-[#8c4f10]/30 flex-shrink-0">
+        {/* Search & Notifications Strip */}
+        <div className="p-3 border-b border-[#8c4f10]/30 flex-shrink-0 flex items-center gap-2">
           <button
             onClick={() => {
               sounds.playQuillWrite();
               if (onOpenSearch) onOpenSearch();
-              else alert("Omni-Search Triggered: Press Ctrl+K anytime to index all 4,800 guild volumes and records.");
             }}
             onMouseEnter={() => isCollapsed && setHoveredTooltip("Omni-Search (Ctrl+K)")}
             onMouseLeave={() => setHoveredTooltip(null)}
-            className={`w-full min-h-[44px] px-3 py-2 bg-[#2b2716] hover:bg-[#3d3822] text-[#cec6ad] hover:text-white rounded-lg border border-[#8c4f10]/40 flex items-center justify-between transition-colors ${
+            className={`flex-grow min-h-[44px] px-3 py-2 bg-[#2b2716] hover:bg-[#3d3822] text-[#cec6ad] hover:text-white rounded-lg border border-[#8c4f10]/40 flex items-center justify-between transition-colors ${
               isCollapsed ? "justify-center" : ""
             }`}
           >
@@ -279,6 +295,24 @@ const GuildSidebar = ({
             {(!isCollapsed || isMobile) && (
               <span className="font-mono text-[10px] bg-black/40 text-[#ffb77b] px-1.5 py-0.5 rounded border border-[#8c4f10]/30">
                 Ctrl+K
+              </span>
+            )}
+          </button>
+
+          <button
+            onClick={() => {
+              sounds.playCorkPop();
+              if (onOpenNotifications) onOpenNotifications();
+            }}
+            onMouseEnter={() => isCollapsed && setHoveredTooltip(`Notifications (${notificationCount} unread)`)}
+            onMouseLeave={() => setHoveredTooltip(null)}
+            className="min-w-[44px] min-h-[44px] bg-[#2b2716] hover:bg-[#3d3822] border border-[#8c4f10]/40 rounded-lg flex items-center justify-center relative flex-shrink-0 text-base"
+            title="Guild Notifications (Ctrl+Shift+N)"
+          >
+            <span>🔔</span>
+            {notificationCount > 0 && (
+              <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-red-600 text-white font-mono text-[9px] font-bold flex items-center justify-center animate-pulse">
+                {notificationCount}
               </span>
             )}
           </button>

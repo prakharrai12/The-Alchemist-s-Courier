@@ -5,6 +5,8 @@ import "./App.css";
 
 // Components
 import GuildSidebar from "./components/GuildSidebar";
+import GlobalSearchModal from "./components/GlobalSearchModal";
+import NotificationCenter from "./components/NotificationCenter";
 import ArchiveVault from "./components/ArchiveVault";
 import Scriptorium from "./components/Scriptorium";
 import FleetLogistics from "./components/FleetLogistics";
@@ -151,6 +153,34 @@ function App() {
   const [showProducerCredits, setShowProducerCredits] = useState(false);
   const [showGuildManual, setShowGuildManual] = useState(false);
   const [showShareModal, setShowShareModal] = useState(false);
+  const [showSearchModal, setShowSearchModal] = useState(false);
+  const [showNotificationCenter, setShowNotificationCenter] = useState(false);
+  const [notifications, setNotifications] = useState([
+    {
+      id: "notif-1",
+      category: "dispatch",
+      title: "Arch-Alchemist V. replied to your codice",
+      content: "Ensure all outbound brass canisters are sealed in triple wax before dusk.",
+      time: "10 mins ago",
+      read: false
+    },
+    {
+      id: "notif-2",
+      category: "exchequer",
+      title: "Sovereign Endowment Granted (+25 Gold)",
+      content: "Reward for imprinting a verified historical correspondence in the Scriptorium.",
+      time: "1 hour ago",
+      read: false
+    },
+    {
+      id: "notif-3",
+      category: "security",
+      title: "Biometric 256-Bit Signet Stamp Verified",
+      content: "Your Grand Arch-Alchemist wax crest has been authenticated by the Spitalfields Clerk.",
+      time: "3 hours ago",
+      read: true
+    }
+  ]);
   const [isFooterHidden, setIsFooterHidden] = useState(false);
 
   // Auto-hide bottom footer when scrolling down or idle
@@ -471,11 +501,9 @@ function App() {
         onOpenShare={() => setShowShareModal(true)}
         onOpenManual={() => setShowGuildManual(true)}
         onOpenProducerCredits={() => setShowProducerCredits(true)}
-        onOpenSearch={() => {
-          const searchBtn = document.getElementById("omni-search-trigger");
-          if (searchBtn) searchBtn.click();
-          else alert("Alchemical Omni-Search: Indexing 4,800 sealed historical volumes...");
-        }}
+        onOpenSearch={() => setShowSearchModal(true)}
+        onOpenNotifications={() => setShowNotificationCenter(true)}
+        notificationCount={notifications.filter((n) => !n.read).length}
         isCollapsed={isCollapsed}
         setIsCollapsed={setIsCollapsed}
         sidebarWidth={sidebarWidth}
@@ -736,6 +764,32 @@ function App() {
             onClaimReferral={handleClaimReferralReward}
           />
         )}
+
+        <GlobalSearchModal
+          isOpen={showSearchModal}
+          onClose={() => setShowSearchModal(false)}
+          letters={letters}
+          bottles={bottles}
+          onNavigateTab={(tabId) => setCurrentTab(tabId)}
+          onSelectLetter={(letObj) => setSelectedLetter(letObj)}
+          onSelectBottle={(botObj) => setSelectedBottle(botObj)}
+        />
+
+        <NotificationCenter
+          isOpen={showNotificationCenter}
+          onClose={() => setShowNotificationCenter(false)}
+          notifications={notifications}
+          onMarkAllRead={() => setNotifications((prev) => prev.map((n) => ({ ...n, read: true })))}
+          onClearAll={() => setNotifications([])}
+          onSelectNotification={(n) => {
+            sounds.playCorkPop();
+            setNotifications((prev) => prev.map((item) => (item.id === n.id ? { ...item, read: true } : item)));
+            if (n.category === "dispatch") setCurrentTab("archive");
+            else if (n.category === "exchequer") setShowGoldExchange(true);
+            else if (n.category === "security") setCurrentTab("secret");
+            setShowNotificationCenter(false);
+          }}
+        />
       </AnimatePresence>
     </div>
   );
