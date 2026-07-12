@@ -160,6 +160,14 @@ function App() {
   const [showSettingsChamber, setShowSettingsChamber] = useState(false);
   const [showSupportHub, setShowSupportHub] = useState(false);
   const [supportTab, setSupportTab] = useState("guide");
+  const [activeTheme, setActiveTheme] = useState(() => {
+    try {
+      const saved = localStorage.getItem("alchemist_chamber_settings");
+      return saved ? JSON.parse(saved).theme || "alchemist" : "alchemist";
+    } catch {
+      return "alchemist";
+    }
+  });
   const [notifications, setNotifications] = useState([
     {
       id: "notif-1",
@@ -487,7 +495,10 @@ function App() {
   }
 
   return (
-    <div className={`app-root ${currentTab === "ocean" ? "theme-ocean" : "theme-alchemist"}`}>
+    <div
+      className={`app-root ${currentTab === "ocean" ? "theme-ocean" : `theme-${activeTheme}`}`}
+      data-theme={currentTab === "ocean" ? "ocean" : activeTheme}
+    >
       {/* Collapsible Guild Sidebar Navigation */}
       <GuildSidebar
         currentTab={currentTab}
@@ -800,7 +811,13 @@ function App() {
 
         <SettingsChamber
           isOpen={showSettingsChamber}
-          onClose={() => setShowSettingsChamber(false)}
+          onClose={() => {
+            try {
+              const saved = localStorage.getItem("alchemist_chamber_settings");
+              if (saved) setActiveTheme(JSON.parse(saved).theme || "alchemist");
+            } catch {}
+            setShowSettingsChamber(false);
+          }}
           persona={persona}
           onSavePersona={(updated) => setPersona(updated)}
         />
