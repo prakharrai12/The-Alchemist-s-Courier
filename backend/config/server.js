@@ -6,6 +6,7 @@ import cors from "cors";
 import authRoutes from "../routes/authRoutes.js";
 import cipherRoutes from "../routes/cipherRoutes.js";
 import letterRoutes from "../routes/letterRoutes.js";
+import paymentRoutes from "../routes/paymentRoutes.js";
 import { loggerMiddleware } from "../middleware/loggerMiddleware.js";
 import { errorMiddleware } from "../middleware/errorMiddleware.js";
 import { initializeSocketEvents } from "../socket/socketHandler.js";
@@ -34,6 +35,7 @@ export function createServerApp() {
   app.use("/api", authRoutes);
   app.use("/api", cipherRoutes);
   app.use("/api", letterRoutes);
+  app.use("/api", paymentRoutes);
 
   // Error Handler
   app.use(errorMiddleware);
