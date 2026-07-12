@@ -37,7 +37,7 @@ const ArchiveVault = ({ letters, onSelectLetter, onOpenScriptorium }) => {
   return (
     <div className="archive-vault-container">
       {/* Hero Section with Central Jar */}
-      <section className="relative w-full flex flex-col items-center justify-center py-10 overflow-visible">
+      <section className="relative w-full flex flex-col items-center justify-center py-6 sm:py-8 overflow-visible">
         {/* Floating Background Elements */}
         <div className="absolute inset-0 pointer-events-none opacity-20 select-none">
           <div className="absolute top-10 left-10 w-32 h-40 bg-amber-950/40 shadow-xl -rotate-12 animate-pulse rounded" />
@@ -46,26 +46,26 @@ const ArchiveVault = ({ letters, onSelectLetter, onOpenScriptorium }) => {
         </div>
 
         {/* The Main Stage */}
-        <div className="relative z-10 w-full max-w-5xl flex flex-col items-center px-6">
+        <div className="relative z-10 w-full max-w-5xl flex flex-col items-center px-4 sm:px-6">
           {/* Decorative Label */}
-          <span className="font-mono text-xs uppercase tracking-[0.35em] text-[#ffb77b] mb-4 flex items-center gap-4 font-semibold">
-            <span className="h-px w-14 bg-[#ffb77b]/40"></span>
+          <span className="font-mono text-xs uppercase tracking-[0.35em] text-[#ffb77b] mb-3 flex items-center gap-3 font-semibold">
+            <span className="h-px w-10 sm:w-14 bg-[#ffb77b]/40"></span>
             Vault No. 1894
-            <span className="h-px w-14 bg-[#ffb77b]/40"></span>
+            <span className="h-px w-10 sm:w-14 bg-[#ffb77b]/40"></span>
           </span>
-          <h1 className="font-serif text-4xl md:text-6xl text-[#ffdcc2] text-center mb-5 max-w-3xl font-extrabold tracking-tight leading-[1.15] drop-shadow-lg">
+          <h1 className="font-serif text-3xl sm:text-4xl md:text-[44px] text-[#ffdcc2] text-center mb-2.5 max-w-3xl font-extrabold tracking-tight leading-[1.15] drop-shadow-md">
             Your Archive of Whispers
           </h1>
-          <p className="font-serif text-lg md:text-xl text-[#cec6ad] text-center mb-14 max-w-2xl leading-relaxed italic opacity-90">
+          <p className="font-serif text-base sm:text-lg text-[#cec6ad] text-center mb-8 max-w-2xl leading-relaxed italic opacity-90">
             "Where every word is preserved in glass and time."
           </p>
 
           {/* The Jar (Main Visual with Floating Cards) */}
-          <div className="relative group my-6 flex flex-col items-center justify-center">
-            {/* Floating Dispatch Note Left (Hidden on screens under lg to prevent viewport cutting) */}
+          <div className="relative group my-4 flex flex-col items-center justify-center">
+            {/* Floating Dispatch Note Left */}
             <motion.div
-              className="hidden lg:block absolute top-2 -left-60 w-56 p-4 bg-[#fcf9f8] shadow-[0_20px_50px_rgba(0,0,0,0.8)] border border-[#8c4f10]/40 -rotate-3 cursor-pointer z-20 rounded-lg"
-              whileHover={{ y: -6, rotate: 0, scale: 1.05 }}
+              className="hidden lg:block absolute top-2 -left-60 w-52 p-3.5 bg-[#fcf9f8] shadow-[0_20px_50px_rgba(0,0,0,0.8)] border border-[#8c4f10]/40 -rotate-3 cursor-pointer z-20 rounded-lg"
+              whileHover={{ y: -4, rotate: 0, scale: 1.03 }}
               onClick={() => {
                 sounds.playParchmentUnroll();
                 onSelectLetter({
@@ -84,17 +84,17 @@ const ArchiveVault = ({ letters, onSelectLetter, onOpenScriptorium }) => {
                 <span className="font-mono text-[10px] uppercase text-[#8c4f10] font-bold">Unread: Dispatch 402</span>
                 <span className="w-2 h-2 rounded-full bg-red-600 animate-ping"></span>
               </div>
-              <p className="font-serif text-xs line-clamp-3 text-[#1b1c1c]">The mercury levels in the northern sector have finally stabilized and the crystal growth is proceeding...</p>
-              <div className="mt-2.5 pt-2 border-t border-[#8c4f10]/20 flex justify-between font-mono text-[9px] text-[#5a403c]">
+              <p className="font-serif text-xs line-clamp-2 text-[#1b1c1c]">The mercury levels in the northern sector have finally stabilized...</p>
+              <div className="mt-2 pt-1.5 border-t border-[#8c4f10]/20 flex justify-between font-mono text-[9px] text-[#5a403c]">
                 <span>DEV: PRAKHAR RAI</span>
                 <span className="underline">OPEN LETTER →</span>
               </div>
             </motion.div>
 
-            {/* Floating Ledger Note Right (Hidden on screens under lg to prevent viewport cutting) */}
+            {/* Floating Ledger Note Right */}
             <motion.div
-              className="hidden lg:block absolute top-1/4 -right-60 w-56 p-4 bg-[#fcf9f8] shadow-[0_20px_50px_rgba(0,0,0,0.8)] border border-[#8c4f10]/40 rotate-6 cursor-pointer z-20 rounded-lg"
-              whileHover={{ y: -6, rotate: 2, scale: 1.05 }}
+              className="hidden lg:block absolute top-1/4 -right-60 w-52 p-3.5 bg-[#fcf9f8] shadow-[0_20px_50px_rgba(0,0,0,0.8)] border border-[#8c4f10]/40 rotate-6 cursor-pointer z-20 rounded-lg"
+              whileHover={{ y: -4, rotate: 2, scale: 1.03 }}
               onClick={() => {
                 sounds.playParchmentUnroll();
                 onSelectLetter({
@@ -113,15 +113,15 @@ const ArchiveVault = ({ letters, onSelectLetter, onOpenScriptorium }) => {
                 <span className="font-mono text-[10px] uppercase text-[#610000] font-bold">Priority Ledger Note</span>
                 <span className="text-[10px]">🏛️</span>
               </div>
-              <p className="font-serif text-xs line-clamp-3 text-[#1b1c1c]">The Alchemist requests a second distilling of the recent correspondence from the western guild...</p>
-              <div className="mt-2.5 pt-2 border-t border-[#8c4f10]/20 flex justify-between font-mono text-[9px] text-[#5a403c]">
+              <p className="font-serif text-xs line-clamp-2 text-[#1b1c1c]">The Alchemist requests a second distilling of the recent correspondence...</p>
+              <div className="mt-2 pt-1.5 border-t border-[#8c4f10]/20 flex justify-between font-mono text-[9px] text-[#5a403c]">
                 <span>PRODUCER: P. RAI</span>
                 <span className="underline">READ MORE →</span>
               </div>
             </motion.div>
 
             {/* Central Archive Jar Container */}
-            <div className="relative w-80 h-80 md:w-96 md:h-96 rounded-full overflow-hidden shadow-[0_30px_90px_-15px_rgba(0,0,0,0.95)] border border-[#ffdcc2]/40 bg-[#1f1c0b] transition-all duration-700 hover:scale-[1.01] hover:border-[#ffdcc2]/70">
+            <div className="relative w-64 h-64 sm:w-80 sm:h-80 rounded-full overflow-hidden shadow-[0_25px_70px_-15px_rgba(0,0,0,0.95)] border border-[#ffdcc2]/40 bg-[#1f1c0b] transition-all duration-700 hover:scale-[1.01] hover:border-[#ffdcc2]/70">
               <img
                 alt="The Archive Jar"
                 className="w-full h-full object-cover filter contrast-[1.1] brightness-[0.9]"
@@ -130,17 +130,17 @@ const ArchiveVault = ({ letters, onSelectLetter, onOpenScriptorium }) => {
               <div className="absolute inset-0 bg-gradient-to-tr from-black/60 via-transparent to-black/30 pointer-events-none"></div>
 
               {/* Live Interactive Letters Floating Inside the Jar Overlay */}
-              <div className="absolute inset-0 flex flex-wrap items-center justify-center gap-3 p-12 overflow-hidden">
+              <div className="absolute inset-0 flex flex-wrap items-center justify-center gap-2.5 p-8 sm:p-10 overflow-hidden">
                 {letters && letters.slice(0, 4).map((letItem, i) => (
                   <motion.div
                     key={letItem.id}
-                    className="w-20 h-14 bg-[#e8d7b9] border border-[#8c4f10] rounded shadow-lg p-1.5 flex flex-col justify-between cursor-pointer"
+                    className="w-18 h-12 sm:w-20 sm:h-13 bg-[#e8d7b9] border border-[#8c4f10] rounded shadow-md p-1.5 flex flex-col justify-between cursor-pointer"
                     animate={{
-                      y: [0, -6, 0],
+                      y: [0, -4, 0],
                       rotate: [-2 + (i * 3), 3 - (i * 2), -2 + (i * 3)]
                     }}
                     transition={{ duration: 3.5 + i, repeat: Infinity, ease: "easeInOut" }}
-                    whileHover={{ scale: 1.2, zIndex: 30, boxShadow: "0 0 20px #ffdcc2" }}
+                    whileHover={{ scale: 1.15, zIndex: 30, boxShadow: "0 0 20px #ffdcc2" }}
                     onClick={(e) => {
                       e.stopPropagation();
                       sounds.playParchmentUnroll();
@@ -148,8 +148,8 @@ const ArchiveVault = ({ letters, onSelectLetter, onOpenScriptorium }) => {
                     }}
                   >
                     <div className="flex justify-between items-center">
-                      <span className="w-3.5 h-3.5 rounded-full flex items-center justify-center border border-black/20" style={{ backgroundColor: letItem.sealColor || "#8b0000" }}>
-                        <span className="w-1.5 h-1.5 rounded-full bg-white/40"></span>
+                      <span className="w-3 h-3 rounded-full flex items-center justify-center border border-black/20" style={{ backgroundColor: letItem.sealColor || "#8b0000" }}>
+                        <span className="w-1 h-1 rounded-full bg-white/40"></span>
                       </span>
                       <span className="text-[8px] font-mono text-[#4c4733] font-bold">#{i + 1}</span>
                     </div>
@@ -159,12 +159,12 @@ const ArchiveVault = ({ letters, onSelectLetter, onOpenScriptorium }) => {
               </div>
             </div>
 
-            {/* Call to Action: Wax Seal Retrieve Button (No Emojis!) */}
-            <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 z-30">
+            {/* Call to Action: Wax Seal Retrieve Button */}
+            <div className="absolute -bottom-7 left-1/2 -translate-x-1/2 z-30">
               <motion.button
                 className="relative group flex flex-col items-center cursor-pointer"
-                whileHover={{ scale: 1.08 }}
-                whileTap={{ scale: 0.95 }}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.96 }}
                 onClick={() => {
                   sounds.playCorkPop();
                   if (letters && letters.length > 0) {
@@ -172,15 +172,15 @@ const ArchiveVault = ({ letters, onSelectLetter, onOpenScriptorium }) => {
                   }
                 }}
               >
-                <div className="w-20 h-20 bg-[#610000] rounded-full flex items-center justify-center shadow-[0_10px_30px_rgba(97,0,0,0.8)] border-2 border-[#ffdad4]/40 overflow-hidden">
+                <div className="w-14 h-14 sm:w-16 sm:h-16 bg-[#610000] rounded-full flex items-center justify-center shadow-[0_8px_25px_rgba(97,0,0,0.8)] border-2 border-[#ffdad4]/40 overflow-hidden">
                   <div className="absolute inset-0 opacity-50 bg-[radial-gradient(circle_at_35%_35%,_transparent_0%,_#000_100%)]"></div>
-                  <svg className="w-8 h-8 text-[#ffdcc2] relative z-10 transition-transform group-hover:rotate-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-6 h-6 text-[#ffdcc2] relative z-10 transition-transform group-hover:rotate-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" />
                   </svg>
                 </div>
-                <div className="mt-2 flex flex-col items-center">
-                  <span className="font-mono text-xs uppercase tracking-[0.25em] text-[#ffb77b] font-bold group-hover:text-[#ffdcc2] transition-colors">
-                    Retrieve a Letter
+                <div className="mt-1 flex flex-col items-center">
+                  <span className="font-mono text-[10px] sm:text-xs uppercase tracking-[0.2em] text-[#ffb77b] font-bold group-hover:text-[#ffdcc2] transition-colors">
+                    Retrieve Letter
                   </span>
                 </div>
               </motion.button>
@@ -189,71 +189,71 @@ const ArchiveVault = ({ letters, onSelectLetter, onOpenScriptorium }) => {
         </div>
       </section>
 
-      {/* Content Grid: Alchemical Stats */}
-      <section className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-24 mb-14 max-w-5xl mx-auto">
+      {/* Content Grid: Alchemical Stats (8-Point Spacing System & 20-24px Card Padding) */}
+      <section className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-5 mt-10 sm:mt-12 mb-8 max-w-5xl mx-auto px-4 sm:px-6">
         {/* Stat Card 1 */}
-        <div className="bg-[#1f1c0b]/90 border border-white/10 p-7 shadow-xl rounded relative overflow-hidden group">
+        <div className="bg-[#1f1c0b]/90 border border-white/10 p-5 sm:p-6 shadow-md rounded-lg relative overflow-hidden group">
           <div className="absolute top-0 left-0 w-full h-1 bg-[#8c4f10] opacity-50 group-hover:opacity-100 transition-opacity"></div>
-          <span className="font-mono text-xs text-[#8c4f10] block mb-3 uppercase tracking-widest font-bold">01 / Volume</span>
-          <h3 className="font-serif text-2xl text-[#ffdcc2] font-semibold mb-2">Stored Echoes</h3>
+          <span className="font-mono text-[11px] text-[#8c4f10] block mb-2 uppercase tracking-widest font-bold">01 / Volume</span>
+          <h3 className="font-serif text-lg sm:text-xl text-[#ffdcc2] font-semibold mb-1.5">Stored Echoes</h3>
           <p className="font-serif text-sm text-[#cec6ad] leading-relaxed">
             {letters ? letters.length + 424 : 427} letters sealed in glass, spanning three generations of the Courier Guild's history.
           </p>
-          <div className="mt-6 flex items-baseline gap-2">
-            <span className="font-serif text-4xl text-[#ffb77b] font-bold">{letters ? letters.length + 424 : 427}</span>
-            <span className="font-mono text-xs text-[#cec6ad]/70 uppercase">Manifested</span>
+          <div className="mt-4 flex items-baseline gap-2">
+            <span className="font-serif text-3xl text-[#ffb77b] font-bold">{letters ? letters.length + 424 : 427}</span>
+            <span className="font-mono text-[11px] text-[#cec6ad]/70 uppercase">Manifested</span>
           </div>
         </div>
 
         {/* Stat Card 2 - Main Feature */}
-        <div className="bg-[#2b1b14] border-2 border-[#ffdcc2]/30 p-7 shadow-2xl rounded relative md:-mt-4 z-10">
+        <div className="bg-[#2b1b14] border border-[#ffdcc2]/30 p-5 sm:p-6 shadow-lg rounded-lg relative md:-mt-2 z-10">
           <div className="absolute top-4 right-4">
-            <svg className="w-8 h-8 text-[#ffdcc2]/30" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-6 h-6 text-[#ffdcc2]/30" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M12 62v16m8-8H4" />
             </svg>
           </div>
-          <span className="font-mono text-xs text-[#ffb77b] block mb-3 uppercase tracking-widest font-bold">02 / Integrity</span>
-          <h3 className="font-serif text-2xl text-[#ffdcc2] font-semibold mb-2">Vacuum Sealed</h3>
+          <span className="font-mono text-[11px] text-[#ffb77b] block mb-2 uppercase tracking-widest font-bold">02 / Integrity</span>
+          <h3 className="font-serif text-lg sm:text-xl text-[#ffdcc2] font-semibold mb-1.5">Vacuum Sealed</h3>
           <p className="font-serif text-sm text-[#cec6ad] leading-relaxed">
             Using proprietary alchemical glass, every ink stroke is protected from the ravages of oxidation and time.
           </p>
           <button
-            className="mt-6 group flex items-center gap-2 text-xs uppercase font-mono tracking-wider font-bold text-[#ffdcc2] hover:text-white transition-all"
+            className="mt-4 group flex items-center gap-1.5 text-xs uppercase font-mono tracking-wider font-bold text-[#ffdcc2] hover:text-white transition-all"
             onClick={() => {
               sounds.playQuillWrite();
               onOpenScriptorium();
             }}
           >
             <span className="border-b border-[#ffdcc2]/40 group-hover:border-white">Write New Codice</span>
-            <svg className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-3.5 h-3.5 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
             </svg>
           </button>
         </div>
 
         {/* Stat Card 3 */}
-        <div className="bg-[#1f1c0b]/90 border border-white/10 p-7 shadow-xl rounded relative overflow-hidden group">
+        <div className="bg-[#1f1c0b]/90 border border-white/10 p-5 sm:p-6 shadow-md rounded-lg relative overflow-hidden group">
           <div className="absolute top-0 right-0 w-full h-1 bg-[#8c4f10] opacity-50 group-hover:opacity-100 transition-opacity"></div>
-          <span className="font-mono text-xs text-[#8c4f10] block mb-3 uppercase tracking-widest font-bold">03 / Delivery</span>
-          <h3 className="font-serif text-2xl text-[#ffdcc2] font-semibold mb-2">Swift Release</h3>
+          <span className="font-mono text-[11px] text-[#8c4f10] block mb-2 uppercase tracking-widest font-bold">03 / Delivery</span>
+          <h3 className="font-serif text-lg sm:text-xl text-[#ffdcc2] font-semibold mb-1.5">Swift Release</h3>
           <p className="font-serif text-sm text-[#cec6ad] leading-relaxed">
             The seal breaks only when the correct ledger key is applied. Instant retrieval for authorized guild members.
           </p>
-          <div className="mt-6 flex items-baseline gap-2">
-            <span className="font-serif text-4xl text-[#ffb77b] font-bold">0.4s</span>
-            <span className="font-mono text-xs text-[#cec6ad]/70 uppercase">Decanting Rate</span>
+          <div className="mt-4 flex items-baseline gap-2">
+            <span className="font-serif text-3xl text-[#ffb77b] font-bold">0.4s</span>
+            <span className="font-mono text-[11px] text-[#cec6ad]/70 uppercase">Decanting Rate</span>
           </div>
         </div>
       </section>
 
-      {/* Recent Entries List (The Desktop Ledger) */}
-      <section className="bg-[#1f1c0b]/95 border border-[#8c4f10]/30 p-8 md:p-10 rounded shadow-2xl max-w-5xl mx-auto mb-16">
-        <div className="flex flex-col md:flex-row items-start md:items-end justify-between mb-6 border-b border-[#8c4f10]/30 pb-5 gap-4">
+      {/* Recent Entries List (High-Density Linear/Notion Style Table Rows) */}
+      <section className="bg-[#1f1c0b]/95 border border-[#8c4f10]/30 p-5 sm:p-6 md:p-8 rounded-lg shadow-xl max-w-5xl mx-auto mb-10 mx-4 sm:mx-auto">
+        <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between mb-4 border-b border-[#8c4f10]/30 pb-3 gap-3">
           <div>
-            <h2 className="font-serif text-3xl text-[#ffdcc2] font-bold">Recent Decantations</h2>
-            <p className="font-mono text-xs text-[#cec6ad] uppercase tracking-widest mt-1">The Latest Whispers Pulled from the Glass</p>
+            <h2 className="font-serif text-xl sm:text-2xl text-[#ffdcc2] font-bold">Recent Decantations</h2>
+            <p className="font-mono text-[11px] text-[#cec6ad] uppercase tracking-wider mt-0.5">The Latest Whispers Pulled from the Glass</p>
           </div>
-          <div className="flex flex-wrap items-center gap-2">
+          <div className="flex flex-wrap items-center gap-1.5">
             {[
               { id: "all", label: "All Seals", color: "#8c4f10" },
               { id: "#610000", label: "Crimson", color: "#610000" },
@@ -267,13 +267,13 @@ const ArchiveVault = ({ letters, onSelectLetter, onOpenScriptorium }) => {
                   sounds.playWaxSeal();
                   setFilterSeal(seal.id);
                 }}
-                className={`px-3 py-1 font-mono text-xs rounded-full border transition-all flex items-center gap-1.5 ${
+                className={`px-2.5 py-1 font-mono text-[11px] rounded-md border transition-all flex items-center gap-1.5 ${
                   filterSeal === seal.id
-                    ? "bg-[#ffdcc2] text-[#1f1c0b] font-bold border-[#ffdcc2] shadow-md scale-105"
+                    ? "bg-[#ffdcc2] text-[#1f1c0b] font-bold border-[#ffdcc2] shadow-sm scale-102"
                     : "bg-black/30 text-[#cec6ad] border-[#8c4f10]/40 hover:border-[#ffdcc2]/60"
                 }`}
               >
-                <span className="w-2.5 h-2.5 rounded-full inline-block border border-white/20" style={{ backgroundColor: seal.color }}></span>
+                <span className="w-2 h-2 rounded-full inline-block border border-white/20" style={{ backgroundColor: seal.color }}></span>
                 {seal.label}
               </button>
             ))}
@@ -286,25 +286,25 @@ const ArchiveVault = ({ letters, onSelectLetter, onOpenScriptorium }) => {
             .map((l, index) => (
             <div
               key={l.id}
-              className="flex items-center gap-6 group cursor-pointer py-6 hover:bg-[#2b1b14]/60 px-4 rounded transition-all"
+              className="flex items-center gap-3 sm:gap-4 group cursor-pointer py-3 sm:py-3.5 hover:bg-[#2b1b14]/60 px-3 sm:px-4 rounded transition-all"
               onClick={() => {
                 sounds.playParchmentUnroll();
                 onSelectLetter(l);
               }}
             >
-              <div className="w-14 h-14 bg-[#fcf9f8] text-[#610000] font-serif text-xl flex items-center justify-center font-bold border-2 border-[#8c4f10]/40 rounded shadow-sm group-hover:border-[#610000]">
+              <div className="w-10 h-10 sm:w-11 sm:h-11 bg-[#fcf9f8] text-[#610000] font-serif text-base sm:text-lg flex items-center justify-center font-bold border border-[#8c4f10]/40 rounded shadow-sm group-hover:border-[#610000] flex-shrink-0">
                 {index + 1}
               </div>
-              <div className="flex-grow">
-                <h4 className="font-serif text-xl text-[#ffdcc2] font-semibold group-hover:text-white transition-colors">{l.title}</h4>
-                <p className="font-serif text-sm text-[#cec6ad] italic mt-1">{l.sender} → {l.recipient || "All Wayfarers"} • {l.date}</p>
+              <div className="flex-grow min-w-0">
+                <h4 className="font-serif text-base sm:text-lg text-[#ffdcc2] font-semibold group-hover:text-white transition-colors truncate">{l.title}</h4>
+                <p className="font-serif text-xs sm:text-[13px] text-[#cec6ad] italic mt-0.5 truncate">{l.sender} → {l.recipient || "All Wayfarers"} • {l.date}</p>
               </div>
-              <div className="hidden sm:block">
-                <span className="font-mono text-[10px] px-3 py-1 bg-[#8c4f10]/20 text-[#ffb77b] border border-[#8c4f10]/40 rounded-full font-bold tracking-wider">
+              <div className="hidden md:block flex-shrink-0">
+                <span className="font-mono text-[10px] px-2.5 py-0.5 bg-[#8c4f10]/20 text-[#ffb77b] border border-[#8c4f10]/40 rounded font-bold tracking-wider">
                   SEAL: {l.sealColor ? "CUSTOM WAX" : "IMPERIAL"}
                 </span>
               </div>
-              <svg className="w-5 h-5 text-[#ffb77b] group-hover:translate-x-1 transition-transform flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-4 h-4 text-[#ffb77b] group-hover:translate-x-1 transition-transform flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
               </svg>
             </div>
@@ -313,7 +313,7 @@ const ArchiveVault = ({ letters, onSelectLetter, onOpenScriptorium }) => {
           {recentDecantations.map((dec) => (
             <div
               key={dec.id}
-              className="flex items-center gap-6 group cursor-pointer py-6 hover:bg-[#2b1b14]/60 px-4 rounded transition-all"
+              className="flex items-center gap-3 sm:gap-4 group cursor-pointer py-3 sm:py-3.5 hover:bg-[#2b1b14]/60 px-3 sm:px-4 rounded transition-all"
               onClick={() => {
                 sounds.playParchmentUnroll();
                 onSelectLetter({
@@ -328,19 +328,19 @@ const ArchiveVault = ({ letters, onSelectLetter, onOpenScriptorium }) => {
                 });
               }}
             >
-              <div className="w-14 h-14 bg-[#fcf9f8] text-[#8c4f10] font-serif text-2xl flex items-center justify-center font-bold border-2 border-[#8c4f10]/30 rounded shadow-sm group-hover:border-[#8c4f10]">
+              <div className="w-10 h-10 sm:w-11 sm:h-11 bg-[#fcf9f8] text-[#8c4f10] font-serif text-base sm:text-lg flex items-center justify-center font-bold border border-[#8c4f10]/30 rounded shadow-sm group-hover:border-[#8c4f10] flex-shrink-0">
                 {dec.roman}
               </div>
-              <div className="flex-grow">
-                <h4 className="font-serif text-xl text-[#ffdcc2] font-semibold group-hover:text-white transition-colors">{dec.title}</h4>
-                <p className="font-serif text-sm text-[#cec6ad] italic mt-1">{dec.sender}</p>
+              <div className="flex-grow min-w-0">
+                <h4 className="font-serif text-base sm:text-lg text-[#ffdcc2] font-semibold group-hover:text-white transition-colors truncate">{dec.title}</h4>
+                <p className="font-serif text-xs sm:text-[13px] text-[#cec6ad] italic mt-0.5 truncate">{dec.sender}</p>
               </div>
-              <div className="hidden sm:block">
-                <span className={`font-mono text-[10px] px-3 py-1 border rounded-full font-bold tracking-wider ${dec.badgeColor}`}>
+              <div className="hidden md:block flex-shrink-0">
+                <span className={`font-mono text-[10px] px-2.5 py-0.5 border rounded font-bold tracking-wider ${dec.badgeColor}`}>
                   {dec.badge}
                 </span>
               </div>
-              <svg className="w-5 h-5 text-[#ffb77b] group-hover:translate-x-1 transition-transform flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-4 h-4 text-[#ffb77b] group-hover:translate-x-1 transition-transform flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
               </svg>
             </div>

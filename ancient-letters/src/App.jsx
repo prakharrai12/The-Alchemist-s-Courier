@@ -457,8 +457,8 @@ function App() {
       />
 
       {/* Main Content Area */}
-      <main className="main-stage pt-24 pb-16">
-        <DustParticles count={28} />
+      <main className="main-stage pt-28 pb-12">
+        <DustParticles count={24} />
 
         <AnimatePresence mode="wait">
           {/* TAB 1: THE ARCHIVE */}
@@ -574,37 +574,29 @@ function App() {
         onMouseEnter={() => setIsFooterHidden(false)}
       />
 
-      {/* Footer Calligraphy (No Emojis!) */}
+      {/* COMPACT 48px DESK FOOTER */}
       <footer
-        className={`w-full py-8 sm:py-10 bg-[#302c1a] text-[#ebe2c8] border-t-4 border-[#8c4f10] shadow-[inner_0_4px_20px_rgba(0,0,0,0.6)] z-40 transition-transform duration-500 ease-in-out ${
+        className={`w-full bg-[#1f1c0b] text-[#ebe2c8] border-t border-[#8c4f10]/40 shadow-inner z-40 transition-transform duration-500 ease-in-out ${
           isFooterHidden ? "translate-y-full" : "translate-y-0"
         }`}
       >
-        <div className="max-w-7xl mx-auto px-4 md:px-8 flex flex-col md:flex-row items-center justify-between gap-6">
-          <div className="flex items-center gap-3 text-center md:text-left">
-            <div className="w-9 h-9 rounded-full border-2 border-[#8c4f10] overflow-hidden flex-shrink-0 bg-[#610000] mx-auto md:mx-0">
-              <img
-                alt="Footer Seal"
-                src="https://images.unsplash.com/photo-1513519245088-0e12902e5a38?q=80&w=150&auto=format&fit=crop"
-                className="w-full h-full object-cover"
-              />
-            </div>
-            <div>
-              <p className="font-mono text-xs uppercase tracking-[0.2em] font-bold text-white">
-                © 1894–2026 Prakhar Rai • Lead Developer & Producer
-              </p>
-              <p className="font-serif text-[11px] text-[#cec6ad] italic">
-                All Rights Reserved • {isConnected ? "Live Alchemical Relay Connected" : "Local Chamber Mode"}
-              </p>
-            </div>
+        <div className="max-w-7xl mx-auto px-4 md:px-8 py-2 md:py-0 min-h-[40px] md:h-12 flex flex-col md:flex-row items-center justify-between gap-2 md:gap-4 font-mono text-[11px] sm:text-xs">
+          <div className="flex items-center gap-2 text-[#cec6ad] truncate">
+            <span className="w-2 h-2 rounded-full bg-[#8c4f10] inline-block flex-shrink-0"></span>
+            <span className="font-bold text-white tracking-wider">© 1894–2026 Prakhar Rai</span>
+            <span className="hidden sm:inline text-[#8c4f10]">•</span>
+            <span className="hidden sm:inline italic text-[#cec6ad]/80">Lead Producer & Developer</span>
+            <span className="hidden lg:inline text-[#8c4f10]">•</span>
+            <span className="hidden lg:inline text-[#cec6ad]/70">{isConnected ? "Alchemical Relay Connected" : "Local Chamber Mode"}</span>
           </div>
-          <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6 font-mono text-xs uppercase tracking-widest text-[#cec6ad]">
+
+          <div className="flex items-center gap-4 text-[#cec6ad] uppercase tracking-wider font-semibold flex-shrink-0">
             <button
               onClick={() => {
                 sounds.playCorkPop();
                 setShowShareModal(true);
               }}
-              className="hover:text-[#ffb77b] transition-colors font-bold text-[#ffdcc2]"
+              className="hover:text-[#ffb77b] transition-colors"
             >
               + Add People
             </button>
@@ -613,18 +605,18 @@ function App() {
                 sounds.playParchmentUnroll();
                 setShowGuildManual(true);
               }}
-              className="hover:text-[#ffb77b] transition-colors font-bold text-[#ffdcc2]"
+              className="hover:text-[#ffb77b] transition-colors"
             >
-              ❓ Help Manual
+              Manual
             </button>
             <button
               onClick={() => {
                 sounds.playWaxSeal();
                 setShowProducerCredits(true);
               }}
-              className="hover:text-[#ffb77b] transition-colors font-bold text-[#ffdcc2]"
+              className="hover:text-[#ffb77b] transition-colors"
             >
-              🏛️ Producer & Rights
+              Producer
             </button>
             <a
               href="#"
@@ -632,9 +624,9 @@ function App() {
                 e.preventDefault();
                 alert("Producer Contact & UPI VPA: 7982421223@fam • Direct Dispatch Spitalfields.");
               }}
-              className="hover:text-[#ffdcc2]"
+              className="hover:text-[#ffdcc2] text-[#ffb77b]"
             >
-              Contact & UPI
+              UPI: 7982421223@fam
             </a>
           </div>
         </div>
