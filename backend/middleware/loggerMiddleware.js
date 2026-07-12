@@ -1,8 +1,10 @@
+import { logger } from "../utils/logger.js";
+
 export function loggerMiddleware(req, res, next) {
   const start = Date.now();
   res.on("finish", () => {
     const duration = Date.now() - start;
-    console.log(`📜 [${req.method}] ${req.originalUrl} -> Status: ${res.statusCode} (${duration}ms)`);
+    logger.info(`[${req.method}] ${req.originalUrl} -> Status: ${res.statusCode} (${duration}ms)`);
   });
   next();
 }
