@@ -7,6 +7,8 @@ import "./App.css";
 import GuildSidebar from "./components/GuildSidebar";
 import GlobalSearchModal from "./components/GlobalSearchModal";
 import NotificationCenter from "./components/NotificationCenter";
+import SettingsChamber from "./components/SettingsChamber";
+import SupportGuild from "./components/SupportGuild";
 import ArchiveVault from "./components/ArchiveVault";
 import Scriptorium from "./components/Scriptorium";
 import FleetLogistics from "./components/FleetLogistics";
@@ -155,6 +157,9 @@ function App() {
   const [showShareModal, setShowShareModal] = useState(false);
   const [showSearchModal, setShowSearchModal] = useState(false);
   const [showNotificationCenter, setShowNotificationCenter] = useState(false);
+  const [showSettingsChamber, setShowSettingsChamber] = useState(false);
+  const [showSupportHub, setShowSupportHub] = useState(false);
+  const [supportTab, setSupportTab] = useState("guide");
   const [notifications, setNotifications] = useState([
     {
       id: "notif-1",
@@ -498,9 +503,11 @@ function App() {
         onOpenGoldExchange={() => setShowGoldExchange(true)}
         onOpenAuth={() => setShowAuthModal(true)}
         onOpenProfile={() => setShowProfileCustomizer(true)}
-        onOpenShare={() => setShowShareModal(true)}
-        onOpenManual={() => setShowGuildManual(true)}
-        onOpenProducerCredits={() => setShowProducerCredits(true)}
+        onOpenShare={() => { setSupportTab("referral"); setShowSupportHub(true); }}
+        onOpenManual={() => { setSupportTab("guide"); setShowSupportHub(true); }}
+        onOpenProducerCredits={() => { setSupportTab("credits"); setShowSupportHub(true); }}
+        onOpenSettings={() => setShowSettingsChamber(true)}
+        onOpenSupportHub={(tab = "guide") => { setSupportTab(tab); setShowSupportHub(true); }}
         onOpenSearch={() => setShowSearchModal(true)}
         onOpenNotifications={() => setShowNotificationCenter(true)}
         notificationCount={notifications.filter((n) => !n.read).length}
@@ -789,6 +796,21 @@ function App() {
             else if (n.category === "security") setCurrentTab("secret");
             setShowNotificationCenter(false);
           }}
+        />
+
+        <SettingsChamber
+          isOpen={showSettingsChamber}
+          onClose={() => setShowSettingsChamber(false)}
+          persona={persona}
+          onSavePersona={(updated) => setPersona(updated)}
+        />
+
+        <SupportGuild
+          isOpen={showSupportHub}
+          onClose={() => setShowSupportHub(false)}
+          initialTab={supportTab}
+          persona={persona}
+          onClaimReferral={handleClaimReferralReward}
         />
       </AnimatePresence>
     </div>

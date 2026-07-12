@@ -15,6 +15,8 @@ const GuildSidebar = ({
   onOpenProducerCredits,
   onOpenSearch,
   onOpenNotifications,
+  onOpenSettings,
+  onOpenSupportHub,
   notificationCount = 0,
   isCollapsed,
   setIsCollapsed,
@@ -573,6 +575,15 @@ const GuildSidebar = ({
                 <div className="px-3 pb-3 pt-1 space-y-1.5 text-xs font-serif border-t border-[#8c4f10]/20 bg-[#1b180a]/80">
                   <button
                     onClick={() => {
+                      sounds.playCorkPop();
+                      if (onOpenSettings) onOpenSettings();
+                    }}
+                    className="w-full min-h-[38px] px-2 py-1.5 text-left rounded hover:bg-[#302c1a] flex items-center gap-2 text-[#ffb77b] font-bold"
+                  >
+                    <span>⚙️</span> Chamber Settings (10 Realms)
+                  </button>
+                  <button
+                    onClick={() => {
                       sounds.playParchmentUnroll();
                       if (onOpenProfile) onOpenProfile();
                     }}
@@ -613,6 +624,16 @@ const GuildSidebar = ({
               </button>
               {openSections.support && (!isCollapsed || isMobile) && (
                 <div className="px-3 pb-3 pt-1 space-y-1.5 text-xs font-serif border-t border-[#8c4f10]/20 bg-[#1b180a]/80">
+                  <button
+                    onClick={() => {
+                      sounds.playCorkPop();
+                      if (onOpenSupportHub) onOpenSupportHub("patronage");
+                      else if (onOpenProducerCredits) onOpenProducerCredits();
+                    }}
+                    className="w-full min-h-[38px] px-2 py-1.5 text-left rounded hover:bg-[#302c1a] flex items-center gap-2 text-green-400 font-bold"
+                  >
+                    <span>🪙</span> Support & UPI Payment Gateway
+                  </button>
                   <button
                     onClick={() => {
                       sounds.playCorkPop();
