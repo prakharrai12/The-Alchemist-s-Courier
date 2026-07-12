@@ -198,6 +198,26 @@
         "loyal_courier",
         "alchemist_ally"
       ]
+    },
+    {
+      "id": "u_1783830025203",
+      "email": "test.courier@alchemist.org",
+      "password": "password123",
+      "name": "Test Courier",
+      "title": "Apprentice Courier",
+      "rank": "Third-Class Dispatcher",
+      "prestige": 150,
+      "goldSovereigns": 1000,
+      "avatarUrl": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=600&auto=format&fit=crop",
+      "memberSince": "2026",
+      "waxColor": "#8c4f10",
+      "crest": "shield",
+      "unlockedCiphers": [
+        "1894-A"
+      ],
+      "unlockedAchievements": [
+        "loyal_courier"
+      ]
     }
   ],
   "ciphers": [
