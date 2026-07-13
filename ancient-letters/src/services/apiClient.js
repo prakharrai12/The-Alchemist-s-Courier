@@ -1,7 +1,39 @@
-// WYRMVAULT — §9 Safe API Client with In-World Error Handling
+// WYRMVAULT — §9 Safe API Client with Automatic Signet Token Authorization & In-World Error Handling
 export async function safeFetchJson(url, options = {}) {
   try {
-    const res = await fetch(url, options);
+    // Automatically retrieve or forge fallback Guild Signet Token
+    let token = localStorage.getItem("wyrmvault_token");
+    if (!token) {
+      const savedUser = localStorage.getItem("wyrmvault_user");
+      if (savedUser) {
+        try {
+          const u = JSON.parse(savedUser);
+          if (u && (u.id || u.email || u.username)) {
+            token = "alchemist_token_" + (u.id || u.email || u.username);
+            localStorage.setItem("wyrmvault_token", token);
+          }
+        } catch (e) {
+          // ignore parse errors
+        }
+      }
+    }
+
+    // Ensure headers exist and attach Authorization Signet Token if not manually overridden
+    const headers = {
+      "Content-Type": "application/json",
+      ...(options.headers || {})
+    };
+
+    if (token && !headers["Authorization"] && !headers["authorization"]) {
+      headers["Authorization"] = `Bearer ${token}`;
+    }
+
+    const updatedOptions = {
+      ...options,
+      headers
+    };
+
+    const res = await fetch(url, updatedOptions);
     const contentType = res.headers.get("content-type") || "";
 
     // Check if the response contains JSON

@@ -46,8 +46,10 @@ export function AuthChamber({ onLoginSuccess }) {
       id: "guest-" + Math.floor(Math.random() * 8999 + 1000),
       username: "Arch-Breaker " + Math.floor(Math.random() * 89 + 10)
     };
+    const guestToken = "alchemist_token_" + guestUser.id;
     localStorage.setItem("wyrmvault_user", JSON.stringify(guestUser));
-    onLoginSuccess(guestUser, null);
+    localStorage.setItem("wyrmvault_token", guestToken);
+    onLoginSuccess(guestUser, guestToken);
   };
 
   return (

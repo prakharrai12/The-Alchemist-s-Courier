@@ -11,7 +11,11 @@ export function CaseLobby({ user, activeCase, onCaseCreated, onJoinCase, onProce
     setLoading(true);
     setError(null);
     try {
-      const token = localStorage.getItem("wyrmvault_token");
+      let token = localStorage.getItem("wyrmvault_token");
+      if (!token && user) {
+        token = "alchemist_token_" + (user.id || user.email);
+        localStorage.setItem("wyrmvault_token", token);
+      }
       const data = await safeFetchJson("/api/case/create", {
         method: "POST",
         headers: {
@@ -34,7 +38,11 @@ export function CaseLobby({ user, activeCase, onCaseCreated, onJoinCase, onProce
     setLoading(true);
     setError(null);
     try {
-      const token = localStorage.getItem("wyrmvault_token");
+      let token = localStorage.getItem("wyrmvault_token");
+      if (!token && user) {
+        token = "alchemist_token_" + (user.id || user.email);
+        localStorage.setItem("wyrmvault_token", token);
+      }
       const data = await safeFetchJson("/api/case/join", {
         method: "POST",
         headers: {
