@@ -1,0 +1,168 @@
+/* ==========================================================================
+   WYRMVAULT — DESIGN TOKENS (§9 Canonical Visual & UI System)
+   Strict 4px scale, two typefaces only, tactile Obsidian/Stone/Parchment palette.
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800&family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+:root {
+  /* --- §9 Strict 4px Spacing Grid Scale --- */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-20: 80px;
+
+  /* --- §9 Two Typefaces Only --- */
+  --font-display: 'Cinzel', serif;
+  --font-ui: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+
+  /* --- §9 Tactile Obsidian & Stone Palette (No Glassmorphism / No Blob Gradients) --- */
+  --vault-bg: #12110e;        /* Deep stone dungeon base */
+  --stone-card: #1c1a16;      /* Carved stone container */
+  --stone-surface: #26231e;   /* Raised stone button/panel */
+  --stone-border: #38332a;    /* Chiseled border */
+  --stone-hover: #322d25;     /* Hover state */
+
+  --parchment-text: #c8b896;  /* High-contrast readable ink */
+  --parchment-light: #e6dec8; /* Header parchment highlight */
+  --parchment-muted: #8c8069; /* Subtitle shadow */
+
+  --wyrm-fire: #8c2020;       /* Wyrm's Breath danger alert */
+  --wyrm-flame: #d93838;      /* Active crimson burn */
+  --wyrm-glow: rgba(217, 56, 56, 0.35);
+
+  --gilded-signet: #d4af37;   /* Active selection / victory foil */
+  --gilded-bright: #f0cc5d;   /* Gilded button hover */
+
+  /* --- Tactile Stone Radii & Shadows --- */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-full: 9999px;
+
+  --shadow-stone: 0 4px 12px rgba(0, 0, 0, 0.55);
+  --shadow-vault: 0 12px 32px rgba(0, 0, 0, 0.75);
+  --shadow-signet: 0 4px 16px rgba(212, 175, 55, 0.25);
+
+  /* --- Touch Target Enforcement (WCAG AA) --- */
+  --touch-target-min: 44px;
+}
+
+/* ==========================================================================
+   GLOBAL ARCHITECTURAL BASE & RESET
+   ========================================================================== */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--vault-bg);
+  color: var(--parchment-text);
+  font-family: var(--font-ui);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4, .font-display {
+  font-family: var(--font-display);
+  color: var(--parchment-light);
+  font-weight: 700;
+  letter-spacing: 0.03em;
+}
+
+code, pre, .font-mono {
+  font-family: var(--font-mono);
+}
+
+button, a, input, select {
+  font-family: var(--font-ui);
+}
+
+button, .btn-stone {
+  min-height: var(--touch-target-min);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-4);
+  background-color: var(--stone-surface);
+  color: var(--parchment-light);
+  border: 1px solid var(--stone-border);
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+button:hover, .btn-stone:hover {
+  background-color: var(--stone-hover);
+  border-color: var(--gilded-signet);
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Primary Gilded Signet Button */
+.btn-gilded {
+  background: linear-gradient(135deg, var(--gilded-signet), #a8831e);
+  color: #12110e !important;
+  border: 1px solid var(--gilded-bright);
+  font-weight: 700;
+  box-shadow: var(--shadow-signet);
+}
+
+.btn-gilded:hover:not(:disabled) {
+  background: linear-gradient(135deg, var(--gilded-bright), var(--gilded-signet));
+  transform: translateY(-1px);
+}
+
+/* Crimson Danger Button */
+.btn-crimson {
+  background-color: var(--wyrm-fire);
+  color: var(--parchment-light);
+  border: 1px solid var(--wyrm-flame);
+}
+
+.btn-crimson:hover:not(:disabled) {
+  background-color: var(--wyrm-flame);
+  box-shadow: 0 0 16px var(--wyrm-glow);
+}
+
+/* Card Containers */
+.stone-panel {
+  background-color: var(--stone-card);
+  border: 1px solid var(--stone-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  box-shadow: var(--shadow-stone);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--vault-bg);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--stone-border);
+  border-radius: var(--radius-sm);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--gilded-signet);
+}

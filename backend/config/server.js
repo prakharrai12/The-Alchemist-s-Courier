@@ -6,7 +6,7 @@ import cors from "cors";
 import authRoutes from "../routes/authRoutes.js";
 import cipherRoutes from "../routes/cipherRoutes.js";
 import letterRoutes from "../routes/letterRoutes.js";
-import paymentRoutes from "../routes/paymentRoutes.js";
+import caseRoutes from "../routes/caseRoutes.js";
 import apiDocsRoutes from "../routes/apiDocs.js";
 import { loggerMiddleware } from "../middleware/loggerMiddleware.js";
 import { errorMiddleware } from "../middleware/errorMiddleware.js";
@@ -39,7 +39,7 @@ export function createServerApp() {
   app.use("/api", authRoutes);
   app.use("/api", cipherRoutes);
   app.use("/api", letterRoutes);
-  app.use("/api", paymentRoutes);
+  app.use("/api", caseRoutes);
   app.use("/api", apiDocsRoutes);
 
   // Error Handler

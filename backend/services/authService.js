@@ -1,21 +1,21 @@
 import { UserRepository } from "../repositories/userRepository.js";
 
 export class AuthService {
-  static loginOrRegister(email, password) {
+  static loginOrRegister(email, password, username) {
     if (!email) {
-      throw { status: 400, message: "Email is required to access the Guild Ledger." };
+      throw { status: 400, message: "Email is required to enter the Wyrmvault." };
     }
 
     let user = UserRepository.findByIdOrEmail(email);
 
     if (!user) {
-      user = UserRepository.create({ email, password: password || "guild1894" });
+      user = UserRepository.create({
+        email,
+        username: username || email.split("@")[0] || "Vault-Breaker",
+        password: password || "wyrmvault1894"
+      });
     } else if (password && user.password && user.password !== password) {
-      throw { status: 401, message: "Invalid password for this Guild credentials." };
-    }
-
-    if (typeof user.goldSovereigns !== "number") {
-      user = UserRepository.update(user.id, { goldSovereigns: 1000 });
+      throw { status: 401, message: "Invalid signet password for these credentials." };
     }
 
     return {
@@ -27,7 +27,7 @@ export class AuthService {
   static getProfile(userId) {
     const user = UserRepository.findByIdOrEmail(userId);
     if (!user) {
-      throw { status: 404, message: "Guild member not found in the Ledger." };
+      throw { status: 404, message: "Codebreaker not found in vault registry." };
     }
     return user;
   }
@@ -35,33 +35,8 @@ export class AuthService {
   static updateProfile(userId, updates) {
     const user = UserRepository.update(userId, updates);
     if (!user) {
-      throw { status: 404, message: "Guild member not found." };
+      throw { status: 404, message: "Codebreaker not found." };
     }
     return user;
-  }
-
-  static processGoldTransaction(userId, amount, reason) {
-    const user = UserRepository.findByIdOrEmail(userId);
-    if (!user) {
-      throw { status: 404, message: "Guild member not found." };
-    }
-
-    if (amount < 0 && user.goldSovereigns + amount < 0) {
-      throw { status: 400, message: "Insufficient Gold Sovereigns in Exchequer." };
-    }
-
-    const newGold = Math.max(0, user.goldSovereigns + amount);
-    const newPrestige = amount > 0 ? (user.prestige || 0) + Math.floor(amount / 5) : (user.prestige || 0);
-
-    const updated = UserRepository.update(user.id, {
-      goldSovereigns: newGold,
-      prestige: newPrestige
-    });
-
-    return {
-      goldSovereigns: updated.goldSovereigns,
-      prestige: updated.prestige,
-      reason
-    };
   }
 }

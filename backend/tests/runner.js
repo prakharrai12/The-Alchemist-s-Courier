@@ -11,8 +11,9 @@ console.log("===================================================================
 
 const testFiles = [
   "auth.test.js",
-  "payment.test.js",
-  "ops.test.js"
+  "wyrmvault.test.js",
+  "ops.test.js",
+  "persona.test.js"
 ];
 
 let passCount = 0;

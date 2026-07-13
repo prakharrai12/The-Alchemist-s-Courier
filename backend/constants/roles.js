@@ -1,14 +1,34 @@
-export const GUILD_ROLES = {
-  ADMIN: "ADMIN",
-  HIGH_ALCHEMIST: "HIGH_ALCHEMIST",
-  SENIOR_DISPATCHER: "SENIOR_DISPATCHER",
-  FIRST_CLASS_COURIER: "FIRST_CLASS_COURIER",
-  APPRENTICE: "APPRENTICE"
-};
+// WYRMVAULT — §5 Backend Canonical Role Definitions (Server Source of Truth)
 
-export const GUILD_RANKS = {
-  HIGH_ALCHEMIST: { prestige: 900, title: "Grand Scriptorium Archivist", minGold: 2000 },
-  SENIOR_DISPATCHER: { prestige: 700, title: "Senior Dispatcher", minGold: 1000 },
-  FIRST_CLASS_COURIER: { prestige: 400, title: "First-Class Courier", minGold: 500 },
-  APPRENTICE: { prestige: 0, title: "Apprentice Courier", minGold: 0 }
-};
+export const CANONICAL_ROLES = [
+  {
+    id: "THE_ARCHIVIST",
+    name: "The Archivist",
+    powerName: "Reveal Cipher Type"
+  },
+  {
+    id: "THE_CRYPTANALYST",
+    name: "The Cryptanalyst",
+    powerName: "Frequency Scan"
+  },
+  {
+    id: "THE_SCRIBE",
+    name: "The Scribe",
+    powerName: "Partial Decipher"
+  },
+  {
+    id: "THE_SCOUT",
+    name: "The Scout",
+    powerName: "Chamber Ward"
+  },
+  {
+    id: "THE_ALCHEMIST",
+    name: "The Alchemist",
+    powerName: "Solvent Wash"
+  },
+  {
+    id: "THE_WARDEN",
+    name: "The Warden",
+    powerName: "Breath Suppression"
+  }
+];
