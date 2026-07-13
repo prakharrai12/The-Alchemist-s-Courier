@@ -5,7 +5,7 @@ import { EvidenceWall } from "./EvidenceWall.jsx";
 
 export function ChamberHub({ user, activeCase, onUsePower, onSolveLetter, onUseWhisper, onProceedToVerdict }) {
   const [selectedLetter, setSelectedLetter] = useState(null);
-  const [activeTab, setActiveTab] = useState("BENCH"); // BENCH or WALL
+  const [showBenchModal, setShowBenchModal] = useState(false);
   const [powerLoading, setPowerLoading] = useState(false);
   const [powerAlert, setPowerAlert] = useState(null);
 
@@ -60,192 +60,265 @@ export function ChamberHub({ user, activeCase, onUsePower, onSolveLetter, onUseW
 
   const isDangerLevel = wyrmsBreath >= 70;
 
+  // Canonical 4–6 player card display (ensuring at least 4 radial cards match the mockup visual)
+  const canonicalSlots = [
+    { name: players[0]?.username || "Player Clazs", role: players[0]?.role || "THE_ARCHIVIST", hp: "350/130", avatar: "🧙‍♂️", icon: "🧿" },
+    { name: players[1]?.username || "Player Clazs", role: players[1]?.role || "THE_SCOUT", hp: "250/150", avatar: "🛡️", icon: "🧭" },
+    { name: players[2]?.username || "Player Clazs", role: players[2]?.role || "THE_ALCHEMIST", hp: "250/150", avatar: "🧝‍♀️", icon: "⚗️" },
+    { name: players[3]?.username || "Player Clazs", role: players[3]?.role || "THE_WARDEN", hp: "150/150", avatar: "🧝‍♂️", icon: "⚔️" }
+  ];
+
   return (
-    <div style={{ maxWidth: "1600px", margin: "0 auto", padding: "var(--space-6) var(--space-4)" }}>
-      {/* --- §7 TOP BAR: Wyrm's Breath Authoritative Tension Meter --- */}
-      <motion.div
-        animate={isDangerLevel ? { borderColor: ["#8c2020", "#d93838", "#8c2020"] } : {}}
-        transition={{ duration: 1.5, repeat: Infinity }}
-        className="stone-panel"
-        style={{
-          marginBottom: "var(--space-6)",
-          padding: "var(--space-4) var(--space-6)",
-          backgroundColor: isDangerLevel ? "rgba(140, 32, 32, 0.15)" : "var(--stone-card)",
-          border: isDangerLevel ? "2px solid var(--wyrm-flame)" : "1px solid var(--stone-border)"
-        }}
-      >
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "var(--space-2)" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: "var(--space-3)" }}>
-            <span style={{ fontSize: "28px", filter: isDangerLevel ? "drop-shadow(0 0 8px #d93838)" : "none" }}>
-              🐉
-            </span>
-            <div>
-              <span style={{ fontSize: "11px", fontWeight: 700, color: isDangerLevel ? "#ff9fb2" : "var(--gilded-signet)", letterSpacing: "0.12em" }}>
-                WYRM'S BREATH TENSION METER (§7 — SERVER AUTHORITATIVE)
-              </span>
-              <h2 style={{ fontSize: "20px", color: "var(--parchment-light)" }}>
-                Active Case: <span style={{ fontFamily: "var(--font-mono)", color: "var(--gilded-signet)" }}>{activeCase.caseId}</span> | Party Role: <strong style={{ color: "var(--parchment-light)" }}>{myRoleName.replace("THE_", "")}</strong>
-              </h2>
-            </div>
-          </div>
+    <div style={{ maxWidth: "1680px", margin: "0 auto", padding: "var(--space-2) var(--space-4) var(--space-8)" }}>
+      {/* --- §7 TOP DRAGON CREST HEADER: Authoritative Wyrm's Breath Tension Meter --- */}
+      <div className="dragon-crest-header">
+        <div style={{ width: "100%", display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "6px", px: "4px" }}>
+          <span style={{ fontSize: "11px", color: "#f0cc5d", fontWeight: 700, letterSpacing: "0.12em", fontFamily: "var(--font-mono)" }}>
+            CASE: {activeCase.caseId} | PARTY: {players.length}/6 | YOUR ROLE: {myRoleName.replace("THE_", "")}
+          </span>
+          <span style={{ fontSize: "13px", color: wyrmsBreath >= 70 ? "#ff9fb2" : "#6de8b5", fontWeight: 800 }}>
+            {wyrmsBreath >= 100 ? "DRAGON AWOKE (`Case Failed`)" : wyrmsBreath >= 70 ? "CRITICAL VAPORS" : "Atmospheric Ward Stable"}
+          </span>
+        </div>
 
-          <div style={{ textAlign: "right" }}>
-            <div style={{ fontSize: "24px", fontWeight: 800, fontFamily: "var(--font-mono)", color: wyrmsBreath >= 70 ? "#ff9fb2" : wyrmsBreath >= 40 ? "#f0cc5d" : "#6de8b5" }}>
-              {wyrmsBreath}% TENSION
-            </div>
-            <span style={{ fontSize: "12px", color: "var(--parchment-muted)" }}>
-              {wyrmsBreath >= 100 ? "DRAGON AWOKE (`Case Failed`)" : wyrmsBreath >= 70 ? "CRITICAL: Vapors suffocating chamber" : "Atmospheric ward stable"}
-            </span>
+        {/* Chiseled Tension Bar Track & Fill */}
+        <div className="dragon-tension-bar-track">
+          <div
+            className="dragon-tension-bar-fill"
+            style={{ width: `${Math.min(wyrmsBreath, 100)}%` }}
+          />
+          <div className="dragon-tension-label">
+            WYRM'S BREATH TENSION — {wyrmsBreath}%
           </div>
         </div>
 
-        {/* Progress Bar */}
-        <div style={{ width: "100%", height: "12px", backgroundColor: "#141310", border: "1px solid var(--stone-border)", borderRadius: "var(--radius-full)", overflow: "hidden" }}>
-          <div style={{
-            width: `${wyrmsBreath}%`,
-            height: "100%",
-            backgroundColor: wyrmsBreath >= 70 ? "#d93838" : wyrmsBreath >= 40 ? "#d4af37" : "#2e7d5f",
-            transition: "width 0.4s ease-out, background-color 0.4s ease-out"
-          }} />
-        </div>
-      </motion.div>
+        {/* Flame Emblem directly below */}
+        <div className="dragon-flame-pendant">🔥</div>
+      </div>
 
-      {/* Main Grid: Left Exploration Panel, Right Decryption/Wall Tabs */}
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "var(--space-6)", alignItems: "start" }}>
+      {/* Main Dual Grid: Left Chamber Hub, Right Shared Evidence Wall */}
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "var(--space-6)", alignItems: "start", marginTop: "var(--space-4)" }}>
         
-        {/* Left Panel: Chamber Exploration List (§6) */}
-        <div className="stone-panel" style={{ display: "flex", flexDirection: "column", gap: "var(--space-4)" }}>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", borderBottom: "1px solid var(--stone-border)", paddingBottom: "var(--space-3)" }}>
-            <div>
-              <span style={{ fontSize: "11px", fontWeight: 700, color: "var(--gilded-signet)" }}>CHAMBER FLOOR VOLUMES (§6)</span>
-              <h3 style={{ fontSize: "20px", color: "var(--parchment-light)" }}>Recovered Sealed Correspondence</h3>
-            </div>
-            <button onClick={onProceedToVerdict} className="btn-gilded" style={{ padding: "var(--space-2) var(--space-4)", fontSize: "13px" }}>
-              Unlock Verdict Gate →
-            </button>
+        {/* ================= LEFT PANEL: CHAMBER HUB (§6) ================= */}
+        <div className="chamber-hub-octagonal" style={{ minHeight: "680px" }}>
+          <div className="chamber-panel-header">
+            CHAMBER HUB
           </div>
 
-          <p style={{ fontSize: "13px", color: "var(--parchment-muted)" }}>
-            Inspect any volume below to transport it to the <strong style={{ color: "var(--parchment-light)" }}>Decryption Bench</strong>. Once solved, it pins automatically to the shared Evidence Wall.
-          </p>
-
-          {powerAlert && (
-            <div style={{
-              padding: "var(--space-3) var(--space-4)",
-              borderRadius: "var(--radius-sm)",
-              backgroundColor: powerAlert.type === "error" ? "rgba(140, 32, 32, 0.2)" : "rgba(46, 125, 95, 0.2)",
-              border: `1px solid ${powerAlert.type === "error" ? "var(--wyrm-fire)" : "#6de8b5"}`,
-              color: powerAlert.type === "error" ? "#ff9fb2" : "#6de8b5",
-              fontSize: "13px"
-            }}>
-              {powerAlert.message}
+          {/* Radial Dungeon Floor with Altar Core & Player Class Status Cards */}
+          <div style={{ position: "relative", padding: "var(--space-4) 0 var(--space-6)", display: "flex", flexDirection: "column", alignItems: "center" }}>
+            
+            {/* Top 2 Player Cards */}
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "var(--space-6)", width: "100%", maxWidth: "560px", marginBottom: "var(--space-4)" }}>
+              {canonicalSlots.slice(0, 2).map((slot, i) => (
+                <div key={i} className="party-member-card">
+                  <div className="party-member-avatar">{slot.avatar}</div>
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <div style={{ fontSize: "13px", fontWeight: 700, color: "var(--parchment-light)", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+                      {slot.name}
+                    </div>
+                    <div style={{ fontSize: "11px", color: "var(--gilded-signet)", fontWeight: 600 }}>
+                      Player Class: {slot.role.replace("THE_", "")} {slot.icon}
+                    </div>
+                    {/* Health/Resilience Bar */}
+                    <div style={{ marginTop: "6px", width: "100%", height: "8px", backgroundColor: "#0f0e0c", borderRadius: "var(--radius-full)", border: "1px solid #38332a", overflow: "hidden" }}>
+                      <div style={{ width: i === 0 ? "85%" : "70%", height: "100%", backgroundColor: i === 0 ? "#d93838" : "#d4af37" }} />
+                    </div>
+                    <div style={{ fontSize: "10px", color: "var(--parchment-muted)", textAlign: "right", marginTop: "2px" }}>
+                      {slot.hp}
+                    </div>
+                  </div>
+                </div>
+              ))}
             </div>
-          )}
 
-          {/* Role Power Action Card */}
-          <div style={{ padding: "var(--space-4)", backgroundColor: "#1e1a14", border: "1px dashed var(--gilded-signet)", borderRadius: "var(--radius-md)" }}>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "var(--space-2)" }}>
-              <span style={{ fontSize: "12px", fontWeight: 700, color: "var(--gilded-signet)" }}>⚡ ONE-TIME ROLE ACTION (§5)</span>
-              <span style={{ fontSize: "11px", color: "var(--parchment-muted)" }}>Server Enforced</span>
-            </div>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: "var(--space-4)" }}>
-              <span style={{ fontSize: "14px", color: "var(--parchment-light)" }}>
-                Invoke <strong style={{ color: "var(--gilded-signet)" }}>{myRoleName.replace("THE_", "")}</strong> capability on <strong style={{ color: "#f0cc5d" }}>{selectedLetter ? selectedLetter.id : "Active Chamber"}</strong>
+            {/* Central Altar Console Core */}
+            <div
+              onClick={() => setShowBenchModal(!showBenchModal)}
+              className="chamber-altar-core"
+              title="Click to access Altar Core Decryption Bench"
+            >
+              <span style={{ fontSize: "36px", filter: "drop-shadow(0 0 10px #38b6ff)" }}>⚗️</span>
+              <span style={{ fontSize: "11px", fontWeight: 800, color: "#38b6ff", marginTop: "4px", letterSpacing: "0.08em" }}>
+                ALTAR BENCH
               </span>
+              <span style={{ fontSize: "10px", color: "var(--gilded-signet)", fontWeight: 600 }}>
+                [Click to Decipher]
+              </span>
+            </div>
+
+            {/* Bottom 2 Player Cards */}
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "var(--space-6)", width: "100%", maxWidth: "560px", marginTop: "var(--space-4)" }}>
+              {canonicalSlots.slice(2, 4).map((slot, i) => (
+                <div key={i + 2} className="party-member-card">
+                  <div className="party-member-avatar">{slot.avatar}</div>
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <div style={{ fontSize: "13px", fontWeight: 700, color: "var(--parchment-light)", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+                      {slot.name}
+                    </div>
+                    <div style={{ fontSize: "11px", color: "var(--gilded-signet)", fontWeight: 600 }}>
+                      Player Class: {slot.role.replace("THE_", "")} {slot.icon}
+                    </div>
+                    {/* Health/Resilience Bar */}
+                    <div style={{ marginTop: "6px", width: "100%", height: "8px", backgroundColor: "#0f0e0c", borderRadius: "var(--radius-full)", border: "1px solid #38332a", overflow: "hidden" }}>
+                      <div style={{ width: i === 0 ? "75%" : "95%", height: "100%", backgroundColor: i === 0 ? "#d93838" : "#2e7d5f" }} />
+                    </div>
+                    <div style={{ fontSize: "10px", color: "var(--parchment-muted)", textAlign: "right", marginTop: "2px" }}>
+                      {slot.hp}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Recovered Sealed Correspondence & Power Action Drawer below Altar */}
+          <div style={{ borderTop: "1px solid var(--stone-border)", paddingTop: "var(--space-4)", marginTop: "auto" }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "var(--space-3)" }}>
+              <div>
+                <span style={{ fontSize: "11px", fontWeight: 700, color: "var(--gilded-signet)" }}>SEALED CORRESPONDENCE (§6)</span>
+                <h4 style={{ fontSize: "16px", color: "var(--parchment-light)" }}>Pick up Codex for Altar Decryption</h4>
+              </div>
+              <div style={{ display: "flex", gap: "var(--space-2)" }}>
+                <button
+                  onClick={() => setShowBenchModal(!showBenchModal)}
+                  className="btn-gilded"
+                  style={{ padding: "var(--space-2) var(--space-4)", fontSize: "12px" }}
+                >
+                  ⚗️ {showBenchModal ? "Close Bench" : "Open Altar Bench"}
+                </button>
+                <button
+                  onClick={onProceedToVerdict}
+                  className="btn-stone"
+                  style={{ padding: "var(--space-2) var(--space-4)", fontSize: "12px", borderColor: "var(--gilded-signet)", color: "var(--gilded-signet)" }}
+                >
+                  Unlock Verdict Gate →
+                </button>
+              </div>
+            </div>
+
+            {powerAlert && (
+              <div style={{
+                padding: "var(--space-2) var(--space-3)",
+                borderRadius: "var(--radius-sm)",
+                backgroundColor: powerAlert.type === "error" ? "rgba(140, 32, 32, 0.25)" : "rgba(46, 125, 95, 0.25)",
+                border: `1px solid ${powerAlert.type === "error" ? "var(--wyrm-fire)" : "#6de8b5"}`,
+                color: powerAlert.type === "error" ? "#ff9fb2" : "#6de8b5",
+                fontSize: "12px",
+                marginBottom: "var(--space-3)"
+              }}>
+                {powerAlert.message}
+              </div>
+            )}
+
+            {/* Role Power Bar */}
+            <div style={{ padding: "var(--space-3)", backgroundColor: "#141310", border: "1px dashed var(--gilded-signet)", borderRadius: "var(--radius-md)", marginBottom: "var(--space-3)", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+              <div>
+                <span style={{ fontSize: "11px", fontWeight: 700, color: "var(--gilded-signet)" }}>⚡ ONE-TIME ROLE POWER (§5)</span>
+                <div style={{ fontSize: "13px", color: "var(--parchment-light)" }}>
+                  Invoke <strong>{myRoleName.replace("THE_", "")}</strong> on <strong>{selectedLetter ? selectedLetter.id : "Active Chamber"}</strong>
+                </div>
+              </div>
               <button
                 onClick={handleActivatePower}
                 disabled={powerLoading}
-                className="btn-gilded"
-                style={{ padding: "var(--space-2) var(--space-4)", fontSize: "13px" }}
+                className="btn-stone"
+                style={{ padding: "6px 14px", fontSize: "12px", borderColor: "var(--gilded-bright)", color: "var(--gilded-bright)" }}
               >
                 {powerLoading ? "Warding..." : "Deploy Power"}
               </button>
             </div>
-          </div>
 
-          {/* List of Letters */}
-          <div style={{ display: "flex", flexDirection: "column", gap: "var(--space-3)", maxHeight: "480px", overflowY: "auto" }}>
-            {letters.map((letter) => {
-              const isSelected = selectedLetter && selectedLetter.id === letter.id;
-              return (
-                <motion.div
-                  key={letter.id}
-                  whileHover={{ scale: 1.01 }}
-                  onClick={() => { setSelectedLetter(letter); setActiveTab("BENCH"); }}
-                  style={{
-                    padding: "var(--space-3) var(--space-4)",
-                    backgroundColor: isSelected ? "rgba(212, 175, 55, 0.12)" : "var(--vault-bg)",
-                    border: isSelected ? "2px solid var(--gilded-signet)" : "1px solid var(--stone-border)",
-                    borderRadius: "var(--radius-md)",
-                    cursor: "pointer",
-                    position: "relative"
-                  }}
-                >
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "var(--space-1)" }}>
-                    <span style={{ fontSize: "11px", color: "var(--gilded-signet)", fontWeight: 700 }}>
-                      {letter.chamber} • {letter.tier}
-                    </span>
-                    <span style={{
-                      fontSize: "11px",
-                      padding: "2px 8px",
-                      borderRadius: "var(--radius-full)",
-                      fontWeight: 700,
-                      backgroundColor: letter.isSolved ? "rgba(46, 125, 95, 0.25)" : "rgba(140, 32, 32, 0.25)",
-                      color: letter.isSolved ? "#6de8b5" : "#ff9fb2"
-                    }}>
-                      {letter.isSolved ? "SOLVED ✔" : "LOCKED"}
-                    </span>
+            {/* Letter selector pills */}
+            <div style={{ display: "flex", gap: "var(--space-3)", overflowX: "auto", paddingBottom: "4px" }}>
+              {letters.map((letter) => {
+                const isSelected = selectedLetter && selectedLetter.id === letter.id;
+                return (
+                  <div
+                    key={letter.id}
+                    onClick={() => { setSelectedLetter(letter); setShowBenchModal(true); }}
+                    style={{
+                      padding: "var(--space-2) var(--space-3)",
+                      backgroundColor: isSelected ? "rgba(212, 175, 55, 0.18)" : "#141310",
+                      border: isSelected ? "2px solid var(--gilded-signet)" : "1px solid var(--stone-border)",
+                      borderRadius: "var(--radius-md)",
+                      cursor: "pointer",
+                      minWidth: "180px",
+                      transition: "all 0.2s ease"
+                    }}
+                  >
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", fontSize: "11px" }}>
+                      <span style={{ color: "var(--gilded-signet)", fontWeight: 700 }}>{letter.id} • {letter.tier}</span>
+                      <span style={{ color: letter.isSolved ? "#6de8b5" : "#ff9fb2", fontWeight: 700 }}>
+                        {letter.isSolved ? "SOLVED" : "LOCKED"}
+                      </span>
+                    </div>
+                    <div style={{ fontSize: "13px", color: "var(--parchment-light)", fontWeight: 600, marginTop: "2px", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+                      {letter.title}
+                    </div>
                   </div>
-
-                  <div style={{ fontWeight: 600, color: "var(--parchment-light)", fontSize: "14px" }}>
-                    {letter.title}
-                  </div>
-                  <div style={{ fontSize: "12px", color: "var(--parchment-muted)", marginTop: "var(--space-1)" }}>
-                    Cipher: {letter.algorithm}
-                  </div>
-                </motion.div>
-              );
-            })}
+                );
+              })}
+            </div>
           </div>
         </div>
 
-        {/* Right Panel: Tab Switcher between Decryption Bench & Evidence Wall */}
+        {/* ================= RIGHT PANEL: SHARED EVIDENCE WALL (§6) ================= */}
         <div>
-          {/* Tab Bar */}
-          <div style={{ display: "flex", gap: "var(--space-2)", marginBottom: "var(--space-4)" }}>
-            <button
-              onClick={() => setActiveTab("BENCH")}
-              className={activeTab === "BENCH" ? "btn-gilded" : "btn-stone"}
-              style={{ flex: 1, padding: "var(--space-3)" }}
-            >
-              ⚗️ Decryption Bench ({selectedLetter?.tier || "Select Letter"})
-            </button>
-            <button
-              onClick={() => setActiveTab("WALL")}
-              className={activeTab === "WALL" ? "btn-gilded" : "btn-stone"}
-              style={{ flex: 1, padding: "var(--space-3)" }}
-            >
-              📌 Shared Evidence Wall ({pinnedEvidence.length} Solved)
-            </button>
-          </div>
-
-          {/* Tab Content */}
-          {activeTab === "BENCH" ? (
-            <DecryptionBench
-              activeLetter={selectedLetter}
-              activeCase={activeCase}
-              user={user}
-              onSolveSubmitted={handleSolveSubmission}
-              onUseWhisper={onUseWhisper}
-            />
-          ) : (
-            <EvidenceWall
-              pinnedEvidence={pinnedEvidence}
-              onSelectLetter={(item) => { setSelectedLetter(item); setActiveTab("BENCH"); }}
-            />
-          )}
+          <EvidenceWall
+            pinnedEvidence={pinnedEvidence}
+            letters={letters}
+            onSelectLetter={(item) => {
+              setSelectedLetter(item);
+              setShowBenchModal(true);
+            }}
+          />
         </div>
       </div>
+
+      {/* --- COLLAPSIBLE / MODAL DECRYPTION BENCH OVERLAY over the Central Altar --- */}
+      <AnimatePresence>
+        {showBenchModal && (
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 30 }}
+            style={{
+              position: "fixed",
+              top: 0, left: 0, right: 0, bottom: 0,
+              backgroundColor: "rgba(10, 9, 7, 0.88)",
+              backdropFilter: "blur(8px)",
+              zIndex: 100,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              padding: "var(--space-6)"
+            }}
+          >
+            <div style={{ width: "100%", maxWidth: "1100px", maxHeight: "92vh", overflowY: "auto", position: "relative" }}>
+              <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: "var(--space-2)" }}>
+                <button
+                  onClick={() => setShowBenchModal(false)}
+                  className="btn-gilded"
+                  style={{ padding: "var(--space-2) var(--space-5)", fontSize: "14px" }}
+                >
+                  ✕ Close Altar Decryption Bench
+                </button>
+              </div>
+              <DecryptionBench
+                activeLetter={selectedLetter}
+                activeCase={activeCase}
+                user={user}
+                onSolveSubmitted={async (lid, pt) => {
+                  await handleSolveSubmission(lid, pt);
+                  setShowBenchModal(false);
+                }}
+                onUseWhisper={onUseWhisper}
+              />
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

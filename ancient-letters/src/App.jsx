@@ -1,5 +1,6 @@
 // WYRMVAULT — Canonical Cooperative Cipher-Dungeon Application (§1–§13)
 // No payment providers, QR codes, gold currency, or 6-theme switching per §13 explicit scope exclusions.
+// Exact visual match for wyrmvault_hub_mockup.png with Norse rune portal frame.
 
 import React, { useState, useEffect } from "react";
 import { socketEngine } from "./services/socketEngine.js";
@@ -26,7 +27,6 @@ function App() {
   const [notifications, setNotifications] = useState([]);
   const [socketConnected, setSocketConnected] = useState(false);
   const [showLedger, setShowLedger] = useState(false);
-
 
   // Initialize Socket.IO connection when authenticated
   useEffect(() => {
@@ -156,7 +156,6 @@ function App() {
     setNotifications((prev) => prev.filter((n) => n.id !== id));
   };
 
-  // Auto-dismiss non-critical toasts after 6 seconds
   useEffect(() => {
     if (notifications.length === 0) return;
     const timer = setTimeout(() => {
@@ -166,7 +165,6 @@ function App() {
     return () => clearTimeout(timer);
   }, [notifications]);
 
-  // Keyboard dismissal of top toast via Escape
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.key === "Escape" && notifications.length > 0 && !showLedger) {
@@ -176,7 +174,6 @@ function App() {
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [notifications, showLedger]);
-
 
   const handleLogout = () => {
     if (activeCase?.caseId) {
@@ -189,7 +186,6 @@ function App() {
     setPhase("AUTH");
   };
 
-  // Rest API triggers
   const handleToggleReady = async (caseId, userId, isReady, role = null) => {
     socketEngine.toggleReady(caseId, userId, isReady, role);
     try {
@@ -301,43 +297,42 @@ function App() {
     );
   }
 
+  // Norse Runes for left and right stone portal pillars
+  const leftRunes = ["ᚠ", "ᚢ", "ᚦ", "ᚬ", "ᚱ", "ᚴ", "ᚼ", "ᚾ", "ᛁ", "ᚨ", "ᛏ", "ᛒ"];
+  const rightRunes = ["ᛒ", "ᛏ", "ᚨ", "ᛁ", "ᚾ", "ᚼ", "ᚴ", "ᚱ", "ᚬ", "ᚦ", "ᚢ", "ᚠ"];
+
   return (
-    <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
-      {/* Top Protocol Header Bar */}
-      <header style={{
-        backgroundColor: "var(--stone-card)",
-        borderBottom: "1px solid var(--stone-border)",
-        padding: "var(--space-3) var(--space-6)",
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "center"
-      }}>
+    <div className="wyrm-portal-frame">
+      {/* Top Left Portal Corner */}
+      <div className="portal-corner" style={{ gridRow: 1, gridColumn: 1 }}>ᚠ</div>
+
+      {/* Top Portal Horizontal Header Bar */}
+      <header className="portal-horizontal-bar" style={{ gridRow: 1, gridColumn: 2, padding: "12px 24px", minHeight: "56px" }}>
         <div style={{ display: "flex", alignItems: "center", gap: "var(--space-4)" }}>
           <span style={{ fontSize: "24px" }}>🗝️</span>
           <div>
-            <span style={{ fontSize: "16px", fontWeight: 700, color: "var(--gilded-signet)", letterSpacing: "0.08em" }}>
+            <span style={{ fontSize: "17px", fontWeight: 800, color: "var(--gilded-signet)", letterSpacing: "0.1em", fontFamily: "var(--font-display)" }}>
               WYRMVAULT
             </span>
-            <span style={{ fontSize: "12px", color: "var(--parchment-muted)", marginLeft: "var(--space-2)" }}>
-              Phase: <strong style={{ color: "var(--parchment-light)" }}>{phase}</strong>
+            <span style={{ fontSize: "12px", color: "var(--parchment-muted)", marginLeft: "var(--space-3)" }}>
+              CHAMBER PHASE: <strong style={{ color: "var(--parchment-light)" }}>{phase}</strong>
             </span>
           </div>
         </div>
 
         <div style={{ display: "flex", alignItems: "center", gap: "var(--space-4)" }}>
-          {/* Phase Navigation & Rulebook Trigger */}
           <div style={{ display: "flex", gap: "var(--space-2)" }}>
             <button
               onClick={() => setPhase(activeCase ? (activeCase.status === "EXPLORATION" ? "EXPLORATION" : activeCase.status === "ROLE_SELECT" ? "ROLE_SELECT" : "LOBBY") : "LOBBY")}
               className="btn-gilded"
-              style={{ padding: "4px 12px", fontSize: "12px" }}
+              style={{ padding: "6px 14px", fontSize: "12px" }}
             >
               🏰 Co-op Vault ({activeCase?.caseId || "Antechamber"})
             </button>
             <button
               onClick={() => setShowLedger(true)}
               className="btn-stone"
-              style={{ padding: "4px 12px", fontSize: "12px", borderColor: "var(--gilded-signet)", color: "var(--gilded-signet)" }}
+              style={{ padding: "6px 14px", fontSize: "12px", borderColor: "var(--gilded-signet)", color: "var(--gilded-signet)" }}
             >
               📖 Guild Ledger
             </button>
@@ -345,21 +340,31 @@ function App() {
 
           <div style={{ display: "flex", alignItems: "center", gap: "var(--space-2)", fontSize: "13px" }}>
             <span style={{ width: "8px", height: "8px", borderRadius: "var(--radius-full)", backgroundColor: socketConnected ? "#6de8b5" : "#ff9fb2" }} />
-            <span style={{ color: "var(--parchment-light)", fontWeight: 600 }}>{user.username}</span>
+            <span style={{ color: "var(--parchment-light)", fontWeight: 700 }}>{user.username}</span>
           </div>
 
           <button
             onClick={handleLogout}
             className="btn-stone"
-            style={{ padding: "4px 12px", fontSize: "12px", color: "#ff9fb2", borderColor: "var(--wyrm-fire)" }}
+            style={{ padding: "6px 14px", fontSize: "12px", color: "#ff9fb2", borderColor: "var(--wyrm-fire)" }}
           >
             Sealed Exit
           </button>
         </div>
       </header>
 
-      {/* Main Content Area based on Canonical Phase */}
-      <main style={{ flex: 1 }}>
+      {/* Top Right Portal Corner */}
+      <div className="portal-corner" style={{ gridRow: 1, gridColumn: 3 }}>ᚢ</div>
+
+      {/* Left Vertical Norse Rune Pillar */}
+      <div className="portal-rune-pillar" style={{ gridRow: 2, gridColumn: 1 }}>
+        {leftRunes.map((rune, idx) => (
+          <span key={idx} className="rune-char">{rune}</span>
+        ))}
+      </div>
+
+      {/* Main Center Stage enclosed in stone portal */}
+      <main style={{ gridRow: 2, gridColumn: 2, overflowY: "auto", position: "relative" }}>
         {phase === "LOBBY" && (
           <CaseLobby
             user={user}
@@ -425,24 +430,43 @@ function App() {
         )}
       </main>
 
+      {/* Right Vertical Norse Rune Pillar */}
+      <div className="portal-rune-pillar" style={{ gridRow: 2, gridColumn: 3 }}>
+        {rightRunes.map((rune, idx) => (
+          <span key={idx} className="rune-char">{rune}</span>
+        ))}
+      </div>
+
+      {/* Bottom Left Portal Corner */}
+      <div className="portal-corner" style={{ gridRow: 3, gridColumn: 1 }}>ᚦ</div>
+
+      {/* Bottom Horizontal Portal Bar */}
+      <footer className="portal-horizontal-bar" style={{ gridRow: 3, gridColumn: 2, padding: "8px 24px", fontSize: "11px", color: "var(--parchment-muted)" }}>
+        <span>🐉 WYRMVAULT COOPERATIVE CIPHER-DUNGEON GAME • CANONICAL §1–§13</span>
+        <span>SERVER ROOM: {activeCase?.caseId || "ANTECHAMBER"} • REAL-TIME SOCKET AUTHENTICATED</span>
+      </footer>
+
+      {/* Bottom Right Portal Corner */}
+      <div className="portal-corner" style={{ gridRow: 3, gridColumn: 3 }}>ᚬ</div>
+
       {/* Persistent In-World Guild Ledger Modal */}
       {showLedger && <GuildLedgerModal onClose={() => setShowLedger(false)} />}
 
-      {/* Floating Notification Toasts (`§9 — Docked bottom-left to prevent overlap with Decryption Bench verify fields`) */}
+      {/* Floating Notification Toasts */}
       {notifications.length > 0 && (
         <div
           aria-live="polite"
           aria-atomic="true"
           style={{
             position: "fixed",
-            bottom: "24px",
-            left: "24px",
+            bottom: "32px",
+            left: "64px",
             zIndex: 9999,
             display: "flex",
             flexDirection: "column",
             gap: "var(--space-2)",
             width: "380px",
-            maxWidth: "calc(100vw - 48px)"
+            maxWidth: "calc(100vw - 128px)"
           }}
         >
           {notifications.slice(0, 3).map((n) => (

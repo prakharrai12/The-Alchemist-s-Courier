@@ -1,107 +1,19 @@
 @import './styles/design-tokens.css';
 
-:root,
-[data-theme="alchemist"],
-.theme-alchemist {
-  --text: #cec6ad;
-  --text-h: #ffffff;
-  --bg: #1f1c0b;
-  --bg-secondary: #181508;
-  --border: #8c4f10;
-  --code-bg: #2b2716;
-  --accent: #ffb77b;
-  --accent-bg: rgba(255, 183, 123, 0.15);
-  --accent-border: rgba(140, 79, 16, 0.6);
-  --social-bg: rgba(24, 21, 8, 0.6);
-  --shadow:
-    rgba(0, 0, 0, 0.6) 0 10px 25px -3px, rgba(0, 0, 0, 0.4) 0 4px 6px -2px;
-
-  --sans: 'Outfit', system-ui, 'Segoe UI', Roboto, sans-serif;
-  --heading: 'Cinzel', system-ui, 'Segoe UI', Roboto, serif;
-  --mono: ui-monospace, Consolas, monospace;
-
-  font: 16px/150% var(--sans);
-  letter-spacing: 0.2px;
-  color-scheme: dark;
-  color: var(--text);
-  background: var(--bg);
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-[data-theme="oak"],
-.theme-oak {
-  --text: #fef3e2;
-  --text-h: #ffffff;
-  --bg: #2d1a10;
-  --bg-secondary: #1e110a;
-  --border: #6d3b14;
-  --code-bg: #3e2416;
-  --accent: #f6c483;
-  --accent-bg: rgba(246, 196, 131, 0.15);
-  --accent-border: rgba(109, 59, 20, 0.6);
-}
-
-[data-theme="crimson"],
-.theme-crimson {
-  --text: #ffe5e5;
-  --text-h: #ffffff;
-  --bg: #2a0808;
-  --bg-secondary: #1a0404;
-  --border: #8b0000;
-  --code-bg: #3d0b0b;
-  --accent: #ff8080;
-  --accent-bg: rgba(255, 128, 128, 0.15);
-  --accent-border: rgba(139, 0, 0, 0.6);
-}
-
-[data-theme="emerald"],
-.theme-emerald {
-  --text: #ecfdf5;
-  --text-h: #ffffff;
-  --bg: #062c22;
-  --bg-secondary: #031b15;
-  --border: #0b664e;
-  --code-bg: #0c3e30;
-  --accent: #6ee7b7;
-  --accent-bg: rgba(110, 231, 183, 0.15);
-  --accent-border: rgba(11, 102, 78, 0.6);
-}
-
-[data-theme="midnight"],
-.theme-midnight {
-  --text: #e0e1dd;
-  --text-h: #ffffff;
-  --bg: #0d1b2a;
-  --bg-secondary: #070e17;
-  --border: #1b263b;
-  --code-bg: #162638;
-  --accent: #778da9;
-  --accent-bg: rgba(119, 141, 169, 0.15);
-  --accent-border: rgba(27, 38, 59, 0.6);
-}
-
-[data-theme="ivory"],
-.theme-ivory {
-  --text: #3e2723;
-  --text-h: #1a0f0d;
-  --bg: #f4ecd8;
-  --bg-secondary: #e8deb8;
-  --border: #b08968;
-  --code-bg: #e2d4af;
-  --accent: #7f5539;
-  --accent-bg: rgba(127, 85, 57, 0.15);
-  --accent-border: rgba(176, 137, 104, 0.6);
-  color-scheme: light;
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 body {
-  margin: 0;
-  background-color: var(--bg);
-  color: var(--text);
-  transition: background-color 0.4s ease, color 0.4s ease;
+  background-color: var(--vault-bg);
+  color: var(--parchment-text);
+  font-family: var(--font-ui);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
 }
 
 #root {
@@ -110,7 +22,17 @@ body {
   min-height: 100svh;
   display: flex;
   flex-direction: column;
-  box-sizing: border-box;
+}
+
+h1, h2, h3, h4, .font-display {
+  font-family: var(--font-display);
+  color: var(--parchment-light);
+  font-weight: 700;
+  letter-spacing: 0.03em;
+}
+
+code, pre, .font-mono {
+  font-family: var(--font-mono);
 }
 
 /* WCAG AA ACCESSIBILITY & FOCUS RINGS */
@@ -131,57 +53,9 @@ select:focus-visible,
 textarea:focus-visible,
 [role="button"]:focus-visible,
 [tabindex]:not([tabindex="-1"]):focus-visible {
-  outline: 2px solid var(--accent);
+  outline: 2px solid var(--gilded-signet);
   outline-offset: 3px;
-  box-shadow: 0 0 0 4px var(--accent-bg);
-}
-
-/* MINIMUM TOUCH TARGETS WCAG AA COMPLIANCE */
-button,
-[role="button"] {
-  min-height: 44px;
-  min-width: 44px;
-}
-
-h1,
-h2,
-h3,
-h4 {
-  font-family: var(--heading);
-  font-weight: 600;
-  color: var(--text-h);
-}
-
-h1 {
-  font-size: clamp(2rem, 4vw, 3.5rem);
-  letter-spacing: -0.02em;
-  margin: 24px 0;
-}
-
-h2 {
-  font-size: clamp(1.25rem, 2.5vw, 1.75rem);
-  line-height: 120%;
-  margin: 0 0 8px;
-}
-
-p {
-  margin: 0;
-}
-
-code,
-.counter {
-  font-family: var(--mono);
-  display: inline-flex;
-  border-radius: 4px;
-  color: var(--text-h);
-}
-
-code {
-  font-size: 14px;
-  line-height: 140%;
-  padding: 4px 8px;
-  background: var(--code-bg);
-  border: 1px solid var(--border);
+  box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.2);
 }
 
 /* REDUCED MOTION PREFERENCES */

@@ -1,9 +1,10 @@
 /* ==========================================================================
-   WYRMVAULT — DESIGN TOKENS (§9 Canonical Visual & UI System)
+   WYRMVAULT — DESIGN TOKENS & CANONICAL UI SYSTEM (§9)
    Strict 4px scale, two typefaces only, tactile Obsidian/Stone/Parchment palette.
+   Exact match for wyrmvault_hub_mockup.png (Norse portal runes, dragon crest, octagonal hub, parchment map board).
    ========================================================================== */
 
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800&family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800&family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Caveat:wght@600;700&display=swap');
 
 :root {
   /* --- §9 Strict 4px Spacing Grid Scale --- */
@@ -19,28 +20,33 @@
   --space-16: 64px;
   --space-20: 80px;
 
-  /* --- §9 Two Typefaces Only --- */
+  /* --- §9 Two Typefaces Only (+ Handwriting for Evidence Notes) --- */
   --font-display: 'Cinzel', serif;
   --font-ui: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+  --font-handwriting: 'Caveat', 'Segoe Script', cursive;
 
-  /* --- §9 Tactile Obsidian & Stone Palette (No Glassmorphism / No Blob Gradients) --- */
+  /* --- §9 Tactile Obsidian & Stone Palette --- */
   --vault-bg: #12110e;        /* Deep stone dungeon base */
   --stone-card: #1c1a16;      /* Carved stone container */
   --stone-surface: #26231e;   /* Raised stone button/panel */
   --stone-border: #38332a;    /* Chiseled border */
   --stone-hover: #322d25;     /* Hover state */
+  --stone-dark: #0f0e0c;      /* Deep stone shadow */
 
   --parchment-text: #c8b896;  /* High-contrast readable ink */
   --parchment-light: #e6dec8; /* Header parchment highlight */
   --parchment-muted: #8c8069; /* Subtitle shadow */
+  --parchment-board: #d4c5a3; /* Evidence wall map board */
 
   --wyrm-fire: #8c2020;       /* Wyrm's Breath danger alert */
   --wyrm-flame: #d93838;      /* Active crimson burn */
-  --wyrm-glow: rgba(217, 56, 56, 0.35);
+  --wyrm-magma: #ff5a1f;      /* Molten edge */
+  --wyrm-glow: rgba(217, 56, 56, 0.45);
 
   --gilded-signet: #d4af37;   /* Active selection / victory foil */
   --gilded-bright: #f0cc5d;   /* Gilded button hover */
+  --rune-amber: #e8a631;      /* Glowing Norse runes */
 
   /* --- Tactile Stone Radii & Shadows --- */
   --radius-sm: 4px;
@@ -49,47 +55,423 @@
   --radius-xl: 16px;
   --radius-full: 9999px;
 
-  --shadow-stone: 0 4px 12px rgba(0, 0, 0, 0.55);
-  --shadow-vault: 0 12px 32px rgba(0, 0, 0, 0.75);
-  --shadow-signet: 0 4px 16px rgba(212, 175, 55, 0.25);
+  --shadow-stone: 0 4px 14px rgba(0, 0, 0, 0.65);
+  --shadow-vault: 0 16px 40px rgba(0, 0, 0, 0.85);
+  --shadow-signet: 0 4px 18px rgba(212, 175, 55, 0.3);
+  --shadow-flame: 0 0 24px rgba(217, 56, 56, 0.5);
 
   /* --- Touch Target Enforcement (WCAG AA) --- */
   --touch-target-min: 44px;
 }
 
 /* ==========================================================================
-   GLOBAL ARCHITECTURAL BASE & RESET
+   NORSE RUNE PORTAL FRAME (`.wyrm-portal-frame`)
+   Exact visual frame enclosing the game like the carved stone pillars in mockup
    ========================================================================== */
-*, *::before, *::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-body {
+.wyrm-portal-frame {
+  display: grid;
+  grid-template-columns: 52px 1fr 52px;
+  grid-template-rows: auto 1fr auto;
+  min-height: 100vh;
   background-color: var(--vault-bg);
   color: var(--parchment-text);
-  font-family: var(--font-ui);
-  line-height: 1.5;
-  -webkit-font-smoothing: antialiased;
-  overflow-x: hidden;
+  position: relative;
+  overflow: hidden;
 }
 
-h1, h2, h3, h4, .font-display {
+/* Stone Corner Blocks */
+.portal-corner {
+  background: linear-gradient(135deg, #26231e 0%, #161411 100%);
+  border: 2px solid var(--stone-border);
+  box-shadow: inset 0 0 10px #0a0907;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-family: var(--font-display);
-  color: var(--parchment-light);
-  font-weight: 700;
-  letter-spacing: 0.03em;
+  font-size: 20px;
+  color: var(--gilded-signet);
+  text-shadow: 0 0 8px rgba(212, 175, 55, 0.5);
+  z-index: 20;
 }
 
-code, pre, .font-mono {
-  font-family: var(--font-mono);
+/* Vertical Left/Right Norse Rune Pillars */
+.portal-rune-pillar {
+  background: linear-gradient(90deg, #181613 0%, #24211c 50%, #181613 100%);
+  border-left: 2px solid #0f0e0c;
+  border-right: 2px solid #38332a;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  padding: var(--space-4) 0;
+  box-shadow: inset 0 0 16px #0a0907;
+  z-index: 15;
+  user-select: none;
 }
 
-button, a, input, select {
+.portal-rune-pillar .rune-char {
+  font-family: var(--font-display);
+  font-size: 22px;
+  color: var(--rune-amber);
+  text-shadow: 0 0 10px rgba(232, 166, 49, 0.6), 0 0 20px rgba(217, 56, 56, 0.3);
+  opacity: 0.88;
+  transition: all 0.3s ease;
+  margin: 6px 0;
+}
+
+.portal-rune-pillar .rune-char:hover {
+  color: var(--gilded-bright);
+  text-shadow: 0 0 16px var(--gilded-bright);
+  transform: scale(1.2);
+}
+
+/* Top / Bottom Horizontal Portal Bars */
+.portal-horizontal-bar {
+  grid-column: 2;
+  background: linear-gradient(180deg, #26231e 0%, #181613 100%);
+  border-bottom: 2px solid var(--stone-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--space-6);
+  z-index: 15;
+}
+
+/* ==========================================================================
+   DRAGON CREST HEADER (`WYRM'S BREATH TENSION` progress bar)
+   Exact replica of the fiery dragon header spanning top center
+   ========================================================================== */
+.dragon-crest-header {
+  position: relative;
+  width: 100%;
+  max-width: 820px;
+  margin: var(--space-4) auto var(--space-6);
+  background: linear-gradient(180deg, #2a221a 0%, #1c1813 100%);
+  border: 2px solid #4a3e2e;
+  border-radius: var(--radius-xl);
+  padding: var(--space-4) var(--space-6);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.8), inset 0 0 16px rgba(212, 175, 55, 0.15);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 10;
+}
+
+/* Sculpted Dragon Wings border decoration on top/sides */
+.dragon-crest-header::before {
+  content: "🐲 WYRM'S BREATH TENSION (§7 AUTHORITATIVE) 🐲";
+  position: absolute;
+  top: -16px;
+  background: linear-gradient(90deg, #591616, #8c2020, #591616);
+  color: var(--gilded-bright);
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  padding: 4px 20px;
+  border-radius: var(--radius-full);
+  border: 1.5px solid var(--gilded-signet);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.7), 0 0 16px rgba(217, 56, 56, 0.5);
+}
+
+.dragon-tension-bar-track {
+  width: 100%;
+  height: 32px;
+  background: #110b0b;
+  border: 2px solid #573f2a;
+  border-radius: var(--radius-lg);
+  position: relative;
+  overflow: hidden;
+  box-shadow: inset 0 3px 8px rgba(0,0,0,0.9);
+  display: flex;
+  align-items: center;
+}
+
+.dragon-tension-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #591616 0%, #8c2020 40%, #d93838 80%, #ff5a1f 100%);
+  box-shadow: 0 0 16px var(--wyrm-flame), inset 0 0 8px rgba(255, 255, 255, 0.3);
+  transition: width 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+  position: relative;
+}
+
+/* Molten ember pulse on leading edge of bar */
+.dragon-tension-bar-fill::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 12px;
+  background: #ffffff;
+  filter: blur(4px);
+  opacity: 0.8;
+}
+
+.dragon-tension-label {
+  position: absolute;
+  width: 100%;
+  text-align: center;
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 800;
+  color: #ffffff;
+  text-shadow: 0 2px 4px #000000, 0 0 10px #8c2020;
+  letter-spacing: 0.08em;
+  pointer-events: none;
+  z-index: 5;
+}
+
+/* Flame Emblem Pendant directly under bar */
+.dragon-flame-pendant {
+  position: absolute;
+  bottom: -18px;
+  width: 36px;
+  height: 36px;
+  background: radial-gradient(circle, #ff5a1f 0%, #8c2020 70%, #1c1813 100%);
+  border: 2px solid var(--gilded-signet);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.8), 0 0 16px var(--wyrm-flame);
+  z-index: 12;
+}
+
+/* ==========================================================================
+   CHAMBER HUB OCTAGONAL PANEL (`.chamber-hub-octagonal`) — LEFT SIDE
+   ========================================================================== */
+.chamber-hub-octagonal {
+  background: radial-gradient(circle at 50% 55%, #2a2620 0%, #1a1714 45%, #12100d 90%);
+  border: 2px solid var(--stone-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  position: relative;
+  box-shadow: inset 0 0 40px rgba(0,0,0,0.8), var(--shadow-stone);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Subtle stone concentric floor rings */
+.chamber-hub-octagonal::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -45%);
+  width: 480px;
+  height: 480px;
+  background: repeating-radial-gradient(circle, transparent 0, transparent 36px, rgba(212, 175, 55, 0.06) 37px, transparent 38px);
+  pointer-events: none;
+}
+
+.chamber-panel-header {
+  font-family: var(--font-display);
+  font-size: 22px;
+  color: var(--gilded-signet);
+  text-shadow: 0 0 10px rgba(212, 175, 55, 0.4);
+  text-align: center;
+  letter-spacing: 0.12em;
+  padding-bottom: var(--space-3);
+  border-bottom: 1px solid var(--stone-border);
+  margin-bottom: var(--space-5);
+  position: relative;
+  z-index: 2;
+}
+
+/* Radial Altar Core in exact center of left floor */
+.chamber-altar-core {
+  width: 130px;
+  height: 130px;
+  margin: var(--space-4) auto;
+  background: radial-gradient(circle, #2a3a44 0%, #161e24 70%, #111417 100%);
+  border: 3px solid #38b6ff;
+  border-radius: 50%;
+  box-shadow: 0 0 30px rgba(56, 182, 255, 0.35), inset 0 0 18px #38b6ff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  z-index: 5;
+}
+
+.chamber-altar-core:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 40px rgba(56, 182, 255, 0.6), inset 0 0 24px #38b6ff;
+  border-color: var(--gilded-bright);
+}
+
+/* 4 Party Member Status Cards around Altar */
+.party-member-card {
+  background: linear-gradient(135deg, #24201a 0%, #1a1713 100%);
+  border: 2px solid var(--gilded-signet);
+  border-radius: var(--radius-md);
+  padding: var(--space-3);
+  box-shadow: var(--shadow-stone);
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  position: relative;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.party-member-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--gilded-bright);
+  box-shadow: var(--shadow-signet);
+}
+
+.party-member-avatar {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  border: 2px solid var(--gilded-signet);
+  background-color: #0f0e0c;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px;
+  box-shadow: inset 0 0 8px rgba(0,0,0,0.8);
+  overflow: hidden;
+}
+
+/* ==========================================================================
+   SHARED EVIDENCE WALL MAP BOARD (`.shared-evidence-board`) — RIGHT SIDE
+   ========================================================================== */
+.shared-evidence-board {
+  background: linear-gradient(135deg, #ded2b4 0%, #c8b896 50%, #a89673 100%);
+  border: 4px solid #28231c;
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  box-shadow: inset 0 0 30px rgba(80, 60, 30, 0.4), var(--shadow-stone);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Subtle cork/parchment grain */
+.shared-evidence-board::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-image: radial-gradient(rgba(140, 110, 60, 0.15) 1px, transparent 1px), radial-gradient(rgba(100, 80, 40, 0.1) 1px, transparent 1px);
+  background-size: 20px 20px;
+  background-position: 0 0, 10px 10px;
+  pointer-events: none;
+}
+
+.evidence-board-header {
+  font-family: var(--font-display);
+  font-size: 22px;
+  color: #3b2f1f;
+  text-shadow: 0 1px 1px rgba(255,255,255,0.6);
+  text-align: center;
+  letter-spacing: 0.12em;
+  padding-bottom: var(--space-3);
+  border-bottom: 2px solid #8c7853;
+  margin-bottom: var(--space-5);
+  position: relative;
+  z-index: 2;
+  font-weight: 800;
+}
+
+/* Pinned Parchment Letters on Board */
+.evidence-pinned-letter {
+  background: linear-gradient(145deg, #fbf7eb 0%, #ede3c8 100%);
+  border: 1px solid #b8a680;
+  border-radius: 3px;
+  padding: var(--space-4);
+  box-shadow: 3px 6px 14px rgba(40, 30, 10, 0.35);
+  position: relative;
+  color: #3b2f1f;
   font-family: var(--font-ui);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  cursor: pointer;
 }
 
+.evidence-pinned-letter:hover {
+  transform: scale(1.03) rotate(-1deg);
+  box-shadow: 6px 10px 22px rgba(40, 30, 10, 0.45);
+  z-index: 10;
+}
+
+/* Colored Pushpin at top right of pinned letter */
+.board-pushpin {
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  box-shadow: 2px 3px 5px rgba(0,0,0,0.5), inset -2px -2px 4px rgba(0,0,0,0.4);
+  z-index: 5;
+}
+
+.pushpin-crimson { background: radial-gradient(circle at 35% 35%, #ff6b6b, #b31212); }
+.pushpin-sapphire { background: radial-gradient(circle at 35% 35%, #6be3ff, #0d6db3); }
+.pushpin-emerald { background: radial-gradient(circle at 35% 35%, #6bff94, #0db33e); }
+
+/* Crimson Wax Seal Ribbon tail at bottom right */
+.wax-seal-ribbon {
+  position: absolute;
+  bottom: -12px;
+  right: 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 6;
+}
+
+.wax-seal-disc {
+  width: 32px;
+  height: 32px;
+  background: radial-gradient(circle at 35% 35%, #d93838 0%, #8c2020 70%, #4a0d0d 100%);
+  border: 2px solid #631414;
+  border-radius: 50%;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  color: #f0cc5d;
+  font-weight: bold;
+}
+
+.wax-ribbon-tails {
+  width: 16px;
+  height: 22px;
+  background: linear-gradient(180deg, #8c2020 0%, #631414 100%);
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 80%, 0 100%);
+  margin-top: -4px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.4);
+}
+
+/* Sticky notes on Evidence board */
+.evidence-sticky-note {
+  padding: var(--space-3);
+  border-radius: 2px;
+  box-shadow: 2px 4px 10px rgba(0,0,0,0.25);
+  font-family: var(--font-handwriting);
+  font-size: 16px;
+  line-height: 1.3;
+  color: #1a1814;
+  position: relative;
+  transform: rotate(3deg);
+}
+
+.sticky-blue { background: linear-gradient(135deg, #a8f0ff 0%, #70dbff 100%); border: 1px solid #58c4e8; }
+.sticky-pink { background: linear-gradient(135deg, #ffb3e6 0%, #ff80d3 100%); border: 1px solid #e660b8; }
+.sticky-yellow { background: linear-gradient(135deg, #fff3b3 0%, #ffe680 100%); border: 1px solid #e6c858; }
+
+/* ==========================================================================
+   BUTTON & INTERACTION STYLES
+   ========================================================================== */
 button, .btn-stone {
   min-height: var(--touch-target-min);
   display: inline-flex;
@@ -101,6 +483,7 @@ button, .btn-stone {
   color: var(--parchment-light);
   border: 1px solid var(--stone-border);
   border-radius: var(--radius-md);
+  font-family: var(--font-ui);
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -116,7 +499,6 @@ button:disabled {
   cursor: not-allowed;
 }
 
-/* Primary Gilded Signet Button */
 .btn-gilded {
   background: linear-gradient(135deg, var(--gilded-signet), #a8831e);
   color: #12110e !important;
@@ -130,7 +512,6 @@ button:disabled {
   transform: translateY(-1px);
 }
 
-/* Crimson Danger Button */
 .btn-crimson {
   background-color: var(--wyrm-fire);
   color: var(--parchment-light);
@@ -142,7 +523,6 @@ button:disabled {
   box-shadow: 0 0 16px var(--wyrm-glow);
 }
 
-/* Card Containers */
 .stone-panel {
   background-color: var(--stone-card);
   border: 1px solid var(--stone-border);
