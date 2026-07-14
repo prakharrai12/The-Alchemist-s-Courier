@@ -1,0 +1,13 @@
+{
+  "name": "wyrmvault-root",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Wyrmvault Cooperative Cipher-Dungeon Game Root Workspace",
+  "scripts": {
+    "start": "node -e \"const { spawn } = require('child_process'); spawn('npm', ['run', 'start', '--prefix', 'backend'], { stdio: 'inherit', shell: true }); spawn('npm', ['run', 'dev', '--prefix', 'ancient-letters'], { stdio: 'inherit', shell: true });\"",
+    "dev": "node -e \"const { spawn } = require('child_process'); spawn('npm', ['run', 'dev', '--prefix', 'backend'], { stdio: 'inherit', shell: true }); spawn('npm', ['run', 'dev', '--prefix', 'ancient-letters'], { stdio: 'inherit', shell: true });\"",
+    "build": "npm run build --prefix ancient-letters",
+    "test": "npm test --prefix backend",
+    "install-all": "npm install --prefix backend && npm install --prefix ancient-letters"
+  }
+}
