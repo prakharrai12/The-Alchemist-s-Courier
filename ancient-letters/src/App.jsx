@@ -187,7 +187,6 @@ function App() {
   };
 
   const handleToggleReady = async (caseId, userId, isReady, role = null) => {
-    socketEngine.toggleReady(caseId, userId, isReady, role);
     try {
       const token = localStorage.getItem("wyrmvault_token");
       const data = await safeFetchJson("/api/case/ready", {
@@ -282,7 +281,6 @@ function App() {
     });
     setActiveCase((prev) => prev ? { ...prev, status: "DEBRIEF", outcome: data.outcome, wyrmsBreath: data.wyrmsBreath || prev.wyrmsBreath } : prev);
     setPhase("DEBRIEF");
-    socketEngine.submitVerdict(caseId, keywordAttempt);
     return data;
   };
 

@@ -8,7 +8,10 @@ const router = express.Router();
 // Create Case Lobby
 router.post("/case/create", authenticateToken, (req, res, next) => {
   try {
-    const newCase = caseService.createCase(req.user || req.body.user || { id: "host", username: "Host Vault-Breaker" });
+    const userObj = { ...(req.user || {}), ...(req.body.user || {}) };
+    if (!userObj.id) userObj.id = req.user?.id || "host";
+    if (!userObj.username) userObj.username = req.user?.username || "Host Vault-Breaker";
+    const newCase = caseService.createCase(userObj, req.body.tierSeal || "NOVICE");
     const sanitized = caseService.sanitizeCase(newCase);
     if (req.app.locals.io) {
       req.app.locals.io.to(newCase.caseId).emit("CASE_PLAYERS_UPDATED", sanitized);
@@ -23,7 +26,10 @@ router.post("/case/create", authenticateToken, (req, res, next) => {
 router.post("/case/join", authenticateToken, (req, res, next) => {
   try {
     const { caseId } = req.body;
-    const caseObj = caseService.joinCase(caseId, req.user || req.body.user || { id: "player", username: "Vault-Breaker" });
+    const userObj = { ...(req.user || {}), ...(req.body.user || {}) };
+    if (!userObj.id) userObj.id = req.user?.id || "player";
+    if (!userObj.username) userObj.username = req.user?.username || "Vault-Breaker";
+    const caseObj = caseService.joinCase(caseId, userObj);
     const sanitized = caseService.sanitizeCase(caseObj);
     if (req.app.locals.io) {
       req.app.locals.io.to(caseObj.caseId).emit("CASE_PLAYERS_UPDATED", sanitized);

@@ -20,7 +20,14 @@ export function authenticateToken(req, res, next) {
     const userId = token.replace("alchemist_token_", "");
     let user = UserRepository.findByIdOrEmail(userId);
     if (!user && (userId.startsWith("guest-") || userId)) {
-      user = { id: userId, username: userId.startsWith("guest-") ? "Arch-Breaker" : userId, role: "COURIER" };
+      const clientUsername = req.body?.user?.username || req.headers["x-wyrmvault-username"];
+      user = {
+        id: userId,
+        username: clientUsername || (userId.startsWith("guest-") ? `Arch-Breaker #${userId.replace("guest-", "")}` : userId),
+        role: "COURIER"
+      };
+    } else if (user && req.body?.user?.username && userId.startsWith("guest-")) {
+      user.username = req.body.user.username;
     }
     if (!user) {
       return res.status(403).json({ error: "Invalid Signet Token: Courier not recognized in Guild Ledger." });

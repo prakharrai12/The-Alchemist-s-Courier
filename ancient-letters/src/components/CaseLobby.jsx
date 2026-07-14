@@ -4,6 +4,7 @@ import { safeFetchJson } from "../services/apiClient.js";
 
 export function CaseLobby({ user, activeCase, onCaseCreated, onJoinCase, onProceedToRoleSelect, onToggleReady }) {
   const [inputCaseId, setInputCaseId] = useState("");
+  const [selectedTier, setSelectedTier] = useState("NOVICE");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -22,7 +23,7 @@ export function CaseLobby({ user, activeCase, onCaseCreated, onJoinCase, onProce
           "Content-Type": "application/json",
           "Authorization": token ? `Bearer ${token}` : ""
         },
-        body: JSON.stringify({ user })
+        body: JSON.stringify({ user, tierSeal: selectedTier })
       });
       onCaseCreated(data);
     } catch (err) {
@@ -199,6 +200,39 @@ export function CaseLobby({ user, activeCase, onCaseCreated, onJoinCase, onProce
             <p style={{ color: "var(--parchment-muted)", fontSize: "14px", marginTop: "var(--space-2)", lineHeight: "1.6" }}>
               Forge a new unique 6-character Case ID (`WV-XXXX`), invite your team of codebreakers, and initiate the dungeon run.
             </p>
+            <div style={{ marginTop: "var(--space-4)" }}>
+              <label style={{ display: "block", fontSize: "12px", color: "var(--gilded-signet)", fontWeight: 700, marginBottom: "var(--space-2)", letterSpacing: "0.06em" }}>
+                SELECT DIFFICULTY TIER SEAL (§4 & §6)
+              </label>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "var(--space-2)" }}>
+                {[
+                  { id: "NOVICE", label: "Novice (3 Whispers)", desc: "Easy shifts & high hints" },
+                  { id: "ADEPT", label: "Adept (2 Whispers)", desc: "Balanced tension meter" },
+                  { id: "MASTER", label: "Master (1 Whisper)", desc: "Strict verification penalties" },
+                  { id: "ARCHON", label: "Archon (0 Whispers)", desc: "True Codebreaker Gauntlet" }
+                ].map((t) => (
+                  <button
+                    key={t.id}
+                    type="button"
+                    onClick={() => setSelectedTier(t.id)}
+                    style={{
+                      padding: "8px",
+                      backgroundColor: selectedTier === t.id ? "rgba(212, 175, 55, 0.22)" : "var(--vault-bg)",
+                      border: selectedTier === t.id ? "2px solid var(--gilded-signet)" : "1px solid var(--stone-border)",
+                      borderRadius: "var(--radius-sm)",
+                      cursor: "pointer",
+                      textAlign: "left",
+                      color: selectedTier === t.id ? "var(--gilded-signet)" : "var(--parchment-light)",
+                      fontSize: "12px",
+                      fontWeight: 700
+                    }}
+                  >
+                    <div>{t.label}</div>
+                    <div style={{ fontSize: "10px", color: "var(--parchment-muted)", fontWeight: 400, marginTop: "2px" }}>{t.desc}</div>
+                  </button>
+                ))}
+              </div>
+            </div>
           </div>
           <button
             onClick={handleCreate}
@@ -206,7 +240,7 @@ export function CaseLobby({ user, activeCase, onCaseCreated, onJoinCase, onProce
             className="btn-gilded"
             style={{ width: "100%", marginTop: "var(--space-6)", padding: "var(--space-3)" }}
           >
-            {loading ? "Forging Case Seal..." : "⚔️ Forge New Case Session"}
+            {loading ? "Forging Case Seal..." : `⚔️ Forge ${selectedTier} Case Session`}
           </button>
         </motion.div>
 
