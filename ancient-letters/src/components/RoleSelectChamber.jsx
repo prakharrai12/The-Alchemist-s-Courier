@@ -105,7 +105,7 @@ export function RoleSelectChamber({ user, activeCase, onSelectRole, onToggleRead
                     </p>
                   </div>
 
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", borderTop: "1px solid var(--stone-border)", paddingTop: "var(--space-3)" }}>
+                  <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-between", alignItems: "center", gap: "10px", borderTop: "1px solid var(--stone-border)", paddingTop: "14px" }}>
                     <span style={{ fontSize: "12px", color: "var(--parchment-muted)" }}>
                       🔄 Click to inspect power matrix
                     </span>
@@ -118,7 +118,7 @@ export function RoleSelectChamber({ user, activeCase, onSelectRole, onToggleRead
                         onSelectRole(activeCase.caseId, user.id || user.email, role.id);
                       }}
                       className={isClaimedByMe ? "btn-gilded" : "btn-stone"}
-                      style={{ padding: "var(--space-2) var(--space-4)", fontSize: "13px" }}
+                      style={{ minHeight: "44px", padding: "10px 18px", fontSize: "13px" }}
                     >
                       {isClaimedByMe ? "Selected ✔" : claimedByOther ? "Locked" : "Claim Role"}
                     </button>
@@ -171,7 +171,7 @@ export function RoleSelectChamber({ user, activeCase, onSelectRole, onToggleRead
                     </div>
                   </div>
 
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", borderTop: "1px solid var(--stone-border)", paddingTop: "var(--space-3)" }}>
+                  <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-between", alignItems: "center", gap: "10px", borderTop: "1px solid var(--stone-border)", paddingTop: "14px" }}>
                     <span style={{ fontSize: "12px", color: "var(--parchment-muted)" }}>
                       🔄 Click to return to lore portrait
                     </span>
@@ -184,7 +184,7 @@ export function RoleSelectChamber({ user, activeCase, onSelectRole, onToggleRead
                         onSelectRole(activeCase.caseId, user.id || user.email, role.id);
                       }}
                       className={isClaimedByMe ? "btn-gilded" : "btn-stone"}
-                      style={{ padding: "var(--space-2) var(--space-4)", fontSize: "13px" }}
+                      style={{ minHeight: "44px", padding: "10px 18px", fontSize: "13px" }}
                     >
                       {isClaimedByMe ? "Selected ✔" : claimedByOther ? "Locked" : "Claim Role"}
                     </button>
@@ -197,17 +197,17 @@ export function RoleSelectChamber({ user, activeCase, onSelectRole, onToggleRead
       </div>
 
       {/* Bottom Party Readiness Bar */}
-      <div className="stone-panel" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", borderTop: "2px solid var(--stone-border)" }}>
+      <div className="stone-panel" style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-between", alignItems: "center", gap: "16px", borderTop: "2px solid var(--stone-border)", padding: "20px" }}>
         <div>
-          <div style={{ fontSize: "12px", color: "var(--parchment-muted)", fontWeight: 600 }}>
+          <div style={{ fontSize: "12px", color: "var(--parchment-muted)", fontWeight: 700, letterSpacing: "0.06em" }}>
             PARTY READINESS & LOCK-IN STATUS
           </div>
-          <div style={{ fontSize: "16px", color: "var(--parchment-light)", marginTop: "var(--space-1)" }}>
+          <div style={{ fontSize: "15px", color: "var(--parchment-light)", marginTop: "6px" }}>
             Selected Role: <span style={{ color: "var(--gilded-signet)", fontWeight: 700 }}>{myRole || "None Selected"}</span> | Ready Status: <span style={{ color: myPlayer?.isReady ? "#6de8b5" : "#ff9fb2" }}>{myPlayer?.isReady ? "READY ✔" : "UNREADY"}</span>
           </div>
         </div>
 
-        <div style={{ display: "flex", gap: "var(--space-3)" }}>
+        <div style={{ display: "flex", flexWrap: "wrap", gap: "12px" }}>
           <button
             onClick={() => {
               if (!myRole) {
@@ -218,7 +218,7 @@ export function RoleSelectChamber({ user, activeCase, onSelectRole, onToggleRead
             }}
             disabled={!myRole}
             className={myPlayer?.isReady ? "btn-stone" : "btn-gilded"}
-            style={{ minWidth: "200px" }}
+            style={{ minHeight: "48px", padding: "12px 24px", minWidth: "180px" }}
           >
             {myPlayer?.isReady ? "Unready Signet" : "⚔️ Lock Role & Ready"}
           </button>
@@ -227,7 +227,7 @@ export function RoleSelectChamber({ user, activeCase, onSelectRole, onToggleRead
             onClick={onProceedToChamberHub}
             disabled={!allPlayersReady}
             className="btn-gilded"
-            style={{ padding: "var(--space-3) var(--space-6)" }}
+            style={{ minHeight: "48px", padding: "12px 24px" }}
           >
             Advance to Chamber Hub →
           </button>
