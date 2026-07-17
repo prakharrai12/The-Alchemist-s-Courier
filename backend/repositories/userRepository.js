@@ -24,11 +24,21 @@ export class UserRepository {
 
   static update(identifier, updates) {
     const db = getDatabase();
-    const index = db.users.findIndex(u => u.id === identifier || u.email.toLowerCase() === (identifier || "").toLowerCase());
+    if (!identifier || typeof identifier !== "string") return null;
+    const cleanId = identifier.trim().toLowerCase();
+    const index = db.users.findIndex(u => u.id.toLowerCase() === cleanId || u.email.toLowerCase() === cleanId);
     if (index === -1) return null;
 
-    Object.assign(db.users[index], updates);
-    saveDatabase();
+    if (updates && typeof updates === "object") {
+      const safeUpdates = {};
+      for (const [key, value] of Object.entries(updates)) {
+        if (key !== "__proto__" && key !== "constructor" && key !== "prototype" && !key.startsWith("$")) {
+          safeUpdates[key] = value;
+        }
+      }
+      Object.assign(db.users[index], safeUpdates);
+      saveDatabase();
+    }
     return db.users[index];
   }
 }
