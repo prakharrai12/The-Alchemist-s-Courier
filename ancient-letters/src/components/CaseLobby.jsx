@@ -148,21 +148,21 @@ export function CaseLobby({ user, activeCase, onCaseCreated, onJoinCase, onProce
           </div>
 
           {/* Ready & Advance Controls */}
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", borderTop: "1px solid var(--stone-border)", paddingTop: "var(--space-4)" }}>
+          <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-between", alignItems: "center", gap: "16px", borderTop: "1px solid var(--stone-border)", paddingTop: "24px" }}>
             <button
               onClick={() => onToggleReady(activeCase.caseId, user.id || user.email, !myPlayer?.isReady)}
               className={myPlayer?.isReady ? "btn-stone" : "btn-gilded"}
-              style={{ minWidth: "180px" }}
+              style={{ minHeight: "48px", padding: "12px 24px", minWidth: "200px" }}
             >
               {myPlayer?.isReady ? "Cancel Ready Signet" : "⚔️ Lock & Ready Check"}
             </button>
 
-            <div style={{ display: "flex", gap: "var(--space-3)" }}>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: "12px" }}>
               <button
                 onClick={onProceedToRoleSelect}
                 disabled={players.length < 1}
                 className="btn-gilded"
-                style={{ padding: "var(--space-3) var(--space-6)" }}
+                style={{ minHeight: "48px", padding: "12px 24px" }}
               >
                 Enter Role Select Chamber →
               </button>
@@ -175,60 +175,67 @@ export function CaseLobby({ user, activeCase, onCaseCreated, onJoinCase, onProce
 
   // Not yet inside a Case — Create or Join screen
   return (
-    <div style={{ maxWidth: "780px", margin: "0 auto", padding: "var(--space-12) var(--space-4)" }}>
-      <div style={{ textAlign: "center", marginBottom: "var(--space-8)" }}>
-        <h1 style={{ fontSize: "32px", color: "var(--gilded-signet)", letterSpacing: "0.06em" }}>
+    <div style={{ maxWidth: "820px", margin: "0 auto", padding: "48px 20px" }}>
+      <div style={{ textAlign: "center", marginBottom: "36px" }}>
+        <h1 style={{ fontSize: "32px", color: "var(--gilded-signet)", letterSpacing: "0.06em", fontFamily: "var(--font-display)" }}>
           THE WYRMVAULT ANTECHAMBER
         </h1>
-        <p style={{ color: "var(--parchment-muted)", fontSize: "15px", marginTop: "var(--space-2)" }}>
+        <p style={{ color: "var(--parchment-muted)", fontSize: "15px", marginTop: "8px", lineHeight: "1.6" }}>
           Assemble your cooperative party of 4 to 6 Vault-Breakers before unsealing the obsidian gates.
         </p>
       </div>
 
       {error && (
-        <div style={{ padding: "var(--space-4)", backgroundColor: "rgba(140, 32, 32, 0.2)", border: "1px solid var(--wyrm-fire)", borderRadius: "var(--radius-md)", color: "#ff9fb2", marginBottom: "var(--space-6)" }}>
+        <div style={{ padding: "16px", backgroundColor: "rgba(140, 32, 32, 0.2)", border: "1px solid var(--wyrm-fire)", borderRadius: "var(--radius-md)", color: "#ff9fb2", marginBottom: "24px" }}>
           🔥 <strong>Ward Alert:</strong> {error}
         </div>
       )}
 
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: "var(--space-6)" }}>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(340px, 1fr))", gap: "24px" }}>
         {/* Create Case Box */}
         <motion.div whileHover={{ translateY: -2 }} className="stone-panel" style={{ display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
           <div>
-            <div style={{ fontSize: "32px", marginBottom: "var(--space-3)" }}>📜</div>
-            <h3 style={{ fontSize: "20px", color: "var(--parchment-light)" }}>Create New Case</h3>
-            <p style={{ color: "var(--parchment-muted)", fontSize: "14px", marginTop: "var(--space-2)", lineHeight: "1.6" }}>
+            <div style={{ fontSize: "32px", marginBottom: "12px" }}>📜</div>
+            <h3 style={{ fontSize: "20px", color: "var(--parchment-light)", fontFamily: "var(--font-display)" }}>Create New Case</h3>
+            <p style={{ color: "var(--parchment-muted)", fontSize: "14px", marginTop: "8px", lineHeight: "1.6" }}>
               Forge a new unique 6-character Case ID (`WV-XXXX`), invite your team of codebreakers, and initiate the dungeon run.
             </p>
-            <div style={{ marginTop: "var(--space-4)" }}>
-              <label style={{ display: "block", fontSize: "12px", color: "var(--gilded-signet)", fontWeight: 700, marginBottom: "var(--space-2)", letterSpacing: "0.06em" }}>
+            <div style={{ marginTop: "20px" }}>
+              <label style={{ display: "block", fontSize: "12px", color: "var(--gilded-signet)", fontWeight: 700, marginBottom: "10px", letterSpacing: "0.06em" }}>
                 SELECT DIFFICULTY TIER SEAL (§4 & §6)
               </label>
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "var(--space-2)" }}>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(135px, 1fr))", gap: "10px" }}>
                 {[
-                  { id: "NOVICE", label: "Novice (3 Whispers)", desc: "Easy shifts & high hints" },
+                  { id: "NOVICE", label: "Novice (3 Whispers)", desc: "Easy shifts & hints" },
                   { id: "ADEPT", label: "Adept (2 Whispers)", desc: "Balanced tension meter" },
-                  { id: "MASTER", label: "Master (1 Whisper)", desc: "Strict verification penalties" },
-                  { id: "ARCHON", label: "Archon (0 Whispers)", desc: "True Codebreaker Gauntlet" }
+                  { id: "MASTER", label: "Master (1 Whisper)", desc: "Harsh Wyrm penalty" },
+                  { id: "GRANDMASTER", label: "Grandmaster (0)", desc: "Permadeath timer" }
                 ].map((t) => (
                   <button
                     key={t.id}
                     type="button"
                     onClick={() => setSelectedTier(t.id)}
                     style={{
-                      padding: "8px",
+                      minHeight: "64px",
+                      padding: "10px 12px",
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "flex-start",
+                      justifyContent: "center",
+                      gap: "2px",
                       backgroundColor: selectedTier === t.id ? "rgba(212, 175, 55, 0.22)" : "var(--vault-bg)",
                       border: selectedTier === t.id ? "2px solid var(--gilded-signet)" : "1px solid var(--stone-border)",
-                      borderRadius: "var(--radius-sm)",
+                      borderRadius: "var(--radius-md)",
                       cursor: "pointer",
                       textAlign: "left",
                       color: selectedTier === t.id ? "var(--gilded-signet)" : "var(--parchment-light)",
                       fontSize: "12px",
-                      fontWeight: 700
+                      fontWeight: 700,
+                      transition: "all 0.2s ease"
                     }}
                   >
-                    <div>{t.label}</div>
-                    <div style={{ fontSize: "10px", color: "var(--parchment-muted)", fontWeight: 400, marginTop: "2px" }}>{t.desc}</div>
+                    <div style={{ lineHeight: "1.3" }}>{t.label}</div>
+                    <div style={{ fontSize: "10px", color: "var(--parchment-muted)", fontWeight: 400, marginTop: "2px", lineHeight: "1.3" }}>{t.desc}</div>
                   </button>
                 ))}
               </div>
@@ -238,7 +245,7 @@ export function CaseLobby({ user, activeCase, onCaseCreated, onJoinCase, onProce
             onClick={handleCreate}
             disabled={loading}
             className="btn-gilded"
-            style={{ width: "100%", marginTop: "var(--space-6)", padding: "var(--space-3)" }}
+            style={{ width: "100%", marginTop: "24px", minHeight: "48px", padding: "14px 20px", fontSize: "15px" }}
           >
             {loading ? "Forging Case Seal..." : `⚔️ Forge ${selectedTier} Case Session`}
           </button>
@@ -247,13 +254,13 @@ export function CaseLobby({ user, activeCase, onCaseCreated, onJoinCase, onProce
         {/* Join Case Box */}
         <motion.div whileHover={{ translateY: -2 }} className="stone-panel" style={{ display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
           <div>
-            <div style={{ fontSize: "32px", marginBottom: "var(--space-3)" }}>🔍</div>
-            <h3 style={{ fontSize: "20px", color: "var(--parchment-light)" }}>Join Existing Case</h3>
-            <p style={{ color: "var(--parchment-muted)", fontSize: "14px", marginTop: "var(--space-2)", lineHeight: "1.6" }}>
+            <div style={{ fontSize: "32px", marginBottom: "12px" }}>🔍</div>
+            <h3 style={{ fontSize: "20px", color: "var(--parchment-light)", fontFamily: "var(--font-display)" }}>Join Existing Case</h3>
+            <p style={{ color: "var(--parchment-muted)", fontSize: "14px", marginTop: "8px", lineHeight: "1.6" }}>
               Enter the 6-character obsidian seal (`e.g., WV-8492`) provided by your party leader to step into their lobby.
             </p>
           </div>
-          <form onSubmit={handleJoin} style={{ marginTop: "var(--space-6)", display: "flex", gap: "var(--space-2)" }}>
+          <form onSubmit={handleJoin} style={{ marginTop: "24px", display: "flex", flexWrap: "wrap", gap: "10px" }}>
             <input
               type="text"
               placeholder="WV-XXXX"
@@ -262,23 +269,27 @@ export function CaseLobby({ user, activeCase, onCaseCreated, onJoinCase, onProce
               value={inputCaseId}
               onChange={(e) => setInputCaseId(e.target.value)}
               style={{
-                flex: 1,
-                padding: "var(--space-3)",
+                flex: "1 1 180px",
+                minHeight: "48px",
+                padding: "12px 16px",
                 backgroundColor: "var(--vault-bg)",
                 border: "1px solid var(--stone-border)",
-                borderRadius: "var(--radius-sm)",
+                borderRadius: "var(--radius-md)",
                 color: "var(--gilded-signet)",
                 fontFamily: "var(--font-mono)",
                 fontWeight: 700,
                 fontSize: "16px",
-                textTransform: "uppercase"
+                textTransform: "uppercase",
+                outline: "none"
               }}
+              onFocus={(e) => { e.target.style.borderColor = "var(--gilded-signet)"; }}
+              onBlur={(e) => { e.target.style.borderColor = "var(--stone-border)"; }}
             />
             <button
               type="submit"
               disabled={loading || !inputCaseId.trim()}
               className="btn-stone"
-              style={{ padding: "var(--space-3) var(--space-5)" }}
+              style={{ minHeight: "48px", padding: "12px 24px", fontSize: "14px" }}
             >
               Join →
             </button>
