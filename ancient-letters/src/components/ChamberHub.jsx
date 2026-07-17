@@ -97,7 +97,7 @@ export function ChamberHub({ user, activeCase, onUsePower, onSolveLetter, onUseW
       </div>
 
       {/* Main Dual Grid: Left Chamber Hub, Right Shared Evidence Wall */}
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "var(--space-6)", alignItems: "start", marginTop: "var(--space-4)" }}>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(460px, 1fr))", gap: "24px", alignItems: "start", marginTop: "16px" }}>
         
         {/* ================= LEFT PANEL: CHAMBER HUB (§6) ================= */}
         <div className="chamber-hub-octagonal" style={{ minHeight: "680px" }}>
@@ -106,10 +106,10 @@ export function ChamberHub({ user, activeCase, onUsePower, onSolveLetter, onUseW
           </div>
 
           {/* Radial Dungeon Floor with Altar Core & Player Class Status Cards */}
-          <div style={{ position: "relative", padding: "var(--space-4) 0 var(--space-6)", display: "flex", flexDirection: "column", alignItems: "center" }}>
+          <div style={{ position: "relative", padding: "16px 0 24px", display: "flex", flexDirection: "column", alignItems: "center" }}>
             
             {/* Top 2 Player Cards */}
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "var(--space-6)", width: "100%", maxWidth: "560px", marginBottom: "var(--space-4)" }}>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(230px, 1fr))", gap: "16px", width: "100%", maxWidth: "580px", marginBottom: "16px" }}>
               {canonicalSlots.slice(0, 2).map((slot, i) => (
                 <div key={i} className="party-member-card">
                   <div className="party-member-avatar">{slot.avatar}</div>
@@ -148,7 +148,7 @@ export function ChamberHub({ user, activeCase, onUsePower, onSolveLetter, onUseW
             </div>
 
             {/* Bottom 2 Player Cards */}
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "var(--space-6)", width: "100%", maxWidth: "560px", marginTop: "var(--space-4)" }}>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(230px, 1fr))", gap: "16px", width: "100%", maxWidth: "580px", marginTop: "16px" }}>
               {canonicalSlots.slice(2, 4).map((slot, i) => (
                 <div key={i + 2} className="party-member-card">
                   <div className="party-member-avatar">{slot.avatar}</div>
