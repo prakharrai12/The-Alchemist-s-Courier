@@ -36,17 +36,25 @@ export function rateLimit({ windowMs = 15 * 60 * 1000, max = 150, message = "Too
  * Input sanitization middleware to prevent XSS and NoSQL/JSON injection.
  */
 export function sanitizeInput(req, res, next) {
-  const sanitizeObject = (obj) => {
-    if (!obj || typeof obj !== "object") return obj;
+  const sanitizeObject = (obj, depth = 0) => {
+    if (!obj || typeof obj !== "object" || depth > 10) return obj;
     for (const key of Object.keys(obj)) {
-      if (key.startsWith("$") || key.includes("..")) {
+      if (
+        key.startsWith("$") ||
+        key.includes("..") ||
+        key === "__proto__" ||
+        key === "constructor" ||
+        key === "prototype"
+      ) {
         delete obj[key];
         continue;
       }
       if (typeof obj[key] === "string") {
-        obj[key] = obj[key].replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, "");
+        obj[key] = obj[key]
+          .replace(/\0/g, "")
+          .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, "");
       } else if (typeof obj[key] === "object") {
-        sanitizeObject(obj[key]);
+        sanitizeObject(obj[key], depth + 1);
       }
     }
     return obj;
