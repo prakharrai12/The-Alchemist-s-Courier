@@ -102,10 +102,10 @@ export function AuthChamber({ onLoginSuccess }) {
         )}
 
         {/* Auth Form */}
-        <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "var(--space-4)" }}>
+        <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
           {isRegistering && (
             <div>
-              <label style={{ display: "block", fontSize: "12px", color: "var(--parchment-muted)", marginBottom: "var(--space-1)", fontWeight: 600 }}>
+              <label style={{ display: "block", fontSize: "12px", color: "var(--parchment-muted)", marginBottom: "6px", fontWeight: 700, letterSpacing: "0.06em" }}>
                 VAULT-BREAKER CODENAME
               </label>
               <input
@@ -116,19 +116,25 @@ export function AuthChamber({ onLoginSuccess }) {
                 onChange={(e) => setUsername(e.target.value)}
                 style={{
                   width: "100%",
-                  padding: "var(--space-3)",
+                  minHeight: "46px",
+                  padding: "12px 16px",
                   backgroundColor: "var(--vault-bg)",
                   border: "1px solid var(--stone-border)",
-                  borderRadius: "var(--radius-sm)",
+                  borderRadius: "var(--radius-md)",
                   color: "var(--parchment-light)",
-                  fontSize: "14px"
+                  fontSize: "14px",
+                  lineHeight: "1.5",
+                  outline: "none",
+                  transition: "border-color 0.2s ease, box-shadow 0.2s ease"
                 }}
+                onFocus={(e) => { e.target.style.borderColor = "var(--gilded-signet)"; e.target.style.boxShadow = "0 0 10px rgba(212, 175, 55, 0.2)"; }}
+                onBlur={(e) => { e.target.style.borderColor = "var(--stone-border)"; e.target.style.boxShadow = "none"; }}
               />
             </div>
           )}
 
           <div>
-            <label style={{ display: "block", fontSize: "12px", color: "var(--parchment-muted)", marginBottom: "var(--space-1)", fontWeight: 600 }}>
+            <label style={{ display: "block", fontSize: "12px", color: "var(--parchment-muted)", marginBottom: "6px", fontWeight: 700, letterSpacing: "0.06em" }}>
               SEALED EMAIL ADDRESS
             </label>
             <input
@@ -139,18 +145,24 @@ export function AuthChamber({ onLoginSuccess }) {
               onChange={(e) => setEmail(e.target.value)}
               style={{
                 width: "100%",
-                padding: "var(--space-3)",
+                minHeight: "46px",
+                padding: "12px 16px",
                 backgroundColor: "var(--vault-bg)",
                 border: "1px solid var(--stone-border)",
-                borderRadius: "var(--radius-sm)",
+                borderRadius: "var(--radius-md)",
                 color: "var(--parchment-light)",
-                fontSize: "14px"
+                fontSize: "14px",
+                lineHeight: "1.5",
+                outline: "none",
+                transition: "border-color 0.2s ease, box-shadow 0.2s ease"
               }}
+              onFocus={(e) => { e.target.style.borderColor = "var(--gilded-signet)"; e.target.style.boxShadow = "0 0 10px rgba(212, 175, 55, 0.2)"; }}
+              onBlur={(e) => { e.target.style.borderColor = "var(--stone-border)"; e.target.style.boxShadow = "none"; }}
             />
           </div>
 
           <div>
-            <label style={{ display: "block", fontSize: "12px", color: "var(--parchment-muted)", marginBottom: "var(--space-1)", fontWeight: 600 }}>
+            <label style={{ display: "block", fontSize: "12px", color: "var(--parchment-muted)", marginBottom: "6px", fontWeight: 700, letterSpacing: "0.06em" }}>
               OBSIDIAN PASSPHRASE
             </label>
             <input
@@ -161,13 +173,19 @@ export function AuthChamber({ onLoginSuccess }) {
               onChange={(e) => setPassword(e.target.value)}
               style={{
                 width: "100%",
-                padding: "var(--space-3)",
+                minHeight: "46px",
+                padding: "12px 16px",
                 backgroundColor: "var(--vault-bg)",
                 border: "1px solid var(--stone-border)",
-                borderRadius: "var(--radius-sm)",
+                borderRadius: "var(--radius-md)",
                 color: "var(--parchment-light)",
-                fontSize: "14px"
+                fontSize: "14px",
+                lineHeight: "1.5",
+                outline: "none",
+                transition: "border-color 0.2s ease, box-shadow 0.2s ease"
               }}
+              onFocus={(e) => { e.target.style.borderColor = "var(--gilded-signet)"; e.target.style.boxShadow = "0 0 10px rgba(212, 175, 55, 0.2)"; }}
+              onBlur={(e) => { e.target.style.borderColor = "var(--stone-border)"; e.target.style.boxShadow = "none"; }}
             />
           </div>
 
@@ -175,26 +193,29 @@ export function AuthChamber({ onLoginSuccess }) {
             type="submit"
             disabled={loading}
             className="btn-gilded"
-            style={{ marginTop: "var(--space-2)", width: "100%", padding: "var(--space-3)" }}
+            style={{ marginTop: "8px", width: "100%", minHeight: "48px", padding: "14px 24px", fontSize: "15px" }}
           >
             {loading ? "Unsealing Stone Portcullis..." : isRegistering ? "Forge Signet & Enter Vault" : "Unseal Vault & Enter"}
           </button>
         </form>
 
-        <div style={{ textAlign: "center", marginTop: "var(--space-4)", fontSize: "13px" }}>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "6px", marginTop: "20px", fontSize: "13px" }}>
           <span style={{ color: "var(--parchment-muted)" }}>
-            {isRegistering ? "Already forged a signet? " : "No signet in the archives? "}
+            {isRegistering ? "Already forged a signet?" : "No signet in the archives?"}
           </span>
           <button
             type="button"
             onClick={() => { setIsRegistering(!isRegistering); setError(null); }}
             style={{
-              background: "none",
+              background: "transparent",
               border: "none",
               color: "var(--gilded-signet)",
               textDecoration: "underline",
-              padding: 0,
-              minHeight: "auto"
+              padding: "6px 12px",
+              minHeight: "36px",
+              display: "inline-flex",
+              alignItems: "center",
+              fontWeight: 600
             }}
           >
             {isRegistering ? "Access existing vault" : "Register new codename"}
@@ -202,12 +223,12 @@ export function AuthChamber({ onLoginSuccess }) {
         </div>
 
         {/* Quick Guest Enter for demo / local co-op testing */}
-        <div style={{ borderTop: "1px solid var(--stone-border)", marginTop: "var(--space-6)", paddingTop: "var(--space-4)", textAlign: "center" }}>
+        <div style={{ borderTop: "1px solid var(--stone-border)", marginTop: "24px", paddingTop: "20px", textAlign: "center" }}>
           <button
             type="button"
             onClick={enterAsGuest}
             className="btn-stone"
-            style={{ width: "100%", fontSize: "13px", color: "var(--parchment-text)" }}
+            style={{ width: "100%", minHeight: "46px", padding: "12px 20px", fontSize: "14px", color: "var(--parchment-text)" }}
           >
             🚀 Enter Immediately as Guest Vault-Breaker
           </button>
