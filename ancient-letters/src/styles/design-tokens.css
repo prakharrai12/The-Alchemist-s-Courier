@@ -472,31 +472,42 @@
 /* ==========================================================================
    BUTTON & INTERACTION STYLES
    ========================================================================== */
-button, .btn-stone {
+/* ==========================================================================
+   BUTTON & INTERACTION STYLES (§9 Harmonious Spacing & Touch Targets)
+   ========================================================================== */
+button, .btn-stone, .btn-gilded, .btn-crimson, .wisdom-btn, .blessing-btn, .write-letter-btn, .toss-bottle-btn {
   min-height: var(--touch-target-min);
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: var(--space-2);
-  padding: var(--space-2) var(--space-4);
+  padding: 10px 20px;
   background-color: var(--stone-surface);
   color: var(--parchment-light);
   border: 1px solid var(--stone-border);
   border-radius: var(--radius-md);
   font-family: var(--font-ui);
+  font-size: 14px;
   font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: 0.03em;
+  text-decoration: none;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  user-select: none;
 }
 
 button:hover, .btn-stone:hover {
   background-color: var(--stone-hover);
   border-color: var(--gilded-signet);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
 }
 
-button:disabled {
+button:disabled, .btn-stone:disabled, .btn-gilded:disabled, .btn-crimson:disabled {
   opacity: 0.5;
   cursor: not-allowed;
+  transform: none !important;
+  box-shadow: none !important;
 }
 
 .btn-gilded {
@@ -509,7 +520,8 @@ button:disabled {
 
 .btn-gilded:hover:not(:disabled) {
   background: linear-gradient(135deg, var(--gilded-bright), var(--gilded-signet));
-  transform: translateY(-1px);
+  transform: translateY(-1.5px);
+  box-shadow: 0 6px 20px rgba(212, 175, 55, 0.45);
 }
 
 .btn-crimson {
@@ -520,7 +532,8 @@ button:disabled {
 
 .btn-crimson:hover:not(:disabled) {
   background-color: var(--wyrm-flame);
-  box-shadow: 0 0 16px var(--wyrm-glow);
+  transform: translateY(-1.5px);
+  box-shadow: 0 0 18px var(--wyrm-glow);
 }
 
 .stone-panel {
