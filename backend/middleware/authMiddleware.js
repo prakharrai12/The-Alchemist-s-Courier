@@ -17,33 +17,42 @@ export function authenticateToken(req, res, next) {
 
   // Handle Alchemist signature tokens or standard JWTs
   if (token.startsWith("alchemist_token_")) {
-    const userId = token.replace("alchemist_token_", "");
+    const userId = token.replace("alchemist_token_", "").trim();
+    
+    // Validate character safety to prevent injection
+    if (!/^[a-zA-Z0-9_-]{2,64}$/.test(userId)) {
+      return res.status(403).json({ error: "Invalid Signet Token format: Malformed seal ID." });
+    }
+
     let user = UserRepository.findByIdOrEmail(userId);
-    if (!user && (userId.startsWith("guest-") || userId)) {
+    
+    // Only permit auto-fallback if it is explicitly a guest account
+    if (!user && userId.startsWith("guest-")) {
       const clientUsername = req.body?.user?.username || req.headers["x-wyrmvault-username"];
+      const cleanUsername = clientUsername && typeof clientUsername === "string"
+        ? clientUsername.replace(/<[^>]*>?/gm, "").substring(0, 32)
+        : `Arch-Breaker #${userId.replace("guest-", "").substring(0, 8)}`;
+
       user = {
         id: userId,
-        username: clientUsername || (userId.startsWith("guest-") ? `Arch-Breaker #${userId.replace("guest-", "")}` : userId),
-        role: "COURIER"
+        username: cleanUsername,
+        role: "COURIER",
+        isGuest: true
       };
     } else if (user && req.body?.user?.username && userId.startsWith("guest-")) {
-      user.username = req.body.user.username;
+      user.username = req.body.user.username.replace(/<[^>]*>?/gm, "").substring(0, 32);
     }
+
     if (!user) {
-      return res.status(403).json({ error: "Invalid Signet Token: Courier not recognized in Guild Ledger." });
+      return res.status(403).json({ error: "Invalid Signet Token: Courier not recognized in Guild Ledger. Please log in or register." });
     }
+
     req.user = user;
     return next();
   }
 
-  // If using standard JWT in production
-  try {
-    // Verified or simulated JWT check
-    req.user = { id: "u_elias", role: "FIRST_CLASS_COURIER" };
-    next();
-  } catch (err) {
-    return res.status(403).json({ error: "Signet Token expired or altered. Please present a fresh seal." });
-  }
+  // Reject unrecognized token formats strictly
+  return res.status(401).json({ error: "Access Denied: Unrecognized token format or missing Guild Seal." });
 }
 
 export function rotateTokens(user) {
