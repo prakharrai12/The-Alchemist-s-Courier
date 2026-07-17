@@ -92,59 +92,60 @@ export function GuildLedgerModal({ onClose }) {
             display: "flex",
             backgroundColor: "#161411",
             borderBottom: "1px solid var(--stone-border)",
-            overflowX: "auto"
+            overflowX: "auto",
+            scrollbarWidth: "thin"
           }}
         >
           <button
             onClick={() => setActiveSection("PROTOCOL")}
             className={activeSection === "PROTOCOL" ? "btn-gilded" : "btn-stone"}
-            style={{ flex: 1, padding: "var(--space-3) var(--space-4)", borderRadius: 0, border: "none", borderRight: "1px solid var(--stone-border)", fontSize: "13px" }}
+            style={{ flex: "1 0 auto", minWidth: "180px", minHeight: "48px", padding: "12px 18px", borderRadius: 0, border: "none", borderRight: "1px solid var(--stone-border)", fontSize: "13px" }}
           >
             🏰 Case Protocol & Tension
           </button>
           <button
             onClick={() => setActiveSection("ROLES")}
             className={activeSection === "ROLES" ? "btn-gilded" : "btn-stone"}
-            style={{ flex: 1, padding: "var(--space-3) var(--space-4)", borderRadius: 0, border: "none", borderRight: "1px solid var(--stone-border)", fontSize: "13px" }}
+            style={{ flex: "1 0 auto", minWidth: "180px", minHeight: "48px", padding: "12px 18px", borderRadius: 0, border: "none", borderRight: "1px solid var(--stone-border)", fontSize: "13px" }}
           >
             ⚡ Role Roster (Live Sync §5)
           </button>
           <button
             onClick={() => setActiveSection("PRIMERS")}
             className={activeSection === "PRIMERS" ? "btn-gilded" : "btn-stone"}
-            style={{ flex: 1, padding: "var(--space-3) var(--space-4)", borderRadius: 0, border: "none", borderRight: "1px solid var(--stone-border)", fontSize: "13px" }}
+            style={{ flex: "1 0 auto", minWidth: "180px", minHeight: "48px", padding: "12px 18px", borderRadius: 0, border: "none", borderRight: "1px solid var(--stone-border)", fontSize: "13px" }}
           >
             🧩 Cipher Mechanics (§6)
           </button>
           <button
             onClick={() => setActiveSection("WHISPERS")}
             className={activeSection === "WHISPERS" ? "btn-gilded" : "btn-stone"}
-            style={{ flex: 1, padding: "var(--space-3) var(--space-4)", borderRadius: 0, border: "none", fontSize: "13px" }}
+            style={{ flex: "1 0 auto", minWidth: "180px", minHeight: "48px", padding: "12px 18px", borderRadius: 0, border: "none", fontSize: "13px" }}
           >
             🔮 Ward Whispers & Cooldowns
           </button>
         </div>
 
         {/* Scrollable Content Pane */}
-        <div style={{ padding: "var(--space-6)", overflowY: "auto", flex: 1, fontSize: "15px", lineHeight: 1.6, color: "var(--parchment-light)" }}>
+        <div style={{ padding: "24px", overflowY: "auto", flex: 1, fontSize: "15px", lineHeight: 1.6, color: "var(--parchment-light)" }}>
           {activeSection === "PROTOCOL" && (
             <div>
-              <h3 style={{ fontSize: "20px", color: "var(--gilded-signet)", marginBottom: "var(--space-3)" }}>
+              <h3 style={{ fontSize: "20px", color: "var(--gilded-signet)", marginBottom: "12px" }}>
                 🏰 Cooperative Vault Protocol & Core Loop (§2)
               </h3>
-              <p style={{ marginBottom: "var(--space-4)" }}>
+              <p style={{ marginBottom: "16px" }}>
                 When your expedition party seals the heavy iron doors behind you, you step into an ancient vault guarded by a slumbering dragon (`Kaelgrith`). Across four historical chambers rest encrypted volumes and imperial correspondence holding the secrets of the First Seal. To survive and claim victory, your party must operate as a synchronized unit across three vital stages:
               </p>
 
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "var(--space-4)", marginBottom: "var(--space-6)" }}>
-                <div style={{ padding: "var(--space-4)", backgroundColor: "var(--vault-bg)", border: "1px solid var(--stone-border)", borderRadius: "var(--radius-md)" }}>
-                  <h4 style={{ color: "var(--gilded-signet)", marginBottom: "var(--space-2)" }}>1. Chamber Exploration & Recovery</h4>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "16px", marginBottom: "24px" }}>
+                <div style={{ padding: "16px", backgroundColor: "var(--vault-bg)", border: "1px solid var(--stone-border)", borderRadius: "var(--radius-md)" }}>
+                  <h4 style={{ color: "var(--gilded-signet)", marginBottom: "8px" }}>1. Chamber Exploration & Recovery</h4>
                   <p style={{ fontSize: "14px", color: "var(--parchment-muted)" }}>
                     Inspect the left-hand exploration pane to recover sealed volumes from the chamber floors. Any courier can bring an unsolved volume to the central <strong style={{ color: "var(--parchment-light)" }}>Decryption Bench</strong>.
                   </p>
                 </div>
-                <div style={{ padding: "var(--space-4)", backgroundColor: "var(--vault-bg)", border: "1px solid var(--stone-border)", borderRadius: "var(--radius-md)" }}>
-                  <h4 style={{ color: "var(--gilded-signet)", marginBottom: "var(--space-2)" }}>2. Deciphering & Pinning</h4>
+                <div style={{ padding: "16px", backgroundColor: "var(--vault-bg)", border: "1px solid var(--stone-border)", borderRadius: "var(--radius-md)" }}>
+                  <h4 style={{ color: "var(--gilded-signet)", marginBottom: "8px" }}>2. Deciphering & Pinning</h4>
                   <p style={{ fontSize: "14px", color: "var(--parchment-muted)" }}>
                     Employ tier-specific mechanical tools (`Caesar shift wheel / Vigenère matrix`) to test plaintext hypotheses. Once verified by the server ward, the volume is pinned automatically to the shared <strong style={{ color: "var(--parchment-light)" }}>Evidence Wall</strong>.
                   </p>
