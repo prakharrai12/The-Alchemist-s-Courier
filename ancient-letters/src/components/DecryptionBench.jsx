@@ -191,35 +191,38 @@ export function DecryptionBench({ activeLetter, activeCase, user, onSolveSubmitt
                 Input Keyword to test polyalphabetic substitution
               </span>
             </div>
-
-            <div style={{ display: "flex", gap: "var(--space-3)", marginBottom: "var(--space-3)" }}>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: "12px", marginBottom: "16px" }}>
               <input
                 type="text"
                 placeholder="e.g., DRAGON"
                 value={keywordValue}
                 onChange={(e) => setKeywordValue(e.target.value.toUpperCase())}
                 style={{
-                  flex: 1,
-                  padding: "var(--space-2) var(--space-3)",
+                  flex: "1 1 200px",
+                  minHeight: "44px",
+                  padding: "10px 14px",
                   backgroundColor: "var(--vault-bg)",
                   border: "1px solid var(--stone-border)",
-                  borderRadius: "var(--radius-sm)",
+                  borderRadius: "var(--radius-md)",
                   color: "var(--gilded-signet)",
                   fontFamily: "var(--font-mono)",
-                  fontWeight: 700
+                  fontWeight: 700,
+                  outline: "none"
                 }}
+                onFocus={(e) => { e.target.style.borderColor = "var(--gilded-signet)"; }}
+                onBlur={(e) => { e.target.style.borderColor = "var(--stone-border)"; }}
               />
               <button
                 type="button"
                 onClick={handleApplyToolPreview}
                 className="btn-stone"
-                style={{ padding: "var(--space-2) var(--space-4)", fontSize: "13px" }}
+                style={{ minHeight: "44px", padding: "10px 18px", fontSize: "13px" }}
               >
                 Apply Keyword Preview ↓
               </button>
             </div>
 
-            <div style={{ padding: "var(--space-3)", backgroundColor: "var(--vault-bg)", border: "1px solid var(--stone-border)", borderRadius: "var(--radius-sm)", fontSize: "13px", fontFamily: "var(--font-mono)", color: "var(--parchment-light)" }}>
+            <div style={{ padding: "12px 16px", backgroundColor: "var(--vault-bg)", border: "1px solid var(--stone-border)", borderRadius: "var(--radius-md)", fontSize: "13px", fontFamily: "var(--font-mono)", color: "var(--parchment-light)", wordBreak: "break-all" }}>
               Preview: {previewVigenere().substring(0, 56)}...
             </div>
           </div>
@@ -228,16 +231,16 @@ export function DecryptionBench({ activeLetter, activeCase, user, onSolveSubmitt
 
       {/* Ward Whisper Card (§6 & §7 Hint Economy) */}
       <div style={{
-        padding: "var(--space-4)",
+        padding: "20px",
         backgroundColor: "#1c1813",
         border: "1px dashed var(--gilded-signet)",
-        borderRadius: "var(--radius-md)",
-        marginBottom: "var(--space-6)"
+        borderRadius: "var(--radius-lg)",
+        marginBottom: "24px"
       }}>
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "var(--space-2)" }}>
+        <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-between", alignItems: "center", gap: "16px", marginBottom: "12px" }}>
           <div>
             <span style={{ fontSize: "12px", fontWeight: 700, color: "var(--gilded-signet)" }}>🔮 WARD WHISPER HINT ECONOMY (§6)</span>
-            <div style={{ fontSize: "14px", color: "var(--parchment-light)" }}>
+            <div style={{ fontSize: "14px", color: "var(--parchment-light)", marginTop: "4px" }}>
               Pool Whispers Remaining: <strong style={{ color: whispersRemaining > 0 ? "#6de8b5" : "#ff9fb2" }}>{whispersRemaining} / {whispersMax}</strong> ({activeCase?.tierSeal || "NOVICE"} Seal)
             </div>
           </div>
@@ -246,7 +249,7 @@ export function DecryptionBench({ activeLetter, activeCase, user, onSolveSubmitt
             onClick={handleInvokeWhisper}
             disabled={whisperLoading || whispersRemaining <= 0 || !onUseWhisper}
             className="btn-stone"
-            style={{ padding: "var(--space-2) var(--space-4)", borderColor: "var(--gilded-signet)", color: "var(--gilded-signet)", fontSize: "13px" }}
+            style={{ minHeight: "44px", padding: "10px 18px", borderColor: "var(--gilded-signet)", color: "var(--gilded-signet)", fontSize: "13px" }}
           >
             {whisperLoading ? "Communing..." : whispersRemaining <= 0 ? "Whisper Pool Exhausted" : "Use Ward Whisper (+5% Breath)"}
           </button>
@@ -254,13 +257,14 @@ export function DecryptionBench({ activeLetter, activeCase, user, onSolveSubmitt
 
         {(whisperHint || activeCase?.letterWhispers?.[activeLetter.id]) && (
           <div style={{
-            marginTop: "var(--space-3)",
-            padding: "var(--space-3) var(--space-4)",
+            marginTop: "14px",
+            padding: "14px 16px",
             backgroundColor: "rgba(212, 175, 55, 0.1)",
             borderLeft: "3px solid var(--gilded-signet)",
-            borderRadius: "var(--radius-sm)",
+            borderRadius: "4px",
             fontSize: "13px",
-            color: "#f0cc5d"
+            color: "var(--parchment-light)",
+            lineHeight: "1.6"
           }}>
             {whisperHint ? whisperHint : `🔮 Ward Whisper Level ${activeCase?.letterWhispers[activeLetter.id]}: Nudge active. Check the Ward Hint above or invoke again for narrow mapping.`}
           </div>
@@ -269,7 +273,7 @@ export function DecryptionBench({ activeLetter, activeCase, user, onSolveSubmitt
 
       {/* Attempt Plaintext Submission Form */}
       <form onSubmit={handleSubmit}>
-        <label style={{ display: "block", fontSize: "12px", color: "var(--parchment-muted)", fontWeight: 600, marginBottom: "var(--space-2)" }}>
+        <label style={{ display: "block", fontSize: "12px", color: "var(--parchment-muted)", fontWeight: 700, marginBottom: "8px", letterSpacing: "0.05em" }}>
           VERIFY DECRYPTED PLAINTEXT ATTEMPT
         </label>
         <textarea
@@ -280,20 +284,25 @@ export function DecryptionBench({ activeLetter, activeCase, user, onSolveSubmitt
           onChange={(e) => setAttemptPlaintext(e.target.value)}
           style={{
             width: "100%",
-            padding: "var(--space-3)",
+            minHeight: "80px",
+            padding: "14px 16px",
             backgroundColor: "var(--vault-bg)",
             border: "1px solid var(--stone-border)",
-            borderRadius: "var(--radius-sm)",
+            borderRadius: "var(--radius-md)",
             color: "var(--parchment-light)",
             fontFamily: "var(--font-ui)",
             fontSize: "15px",
-            lineHeight: "1.5",
-            marginBottom: "var(--space-4)"
+            lineHeight: "1.6",
+            marginBottom: "16px",
+            outline: "none",
+            resize: "vertical"
           }}
+          onFocus={(e) => { e.target.style.borderColor = "var(--gilded-signet)"; }}
+          onBlur={(e) => { e.target.style.borderColor = "var(--stone-border)"; }}
         />
 
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-          <span style={{ fontSize: "12px", color: isCoolingDown ? "#ff9fb2" : "#ff9fb2" }}>
+        <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-between", alignItems: "center", gap: "16px" }}>
+          <span style={{ flex: "1 1 240px", fontSize: "13px", color: isCoolingDown ? "#ff9fb2" : "#ff9fb2", lineHeight: "1.4" }}>
             {isCoolingDown
               ? `⏳ Terminal Locked (§6): Soft cooldown active for ${cooldownSecs}s after failed guess.`
               : "⚠️ Note: Incorrect verification will spark the ward (+15% Wyrm's Breath!)."}
@@ -302,7 +311,7 @@ export function DecryptionBench({ activeLetter, activeCase, user, onSolveSubmitt
             type="submit"
             disabled={loading || !attemptPlaintext.trim() || isCoolingDown}
             className="btn-gilded"
-            style={{ padding: "var(--space-3) var(--space-6)", opacity: isCoolingDown ? 0.6 : 1 }}
+            style={{ minHeight: "48px", padding: "12px 24px", fontSize: "15px", opacity: isCoolingDown ? 0.6 : 1 }}
           >
             {isCoolingDown
               ? `⏳ Ward Cooling Down (${cooldownSecs}s)...`
